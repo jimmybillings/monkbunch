@@ -2,6 +2,22 @@
  * Do not edit directly, this file was auto-generated.
  */
 
+export const DurationInstant = "0ms";
+export const DurationFast = "150ms";
+export const DurationNormal = "250ms";
+export const DurationSlow = "350ms";
+export const DurationSlower = "500ms";
+export const EasingLinear = "linear";
+export const EasingEaseIn = "cubic-bezier(0.4, 0, 1, 1)";
+export const EasingEaseOut = "cubic-bezier(0, 0, 0.2, 1)";
+export const EasingEaseInOut = "cubic-bezier(0.4, 0, 0.2, 1)";
+export const EasingBounce = "cubic-bezier(0.68, -0.55, 0.265, 1.55)";
+export const BreakpointXs = "0px";
+export const BreakpointSm = "640px";
+export const BreakpointMd = "768px";
+export const BreakpointLg = "1024px";
+export const BreakpointXl = "1280px";
+export const Breakpoint2xl = "1536px";
 export const ColorBlue50 = "#e0f4ff";
 export const ColorBlue100 = "#bde5ff";
 export const ColorBlue200 = "#8bd1ff";
@@ -33,12 +49,28 @@ export const ColorYellow600 = "#d97706";
 export const ColorYellow700 = "#b45309";
 export const ColorWhite = "#ffffff";
 export const ColorBlack = "#1c1d1f";
+export const ContainerSm = "640px";
+export const ContainerMd = "768px";
+export const ContainerLg = "1024px";
+export const ContainerXl = "1280px";
+export const Container2xl = "1536px";
+export const ContainerFull = "100%";
 export const RadiusNone = "0";
 export const RadiusSm = "2px";
 export const RadiusMd = "4px";
 export const RadiusLg = "8px";
 export const RadiusXl = "12px";
 export const RadiusFull = "9999px";
+export const ShadowNone = "none";
+export const ShadowSm = "0 1px 2px 0 rgba(0, 0, 0, 0.05)";
+export const ShadowMd =
+  "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)";
+export const ShadowLg =
+  "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)";
+export const ShadowXl =
+  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)";
+export const Shadow2xl = "0 25px 50px -12px rgba(0, 0, 0, 0.25)";
+export const ShadowInner = "inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)";
 export const Space0 = "0";
 export const Space1 = "4px";
 export const Space2 = "8px";
@@ -69,3 +101,13 @@ export const FontWeightBold = "700";
 export const FontLineHeightTight = "1.2";
 export const FontLineHeightNormal = "1.5";
 export const FontLineHeightRelaxed = "1.75";
+export const ZIndexHide = "-1";
+export const ZIndexBase = "0";
+export const ZIndexDropdown = "1000";
+export const ZIndexSticky = "1100";
+export const ZIndexFixed = "1200";
+export const ZIndexOverlay = "1300";
+export const ZIndexModal = "1400";
+export const ZIndexPopover = "1500";
+export const ZIndexToast = "1600";
+export const ZIndexTooltip = "1700";

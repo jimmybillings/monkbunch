@@ -3,6 +3,22 @@
  */
 
 :root {
+  --monk-duration-instant: 0ms;
+  --monk-duration-fast: 150ms;
+  --monk-duration-normal: 250ms;
+  --monk-duration-slow: 350ms;
+  --monk-duration-slower: 500ms;
+  --monk-easing-linear: linear;
+  --monk-easing-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --monk-easing-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --monk-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --monk-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --monk-breakpoint-xs: 0px;
+  --monk-breakpoint-sm: 640px;
+  --monk-breakpoint-md: 768px;
+  --monk-breakpoint-lg: 1024px;
+  --monk-breakpoint-xl: 1280px;
+  --monk-breakpoint-2xl: 1536px;
   --monk-color-blue-50: #e0f4ff;
   --monk-color-blue-100: #bde5ff;
   --monk-color-blue-200: #8bd1ff;
@@ -34,12 +50,25 @@
   --monk-color-yellow-700: #b45309;
   --monk-color-white: #ffffff;
   --monk-color-black: #1c1d1f;
+  --monk-container-sm: 640px;
+  --monk-container-md: 768px;
+  --monk-container-lg: 1024px;
+  --monk-container-xl: 1280px;
+  --monk-container-2xl: 1536px;
+  --monk-container-full: 100%;
   --monk-radius-none: 0;
   --monk-radius-sm: 2px;
   --monk-radius-md: 4px;
   --monk-radius-lg: 8px;
   --monk-radius-xl: 12px;
   --monk-radius-full: 9999px;
+  --monk-shadow-none: none;
+  --monk-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --monk-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --monk-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --monk-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --monk-shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --monk-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
   --monk-space-0: 0;
   --monk-space-1: 4px;
   --monk-space-2: 8px;
@@ -68,4 +97,14 @@
   --monk-font-line-height-tight: 1.2;
   --monk-font-line-height-normal: 1.5;
   --monk-font-line-height-relaxed: 1.75;
+  --monk-z-index-hide: -1;
+  --monk-z-index-base: 0;
+  --monk-z-index-dropdown: 1000;
+  --monk-z-index-sticky: 1100;
+  --monk-z-index-fixed: 1200;
+  --monk-z-index-overlay: 1300;
+  --monk-z-index-modal: 1400;
+  --monk-z-index-popover: 1500;
+  --monk-z-index-toast: 1600;
+  --monk-z-index-tooltip: 1700;
 }

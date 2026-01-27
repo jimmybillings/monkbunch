@@ -48,5 +48,10 @@
       "width": { "value": "2px", "type": "dimension" },
       "offset": { "value": "2px", "type": "dimension" }
     }
+  },
+  "shadow": {
+    "card": { "value": "{shadow.md}", "type": "boxShadow", "comment": "Shadow for card elevation" },
+    "dropdown": { "value": "{shadow.lg}", "type": "boxShadow", "comment": "Shadow for dropdowns and popovers" },
+    "modal": { "value": "{shadow.2xl}", "type": "boxShadow", "comment": "Shadow for modal dialogs" }
   }
 }
