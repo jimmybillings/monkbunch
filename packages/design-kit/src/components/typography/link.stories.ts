@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './link.js';
-import '../layout/box.js';
 import './text.js';
 import './heading.js';
+import '../layout/box.js';
+import '../layout/stack.js';
+import '../layout/flex.js';
 import type { MonkLink } from './link.js';
 
 const meta: Meta<MonkLink> = {
@@ -269,68 +271,74 @@ export const Accessibility: Story = {
 };
 
 /**
- * Composition with MonkBox - demonstrates how links work within layout primitives
+ * Composition with layout primitives - demonstrates how links work within MonkBox, MonkStack, and MonkFlex
  */
 export const CompositionWithLayout: Story = {
   render: () => html`
-    <monk-box display="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    <monk-flex gap="6" wrap="wrap">
       <!-- Resource Card -->
       <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
-        <monk-heading level="h3" style="margin-bottom: 12px;">Documentation</monk-heading>
-        <monk-text size="sm" color="secondary" style="margin-bottom: 16px;">
-          Learn more about our platform with these helpful resources.
-        </monk-text>
-        <monk-box display="flex" style="flex-direction: column; gap: 8px;">
-          <monk-link href="#getting-started">Getting Started Guide</monk-link>
-          <monk-link href="#api-docs">API Documentation</monk-link>
-          <monk-link href="#examples">Code Examples</monk-link>
-          <monk-link href="https://github.com" target="_blank">View on GitHub →</monk-link>
-        </monk-box>
+        <monk-stack spacing="4">
+          <monk-heading level="h3">Documentation</monk-heading>
+          <monk-text size="sm" color="secondary">
+            Learn more about our platform with these helpful resources.
+          </monk-text>
+          <monk-stack spacing="2">
+            <monk-link href="#getting-started">Getting Started Guide</monk-link>
+            <monk-link href="#api-docs">API Documentation</monk-link>
+            <monk-link href="#examples">Code Examples</monk-link>
+            <monk-link href="https://github.com" target="_blank">View on GitHub →</monk-link>
+          </monk-stack>
+        </monk-stack>
       </monk-box>
 
       <!-- Navigation Card -->
       <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
-        <monk-heading level="h3" style="margin-bottom: 12px;">Quick Links</monk-heading>
-        <monk-box display="flex" style="flex-direction: column; gap: 12px;">
-          <div>
-            <monk-link href="#dashboard" .underline=${false}>
-              Dashboard
-            </monk-link>
-            <monk-text size="xs" color="tertiary" style="display: block; margin-top: 4px;">
-              View your analytics and metrics
-            </monk-text>
-          </div>
-          <div>
-            <monk-link href="#settings" .underline=${false}>
-              Settings
-            </monk-link>
-            <monk-text size="xs" color="tertiary" style="display: block; margin-top: 4px;">
-              Manage your account preferences
-            </monk-text>
-          </div>
-          <div>
-            <monk-link href="#support" .underline=${false}>
-              Support
-            </monk-link>
-            <monk-text size="xs" color="tertiary" style="display: block; margin-top: 4px;">
-              Get help when you need it
-            </monk-text>
-          </div>
-        </monk-box>
+        <monk-stack spacing="4">
+          <monk-heading level="h3">Quick Links</monk-heading>
+          <monk-stack spacing="3">
+            <monk-stack spacing="1">
+              <monk-link href="#dashboard" .underline=${false}>
+                Dashboard
+              </monk-link>
+              <monk-text size="xs" color="tertiary">
+                View your analytics and metrics
+              </monk-text>
+            </monk-stack>
+            <monk-stack spacing="1">
+              <monk-link href="#settings" .underline=${false}>
+                Settings
+              </monk-link>
+              <monk-text size="xs" color="tertiary">
+                Manage your account preferences
+              </monk-text>
+            </monk-stack>
+            <monk-stack spacing="1">
+              <monk-link href="#support" .underline=${false}>
+                Support
+              </monk-link>
+              <monk-text size="xs" color="tertiary">
+                Get help when you need it
+              </monk-text>
+            </monk-stack>
+          </monk-stack>
+        </monk-stack>
       </monk-box>
 
       <!-- Footer Links Card -->
       <monk-box padding="8" bg="accent-subtle" radius="lg" shadow="md">
-        <monk-heading level="h4" style="margin-bottom: 8px;">Connect With Us</monk-heading>
-        <monk-text size="sm" color="secondary" style="margin-bottom: 12px;">
-          Follow us on social media for updates.
-        </monk-text>
-        <monk-box display="flex" style="gap: 16px;">
-          <monk-link href="https://twitter.com" target="_blank" .underline=${false}>Twitter</monk-link>
-          <monk-link href="https://github.com" target="_blank" .underline=${false}>GitHub</monk-link>
-          <monk-link href="https://linkedin.com" target="_blank" .underline=${false}>LinkedIn</monk-link>
-        </monk-box>
+        <monk-stack spacing="3">
+          <monk-heading level="h4">Connect With Us</monk-heading>
+          <monk-text size="sm" color="secondary">
+            Follow us on social media for updates.
+          </monk-text>
+          <monk-flex gap="4">
+            <monk-link href="https://twitter.com" target="_blank" .underline=${false}>Twitter</monk-link>
+            <monk-link href="https://github.com" target="_blank" .underline=${false}>GitHub</monk-link>
+            <monk-link href="https://linkedin.com" target="_blank" .underline=${false}>LinkedIn</monk-link>
+          </monk-flex>
+        </monk-stack>
       </monk-box>
-    </monk-box>
+    </monk-flex>
   `,
 };

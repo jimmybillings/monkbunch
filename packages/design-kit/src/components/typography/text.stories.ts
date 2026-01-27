@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './text.js';
-import '../layout/box.js';
 import './heading.js';
+import '../layout/box.js';
+import '../layout/stack.js';
+import '../layout/flex.js';
 import type { MonkText } from './text.js';
 
 const meta: Meta<MonkText> = {
@@ -289,51 +291,57 @@ export const Accessibility: Story = {
 };
 
 /**
- * Composition with MonkBox - demonstrates how text works within layout primitives
+ * Composition with layout primitives - demonstrates how text works within MonkBox, MonkStack, and MonkFlex
  */
 export const CompositionWithLayout: Story = {
   render: () => html`
-    <monk-box display="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    <monk-flex gap="6" wrap="wrap">
       <!-- Info Card -->
       <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
-        <monk-heading level="h3" style="margin-bottom: 12px;">Product Features</monk-heading>
-        <monk-text size="md" style="margin-bottom: 8px;">
-          This card demonstrates how MonkText composes naturally with MonkBox layout primitives.
-        </monk-text>
-        <monk-text size="sm" color="secondary">
-          Use semantic tokens to maintain consistent spacing and colors across your design system.
-        </monk-text>
+        <monk-stack spacing="3">
+          <monk-heading level="h3">Product Features</monk-heading>
+          <monk-text size="md">
+            This card demonstrates how MonkText composes naturally with MonkBox layout primitives.
+          </monk-text>
+          <monk-text size="sm" color="secondary">
+            Use semantic tokens to maintain consistent spacing and colors across your design system.
+          </monk-text>
+        </monk-stack>
       </monk-box>
 
       <!-- Status Card -->
       <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
-        <monk-heading level="h3" color="secondary" style="margin-bottom: 12px;">System Status</monk-heading>
-        <monk-box display="flex" style="flex-direction: column; gap: 8px;">
-          <monk-text size="sm">
-            <monk-text weight="semibold" color="success">✓ Database:</monk-text>
-            <monk-text color="secondary"> Connected</monk-text>
-          </monk-text>
-          <monk-text size="sm">
-            <monk-text weight="semibold" color="success">✓ API:</monk-text>
-            <monk-text color="secondary"> Online</monk-text>
-          </monk-text>
-          <monk-text size="sm">
-            <monk-text weight="semibold" color="warning">⚠ Cache:</monk-text>
-            <monk-text color="secondary"> Degraded</monk-text>
-          </monk-text>
-        </monk-box>
+        <monk-stack spacing="3">
+          <monk-heading level="h3" color="secondary">System Status</monk-heading>
+          <monk-stack spacing="2">
+            <monk-text size="sm">
+              <monk-text weight="semibold" color="success">✓ Database:</monk-text>
+              <monk-text color="secondary"> Connected</monk-text>
+            </monk-text>
+            <monk-text size="sm">
+              <monk-text weight="semibold" color="success">✓ API:</monk-text>
+              <monk-text color="secondary"> Online</monk-text>
+            </monk-text>
+            <monk-text size="sm">
+              <monk-text weight="semibold" color="warning">⚠ Cache:</monk-text>
+              <monk-text color="secondary"> Degraded</monk-text>
+            </monk-text>
+          </monk-stack>
+        </monk-stack>
       </monk-box>
 
       <!-- Alert Card -->
       <monk-box padding="8" bg="accent-subtle" radius="lg" shadow="md">
-        <monk-heading level="h4" style="margin-bottom: 8px;">Important Notice</monk-heading>
-        <monk-text size="md" weight="medium" style="margin-bottom: 8px;">
-          Scheduled Maintenance
-        </monk-text>
-        <monk-text size="sm" color="secondary">
-          The system will be undergoing maintenance on January 30th from 2:00 AM to 4:00 AM UTC.
-        </monk-text>
+        <monk-stack spacing="2">
+          <monk-heading level="h4">Important Notice</monk-heading>
+          <monk-text size="md" weight="medium">
+            Scheduled Maintenance
+          </monk-text>
+          <monk-text size="sm" color="secondary">
+            The system will be undergoing maintenance on January 30th from 2:00 AM to 4:00 AM UTC.
+          </monk-text>
+        </monk-stack>
       </monk-box>
-    </monk-box>
+    </monk-flex>
   `,
 };

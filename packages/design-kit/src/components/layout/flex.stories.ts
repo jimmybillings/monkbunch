@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './flex.js';
 import './box.js';
+import './stack.js';
 import '../typography/heading.js';
 import '../typography/text.js';
 import type { MonkFlex } from './flex.js';
@@ -99,36 +100,42 @@ export const Default: Story = {
  */
 export const CommonPatterns: Story = {
   render: () => html`
-    <monk-box display="flex" style="flex-direction: column; gap: 32px;">
+    <monk-stack spacing="8">
       <!-- Centered content -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 12px; display: block;">Centered (justify="center" align="center")</monk-text>
-        <monk-flex justify="center" align="center" style="background: #f5f5f5; padding: 32px; border-radius: 8px; min-height: 150px;">
-          <monk-box padding="6" bg="accent" radius="md">
-            <monk-text weight="semibold">Centered Content</monk-text>
-          </monk-box>
-        </monk-flex>
-      </div>
+      <monk-stack spacing="3">
+        <monk-text size="sm" weight="semibold">Centered (justify="center" align="center")</monk-text>
+        <monk-box padding="8" bg="subtle" radius="md">
+          <monk-flex justify="center" align="center">
+            <monk-box padding="6" bg="accent" radius="md">
+              <monk-text weight="semibold">Centered Content</monk-text>
+            </monk-box>
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
 
       <!-- Space between -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 12px; display: block;">Space Between (justify="between" align="center")</monk-text>
-        <monk-flex justify="between" align="center" style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-          <monk-box padding="4" bg="accent-subtle" radius="md">Left</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">Center</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">Right</monk-box>
-        </monk-flex>
-      </div>
+      <monk-stack spacing="3">
+        <monk-text size="sm" weight="semibold">Space Between (justify="between" align="center")</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex justify="between" align="center">
+            <monk-box padding="4" bg="accent-subtle" radius="md">Left</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">Center</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">Right</monk-box>
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
 
       <!-- End aligned -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 12px; display: block;">End Aligned (justify="end" align="center")</monk-text>
-        <monk-flex justify="end" align="center" gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-          <monk-box padding="4" bg="accent-subtle" radius="md">Item 1</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">Item 2</monk-box>
-        </monk-flex>
-      </div>
-    </monk-box>
+      <monk-stack spacing="3">
+        <monk-text size="sm" weight="semibold">End Aligned (justify="end" align="center")</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex justify="end" align="center" gap="3">
+            <monk-box padding="4" bg="accent-subtle" radius="md">Item 1</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">Item 2</monk-box>
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
+    </monk-stack>
   `,
 };
 
@@ -137,47 +144,55 @@ export const CommonPatterns: Story = {
  */
 export const Directions: Story = {
   render: () => html`
-    <monk-box display="grid" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+    <monk-flex gap="6" wrap="wrap">
       <!-- Row -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 12px; display: block;">direction="row"</monk-text>
-        <monk-flex direction="row" gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-          <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
-        </monk-flex>
-      </div>
+      <monk-stack spacing="3">
+        <monk-text size="sm" weight="semibold">direction="row"</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex direction="row" gap="3">
+            <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
 
       <!-- Row Reverse -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 12px; display: block;">direction="row-reverse"</monk-text>
-        <monk-flex direction="row-reverse" gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-          <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
-        </monk-flex>
-      </div>
+      <monk-stack spacing="3">
+        <monk-text size="sm" weight="semibold">direction="row-reverse"</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex direction="row-reverse" gap="3">
+            <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
 
       <!-- Column -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 12px; display: block;">direction="column"</monk-text>
-        <monk-flex direction="column" gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-          <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
-        </monk-flex>
-      </div>
+      <monk-stack spacing="3">
+        <monk-text size="sm" weight="semibold">direction="column"</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex direction="column" gap="3">
+            <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
 
       <!-- Column Reverse -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 12px; display: block;">direction="column-reverse"</monk-text>
-        <monk-flex direction="column-reverse" gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-          <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
-        </monk-flex>
-      </div>
-    </monk-box>
+      <monk-stack spacing="3">
+        <monk-text size="sm" weight="semibold">direction="column-reverse"</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex direction="column-reverse" gap="3">
+            <monk-box padding="4" bg="accent-subtle" radius="md">1</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">2</monk-box>
+            <monk-box padding="4" bg="accent-subtle" radius="md">3</monk-box>
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
+    </monk-flex>
   `,
 };
 
@@ -186,20 +201,22 @@ export const Directions: Story = {
  */
 export const Alignment: Story = {
   render: () => html`
-    <monk-box display="flex" style="flex-direction: column; gap: 24px;">
+    <monk-stack spacing="6">
       ${['start', 'center', 'end', 'stretch', 'baseline'].map(
         (align) => html`
-          <div>
-            <monk-text size="sm" weight="semibold" style="margin-bottom: 8px; display: block;">align="${align}"</monk-text>
-            <monk-flex align=${align} gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px; min-height: 120px;">
-              <monk-box padding="4" bg="accent-subtle" radius="md" style="height: 60px;">60px</monk-box>
-              <monk-box padding="4" bg="accent-subtle" radius="md" style="height: 80px;">80px</monk-box>
-              <monk-box padding="4" bg="accent-subtle" radius="md" style="height: 100px;">100px</monk-box>
-            </monk-flex>
-          </div>
+          <monk-stack spacing="2">
+            <monk-text size="sm" weight="semibold">align="${align}"</monk-text>
+            <monk-box padding="4" bg="subtle" radius="md">
+              <monk-flex align=${align} gap="3">
+                <monk-box padding="4" bg="accent-subtle" radius="md">60px tall</monk-box>
+                <monk-box padding="6" bg="accent-subtle" radius="md">80px tall</monk-box>
+                <monk-box padding="8" bg="accent-subtle" radius="md">100px tall</monk-box>
+              </monk-flex>
+            </monk-box>
+          </monk-stack>
         `
       )}
-    </monk-box>
+    </monk-stack>
   `,
 };
 
@@ -208,20 +225,22 @@ export const Alignment: Story = {
  */
 export const Justify: Story = {
   render: () => html`
-    <monk-box display="flex" style="flex-direction: column; gap: 24px;">
+    <monk-stack spacing="6">
       ${['start', 'center', 'end', 'between', 'around', 'evenly'].map(
         (justify) => html`
-          <div>
-            <monk-text size="sm" weight="semibold" style="margin-bottom: 8px; display: block;">justify="${justify}"</monk-text>
-            <monk-flex justify=${justify} gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-              <monk-box padding="4" bg="accent-subtle" radius="md">Item 1</monk-box>
-              <monk-box padding="4" bg="accent-subtle" radius="md">Item 2</monk-box>
-              <monk-box padding="4" bg="accent-subtle" radius="md">Item 3</monk-box>
-            </monk-flex>
-          </div>
+          <monk-stack spacing="2">
+            <monk-text size="sm" weight="semibold">justify="${justify}"</monk-text>
+            <monk-box padding="4" bg="subtle" radius="md">
+              <monk-flex justify=${justify} gap="3">
+                <monk-box padding="4" bg="accent-subtle" radius="md">Item 1</monk-box>
+                <monk-box padding="4" bg="accent-subtle" radius="md">Item 2</monk-box>
+                <monk-box padding="4" bg="accent-subtle" radius="md">Item 3</monk-box>
+              </monk-flex>
+            </monk-box>
+          </monk-stack>
         `
       )}
-    </monk-box>
+    </monk-stack>
   `,
 };
 
@@ -230,31 +249,35 @@ export const Justify: Story = {
  */
 export const Wrapping: Story = {
   render: () => html`
-    <monk-box display="flex" style="flex-direction: column; gap: 24px;">
+    <monk-stack spacing="6">
       <!-- No wrap -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 8px; display: block;">wrap="nowrap" (default)</monk-text>
-        <monk-flex wrap="nowrap" gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px; max-width: 400px;">
-          ${Array.from({ length: 8 }, (_, i) => html`
-            <monk-box padding="4" bg="accent-subtle" radius="md" style="min-width: 80px;">
-              <monk-text size="sm">Item ${i + 1}</monk-text>
-            </monk-box>
-          `)}
-        </monk-flex>
-      </div>
+      <monk-stack spacing="2">
+        <monk-text size="sm" weight="semibold">wrap="nowrap" (default)</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex wrap="nowrap" gap="3">
+            ${Array.from({ length: 8 }, (_, i) => html`
+              <monk-box padding="4" bg="accent-subtle" radius="md">
+                <monk-text size="sm">Item ${i + 1}</monk-text>
+              </monk-box>
+            `)}
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
 
       <!-- Wrap -->
-      <div>
-        <monk-text size="sm" weight="semibold" style="margin-bottom: 8px; display: block;">wrap="wrap"</monk-text>
-        <monk-flex wrap="wrap" gap="3" style="background: #f5f5f5; padding: 16px; border-radius: 8px; max-width: 400px;">
-          ${Array.from({ length: 8 }, (_, i) => html`
-            <monk-box padding="4" bg="accent-subtle" radius="md" style="min-width: 80px;">
-              <monk-text size="sm">Item ${i + 1}</monk-text>
-            </monk-box>
-          `)}
-        </monk-flex>
-      </div>
-    </monk-box>
+      <monk-stack spacing="2">
+        <monk-text size="sm" weight="semibold">wrap="wrap"</monk-text>
+        <monk-box padding="4" bg="subtle" radius="md">
+          <monk-flex wrap="wrap" gap="3">
+            ${Array.from({ length: 8 }, (_, i) => html`
+              <monk-box padding="4" bg="accent-subtle" radius="md">
+                <monk-text size="sm">Item ${i + 1}</monk-text>
+              </monk-box>
+            `)}
+          </monk-flex>
+        </monk-box>
+      </monk-stack>
+    </monk-stack>
   `,
 };
 
@@ -267,10 +290,10 @@ export const Header: Story = {
       <monk-flex justify="between" align="center">
         <monk-heading level="h3">Dashboard</monk-heading>
         <monk-flex gap="3">
-          <monk-box padding="3" bg="accent" radius="md" style="cursor: pointer;">
+          <monk-box padding="3" bg="accent" radius="md">
             <monk-text size="sm" weight="semibold">New</monk-text>
           </monk-box>
-          <monk-box padding="3" bg="surface-raised" radius="md" border="1px" style="cursor: pointer;">
+          <monk-box padding="3" bg="surface-raised" radius="md" border="1px">
             <monk-text size="sm" weight="semibold">Settings</monk-text>
           </monk-box>
         </monk-flex>
@@ -284,14 +307,14 @@ export const Header: Story = {
  */
 export const Card: Story = {
   render: () => html`
-    <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px" style="max-width: 500px;">
-      <monk-flex direction="column" gap="4">
+    <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
+      <monk-stack spacing="4">
         <!-- Header -->
         <monk-flex justify="between" align="start">
-          <div>
-            <monk-heading level="h3" style="margin-bottom: 4px;">Product Name</monk-heading>
+          <monk-stack spacing="1">
+            <monk-heading level="h3">Product Name</monk-heading>
             <monk-text size="sm" color="secondary">Premium Edition</monk-text>
-          </div>
+          </monk-stack>
           <monk-box padding="2" bg="accent-subtle" radius="sm">
             <monk-text size="xs" weight="semibold">New</monk-text>
           </monk-box>
@@ -306,15 +329,15 @@ export const Card: Story = {
         <monk-flex justify="between" align="center">
           <monk-text size="xl" weight="bold">$49.99</monk-text>
           <monk-flex gap="2">
-            <monk-box padding="3" bg="surface-raised" radius="md" border="1px" style="cursor: pointer;">
+            <monk-box padding="3" bg="surface-raised" radius="md" border="1px">
               <monk-text size="sm" weight="semibold">Details</monk-text>
             </monk-box>
-            <monk-box padding="3" bg="accent" radius="md" style="cursor: pointer;">
+            <monk-box padding="3" bg="accent" radius="md">
               <monk-text size="sm" weight="semibold">Add to Cart</monk-text>
             </monk-box>
           </monk-flex>
         </monk-flex>
-      </monk-flex>
+      </monk-stack>
     </monk-box>
   `,
 };
@@ -324,7 +347,7 @@ export const Card: Story = {
  */
 export const MediaObject: Story = {
   render: () => html`
-    <monk-box display="flex" style="flex-direction: column; gap: 16px; max-width: 600px;">
+    <monk-stack spacing="4">
       ${Array.from({ length: 3 }, (_, i) => html`
         <monk-box padding="4" bg="surface" radius="md" border="1px">
           <monk-flex gap="4">
@@ -333,23 +356,26 @@ export const MediaObject: Story = {
               padding="0"
               bg="accent-subtle"
               radius="full"
-              style="width: 64px; height: 64px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;"
             >
-              <monk-text weight="bold">U${i + 1}</monk-text>
+              <monk-flex justify="center" align="center">
+                <monk-box padding="5">
+                  <monk-text weight="bold">U${i + 1}</monk-text>
+                </monk-box>
+              </monk-flex>
             </monk-box>
 
             <!-- Content -->
-            <monk-flex direction="column" gap="2" style="flex: 1;">
+            <monk-stack spacing="2">
               <monk-heading level="h4">User Name ${i + 1}</monk-heading>
               <monk-text size="sm" color="secondary">
                 This is a comment or message from the user. The media object pattern is perfect for lists of items with images or icons.
               </monk-text>
               <monk-text size="xs" color="tertiary">${i + 2} hours ago</monk-text>
-            </monk-flex>
+            </monk-stack>
           </monk-flex>
         </monk-box>
       `)}
-    </monk-box>
+    </monk-stack>
   `,
 };
 
@@ -361,18 +387,18 @@ export const Toolbar: Story = {
     <monk-box padding="4" bg="surface" radius="lg" border="1px">
       <monk-flex justify="between" align="center">
         <monk-flex gap="2">
-          <monk-box padding="2" bg="accent-subtle" radius="sm" style="cursor: pointer;">
+          <monk-box padding="2" bg="accent-subtle" radius="sm">
             <monk-text size="sm" weight="semibold">Bold</monk-text>
           </monk-box>
-          <monk-box padding="2" bg="accent-subtle" radius="sm" style="cursor: pointer;">
+          <monk-box padding="2" bg="accent-subtle" radius="sm">
             <monk-text size="sm" weight="semibold">Italic</monk-text>
           </monk-box>
-          <monk-box padding="2" bg="accent-subtle" radius="sm" style="cursor: pointer;">
+          <monk-box padding="2" bg="accent-subtle" radius="sm">
             <monk-text size="sm" weight="semibold">Underline</monk-text>
           </monk-box>
         </monk-flex>
 
-        <monk-box padding="2" bg="accent" radius="sm" style="cursor: pointer;">
+        <monk-box padding="2" bg="accent" radius="sm">
           <monk-text size="sm" weight="semibold">Save</monk-text>
         </monk-box>
       </monk-flex>
@@ -385,20 +411,18 @@ export const Toolbar: Story = {
  */
 export const InlineFlex: Story = {
   render: () => html`
-    <div>
-      <monk-text>
-        This is a paragraph with
-        <monk-flex inline gap="1" align="center" style="margin: 0 4px;">
-          <monk-box padding="1" bg="accent-subtle" radius="sm">
-            <monk-text size="xs" weight="semibold">inline</monk-text>
-          </monk-box>
-          <monk-box padding="1" bg="accent-subtle" radius="sm">
-            <monk-text size="xs" weight="semibold">flex</monk-text>
-          </monk-box>
-        </monk-flex>
-        elements that flow with the text content.
-      </monk-text>
-    </div>
+    <monk-text>
+      This is a paragraph with
+      <monk-flex inline gap="1" align="center">
+        <monk-box padding="1" bg="accent-subtle" radius="sm">
+          <monk-text size="xs" weight="semibold">inline</monk-text>
+        </monk-box>
+        <monk-box padding="1" bg="accent-subtle" radius="sm">
+          <monk-text size="xs" weight="semibold">flex</monk-text>
+        </monk-box>
+      </monk-flex>
+      elements that flow with the text content.
+    </monk-text>
   `,
 };
 
@@ -423,7 +447,7 @@ export const BaselineAlignment: Story = {
  */
 export const Accessibility: Story = {
   render: () => html`
-    <monk-flex direction="column" gap="6" style="max-width: 600px;">
+    <monk-stack spacing="6">
       <monk-heading level="h2">Accessible Flex Examples</monk-heading>
 
       <!-- Navigation with ARIA -->
@@ -451,13 +475,13 @@ export const Accessibility: Story = {
           <monk-text size="sm" italic>I</monk-text>
         </monk-box>
         <monk-box padding="2" bg="accent-subtle" radius="sm" role="button" aria-label="Underline">
-          <monk-text size="sm" style="text-decoration: underline;">U</monk-text>
+          <monk-text size="sm">U</monk-text>
         </monk-box>
       </monk-flex>
 
       <monk-text size="sm" color="secondary">
         Open the Accessibility panel below to verify WCAG compliance.
       </monk-text>
-    </monk-flex>
+    </monk-stack>
   `,
 };

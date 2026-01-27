@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './heading.js';
+import './text.js';
 import '../layout/box.js';
+import '../layout/stack.js';
+import '../layout/flex.js';
 import type { MonkHeading } from './heading.js';
 
 const meta: Meta<MonkHeading> = {
@@ -207,28 +210,34 @@ export const Accessibility: Story = {
 };
 
 /**
- * Composition with MonkBox - demonstrates how headings work within layout primitives
+ * Composition with layout primitives - demonstrates how headings work within MonkBox, MonkStack, and MonkFlex
  */
 export const CompositionWithLayout: Story = {
   render: () => html`
-    <monk-box display="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+    <monk-flex gap="6" wrap="wrap">
       <!-- Card 1 -->
       <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
-        <monk-heading level="h3" style="margin-bottom: 12px;">Feature Card</monk-heading>
-        <monk-text>Headings compose naturally with MonkBox layout primitives.</monk-text>
+        <monk-stack spacing="3">
+          <monk-heading level="h3">Feature Card</monk-heading>
+          <monk-text>Headings compose naturally with MonkBox layout primitives.</monk-text>
+        </monk-stack>
       </monk-box>
 
       <!-- Card 2 -->
       <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
-        <monk-heading level="h3" color="secondary" style="margin-bottom: 12px;">Secondary Heading</monk-heading>
-        <monk-text>Use different colors to create visual hierarchy.</monk-text>
+        <monk-stack spacing="3">
+          <monk-heading level="h3" color="secondary">Secondary Heading</monk-heading>
+          <monk-text>Use different colors to create visual hierarchy.</monk-text>
+        </monk-stack>
       </monk-box>
 
       <!-- Card 3 -->
       <monk-box padding="8" bg="accent-subtle" radius="lg" shadow="md">
-        <monk-heading level="h3" style="margin-bottom: 12px;">Accent Background</monk-heading>
-        <monk-text>Headings work on different backgrounds using semantic tokens.</monk-text>
+        <monk-stack spacing="3">
+          <monk-heading level="h3">Accent Background</monk-heading>
+          <monk-text>Headings work on different backgrounds using semantic tokens.</monk-text>
+        </monk-stack>
       </monk-box>
-    </monk-box>
+    </monk-flex>
   `,
 };
