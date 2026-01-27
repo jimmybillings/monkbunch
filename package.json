@@ -1,0 +1,55 @@
+{
+  "name": "monkbunch",
+  "version": "0.1.0",
+  "description": "Monkbunch monorepo - Design system packages and applications",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "nx run-many --target=build --all",
+    "test": "nx run-many --target=test --all",
+    "lint": "nx run-many --target=lint --all",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "tokens:build": "nx build design-tokens",
+    "tokens:watch": "nx watch --projects=design-tokens -- nx build design-tokens",
+    "dev": "npm run tokens:build && npm run storybook"
+  },
+  "keywords": [
+    "monorepo",
+    "design-system",
+    "web-components",
+    "lit",
+    "react",
+    "accessibility"
+  ],
+  "author": "Monkbunch",
+  "license": "MIT",
+  "devDependencies": {
+    "@nx/eslint": "^22.4.1",
+    "@nx/js": "^22.4.1",
+    "@nx/storybook": "^22.4.1",
+    "@nx/vite": "^22.4.1",
+    "@open-wc/testing": "^4.0.0",
+    "@storybook/addon-a11y": "^8.6.15",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-links": "^8.6.15",
+    "@storybook/web-components-vite": "^8.6.15",
+    "@types/sinon": "^21.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "@web/test-runner": "^0.20.2",
+    "@web/test-runner-playwright": "^0.11.1",
+    "eslint": "^9.39.2",
+    "nx": "^22.4.1",
+    "prettier": "^3.8.1",
+    "sinon": "^21.0.1",
+    "storybook": "^8.6.15",
+    "style-dictionary": "^5.2.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "lit": "^3.3.2"
+  }
+}

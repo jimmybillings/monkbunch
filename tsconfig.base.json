@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@monkbunch/design-tokens": ["packages/design-tokens/src/index.ts"],
+      "@monkbunch/design-kit": ["packages/design-kit/src/index.ts"],
+      "@monkbunch/design-kit-react": ["packages/design-kit-react/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
