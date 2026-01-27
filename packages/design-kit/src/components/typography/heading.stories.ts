@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './heading.js';
+import '../layout/box.js';
 import type { MonkHeading } from './heading.js';
 
 const meta: Meta<MonkHeading> = {
@@ -100,14 +101,14 @@ export const Default: Story = {
 
 export const AllLevels: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <monk-box display="flex" style="flex-direction: column; gap: 1rem;">
       <monk-heading level="h1">Heading 1 - Main Page Title</monk-heading>
       <monk-heading level="h2">Heading 2 - Section Title</monk-heading>
       <monk-heading level="h3">Heading 3 - Subsection Title</monk-heading>
       <monk-heading level="h4">Heading 4 - Minor Heading</monk-heading>
       <monk-heading level="h5">Heading 5 - Small Heading</monk-heading>
       <monk-heading level="h6">Heading 6 - Smallest Heading</monk-heading>
-    </div>
+    </monk-box>
   `,
 };
 
@@ -191,16 +192,43 @@ export const Truncation: Story = {
 
 export const Accessibility: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <monk-box display="flex" style="flex-direction: column; gap: 1rem;">
       <p style="margin: 0; font-size: 14px; color: #666;">
-        All headings use proper semantic HTML and ARIA attributes:
+        All headings use proper semantic HTML elements (h1-h6):
       </p>
-      <monk-heading level="h1">This has role="heading" and aria-level="1"</monk-heading>
-      <monk-heading level="h2">This has role="heading" and aria-level="2"</monk-heading>
-      <monk-heading level="h3">This has role="heading" and aria-level="3"</monk-heading>
+      <monk-heading level="h1">This renders as &lt;h1&gt; element</monk-heading>
+      <monk-heading level="h2">This renders as &lt;h2&gt; element</monk-heading>
+      <monk-heading level="h3">This renders as &lt;h3&gt; element</monk-heading>
       <p style="margin: 1rem 0 0 0; font-size: 14px; color: #666;">
         Open the Accessibility panel below to verify WCAG compliance.
       </p>
-    </div>
+    </monk-box>
+  `,
+};
+
+/**
+ * Composition with MonkBox - demonstrates how headings work within layout primitives
+ */
+export const CompositionWithLayout: Story = {
+  render: () => html`
+    <monk-box display="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+      <!-- Card 1 -->
+      <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
+        <monk-heading level="h3" style="margin-bottom: 12px;">Feature Card</monk-heading>
+        <monk-text>Headings compose naturally with MonkBox layout primitives.</monk-text>
+      </monk-box>
+
+      <!-- Card 2 -->
+      <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
+        <monk-heading level="h3" color="secondary" style="margin-bottom: 12px;">Secondary Heading</monk-heading>
+        <monk-text>Use different colors to create visual hierarchy.</monk-text>
+      </monk-box>
+
+      <!-- Card 3 -->
+      <monk-box padding="8" bg="accent-subtle" radius="lg" shadow="md">
+        <monk-heading level="h3" style="margin-bottom: 12px;">Accent Background</monk-heading>
+        <monk-text>Headings work on different backgrounds using semantic tokens.</monk-text>
+      </monk-box>
+    </monk-box>
   `,
 };

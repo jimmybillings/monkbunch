@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './text.js';
+import '../layout/box.js';
+import './heading.js';
 import type { MonkText } from './text.js';
 
 const meta: Meta<MonkText> = {
@@ -268,7 +270,7 @@ export const Paragraph: Story = {
 
 export const Accessibility: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 600px;">
+    <monk-box display="flex" style="flex-direction: column; gap: 1rem; max-width: 600px;">
       <monk-text size="lg" weight="semibold">Color Contrast Examples</monk-text>
       <monk-text color="primary">
         Primary text meets WCAG AA standards with a contrast ratio of at least 4.5:1 against the background.
@@ -282,6 +284,56 @@ export const Accessibility: Story = {
       <monk-text size="sm" color="tertiary" style="margin-top: 1rem; display: block;">
         Open the Accessibility panel below to verify all text passes automated accessibility checks.
       </monk-text>
-    </div>
+    </monk-box>
+  `,
+};
+
+/**
+ * Composition with MonkBox - demonstrates how text works within layout primitives
+ */
+export const CompositionWithLayout: Story = {
+  render: () => html`
+    <monk-box display="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+      <!-- Info Card -->
+      <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
+        <monk-heading level="h3" style="margin-bottom: 12px;">Product Features</monk-heading>
+        <monk-text size="md" style="margin-bottom: 8px;">
+          This card demonstrates how MonkText composes naturally with MonkBox layout primitives.
+        </monk-text>
+        <monk-text size="sm" color="secondary">
+          Use semantic tokens to maintain consistent spacing and colors across your design system.
+        </monk-text>
+      </monk-box>
+
+      <!-- Status Card -->
+      <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
+        <monk-heading level="h3" color="secondary" style="margin-bottom: 12px;">System Status</monk-heading>
+        <monk-box display="flex" style="flex-direction: column; gap: 8px;">
+          <monk-text size="sm">
+            <monk-text weight="semibold" color="success">✓ Database:</monk-text>
+            <monk-text color="secondary"> Connected</monk-text>
+          </monk-text>
+          <monk-text size="sm">
+            <monk-text weight="semibold" color="success">✓ API:</monk-text>
+            <monk-text color="secondary"> Online</monk-text>
+          </monk-text>
+          <monk-text size="sm">
+            <monk-text weight="semibold" color="warning">⚠ Cache:</monk-text>
+            <monk-text color="secondary"> Degraded</monk-text>
+          </monk-text>
+        </monk-box>
+      </monk-box>
+
+      <!-- Alert Card -->
+      <monk-box padding="8" bg="accent-subtle" radius="lg" shadow="md">
+        <monk-heading level="h4" style="margin-bottom: 8px;">Important Notice</monk-heading>
+        <monk-text size="md" weight="medium" style="margin-bottom: 8px;">
+          Scheduled Maintenance
+        </monk-text>
+        <monk-text size="sm" color="secondary">
+          The system will be undergoing maintenance on January 30th from 2:00 AM to 4:00 AM UTC.
+        </monk-text>
+      </monk-box>
+    </monk-box>
   `,
 };

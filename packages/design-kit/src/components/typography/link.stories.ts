@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './link.js';
+import '../layout/box.js';
+import './text.js';
+import './heading.js';
 import type { MonkLink } from './link.js';
 
 const meta: Meta<MonkLink> = {
@@ -240,7 +243,7 @@ export const WithIcons: Story = {
 
 export const Accessibility: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 600px;">
+    <monk-box display="flex" style="flex-direction: column; gap: 1.5rem; max-width: 600px;">
       <div>
         <p style="margin: 0 0 1rem 0; font-weight: 600;">Accessibility Features:</p>
         <ul style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">
@@ -252,15 +255,82 @@ export const Accessibility: Story = {
           <li>Hover state provides visual feedback</li>
         </ul>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+      <monk-box display="flex" style="flex-direction: column; gap: 0.5rem;">
         <monk-link href="#test1">Internal link - default behavior</monk-link>
         <monk-link href="https://example.com" target="_blank">
           External link - includes aria-label="opens in new window"
         </monk-link>
-      </div>
-      <p style="margin: 1rem 0 0 0; font-size: 14px; color: #666;">
+      </monk-box>
+      <monk-text size="sm" color="secondary" style="margin-top: 1rem;">
         Open the Accessibility panel below to verify WCAG compliance.
-      </p>
-    </div>
+      </monk-text>
+    </monk-box>
+  `,
+};
+
+/**
+ * Composition with MonkBox - demonstrates how links work within layout primitives
+ */
+export const CompositionWithLayout: Story = {
+  render: () => html`
+    <monk-box display="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+      <!-- Resource Card -->
+      <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
+        <monk-heading level="h3" style="margin-bottom: 12px;">Documentation</monk-heading>
+        <monk-text size="sm" color="secondary" style="margin-bottom: 16px;">
+          Learn more about our platform with these helpful resources.
+        </monk-text>
+        <monk-box display="flex" style="flex-direction: column; gap: 8px;">
+          <monk-link href="#getting-started">Getting Started Guide</monk-link>
+          <monk-link href="#api-docs">API Documentation</monk-link>
+          <monk-link href="#examples">Code Examples</monk-link>
+          <monk-link href="https://github.com" target="_blank">View on GitHub →</monk-link>
+        </monk-box>
+      </monk-box>
+
+      <!-- Navigation Card -->
+      <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
+        <monk-heading level="h3" style="margin-bottom: 12px;">Quick Links</monk-heading>
+        <monk-box display="flex" style="flex-direction: column; gap: 12px;">
+          <div>
+            <monk-link href="#dashboard" .underline=${false}>
+              Dashboard
+            </monk-link>
+            <monk-text size="xs" color="tertiary" style="display: block; margin-top: 4px;">
+              View your analytics and metrics
+            </monk-text>
+          </div>
+          <div>
+            <monk-link href="#settings" .underline=${false}>
+              Settings
+            </monk-link>
+            <monk-text size="xs" color="tertiary" style="display: block; margin-top: 4px;">
+              Manage your account preferences
+            </monk-text>
+          </div>
+          <div>
+            <monk-link href="#support" .underline=${false}>
+              Support
+            </monk-link>
+            <monk-text size="xs" color="tertiary" style="display: block; margin-top: 4px;">
+              Get help when you need it
+            </monk-text>
+          </div>
+        </monk-box>
+      </monk-box>
+
+      <!-- Footer Links Card -->
+      <monk-box padding="8" bg="accent-subtle" radius="lg" shadow="md">
+        <monk-heading level="h4" style="margin-bottom: 8px;">Connect With Us</monk-heading>
+        <monk-text size="sm" color="secondary" style="margin-bottom: 12px;">
+          Follow us on social media for updates.
+        </monk-text>
+        <monk-box display="flex" style="gap: 16px;">
+          <monk-link href="https://twitter.com" target="_blank" .underline=${false}>Twitter</monk-link>
+          <monk-link href="https://github.com" target="_blank" .underline=${false}>GitHub</monk-link>
+          <monk-link href="https://linkedin.com" target="_blank" .underline=${false}>LinkedIn</monk-link>
+        </monk-box>
+      </monk-box>
+    </monk-box>
   `,
 };
