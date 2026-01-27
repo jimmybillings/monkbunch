@@ -1,0 +1,71 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --monk-color-blue-50: #e0f4ff;
+  --monk-color-blue-100: #bde5ff;
+  --monk-color-blue-200: #8bd1ff;
+  --monk-color-blue-300: #59bdff;
+  --monk-color-blue-400: #3d9eff;
+  --monk-color-blue-500: #3d6ce8;
+  --monk-color-blue-600: #2d58b7;
+  --monk-color-blue-700: #1e4186;
+  --monk-color-blue-800: #102a55;
+  --monk-color-blue-900: #051324;
+  --monk-color-gray-50: #f6fafe;
+  --monk-color-gray-100: #eff3fa;
+  --monk-color-gray-200: #dbe1ec;
+  --monk-color-gray-300: #b9c4d4;
+  --monk-color-gray-400: #98a7b8;
+  --monk-color-gray-500: #77889a;
+  --monk-color-gray-600: #5d6c7e;
+  --monk-color-gray-700: #445062;
+  --monk-color-gray-800: #2b3446;
+  --monk-color-gray-900: #181922;
+  --monk-color-green-500: #10b981;
+  --monk-color-green-600: #059669;
+  --monk-color-green-700: #047857;
+  --monk-color-red-500: #ef4444;
+  --monk-color-red-600: #dc2626;
+  --monk-color-red-700: #b91c1c;
+  --monk-color-yellow-500: #f59e0b;
+  --monk-color-yellow-600: #d97706;
+  --monk-color-yellow-700: #b45309;
+  --monk-color-white: #ffffff;
+  --monk-color-black: #1c1d1f;
+  --monk-radius-none: 0;
+  --monk-radius-sm: 2px;
+  --monk-radius-md: 4px;
+  --monk-radius-lg: 8px;
+  --monk-radius-xl: 12px;
+  --monk-radius-full: 9999px;
+  --monk-space-0: 0;
+  --monk-space-1: 4px;
+  --monk-space-2: 8px;
+  --monk-space-3: 12px;
+  --monk-space-4: 16px;
+  --monk-space-5: 20px;
+  --monk-space-6: 24px;
+  --monk-space-8: 32px;
+  --monk-space-10: 40px;
+  --monk-space-12: 48px;
+  --monk-space-16: 64px;
+  --monk-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --monk-font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
+  --monk-font-size-xs: 12px;
+  --monk-font-size-sm: 14px;
+  --monk-font-size-md: 16px;
+  --monk-font-size-lg: 18px;
+  --monk-font-size-xl: 20px;
+  --monk-font-size-2xl: 24px;
+  --monk-font-size-3xl: 30px;
+  --monk-font-size-4xl: 36px;
+  --monk-font-weight-regular: 400;
+  --monk-font-weight-medium: 500;
+  --monk-font-weight-semibold: 600;
+  --monk-font-weight-bold: 700;
+  --monk-font-line-height-tight: 1.2;
+  --monk-font-line-height-normal: 1.5;
+  --monk-font-line-height-relaxed: 1.75;
+}

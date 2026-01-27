@@ -1,0 +1,19 @@
+{
+  "name": "@monkbunch/design-tokens",
+  "version": "0.1.0",
+  "description": "Design tokens for Monkbunch Design System",
+  "type": "module",
+  "main": "./dist/js/tokens.js",
+  "types": "./dist/js/tokens.d.ts",
+  "exports": {
+    ".": "./dist/js/tokens.js",
+    "./css/base.css": "./dist/css/base.css",
+    "./css/theme-light.css": "./dist/css/theme-light.css",
+    "./css/theme-dark.css": "./dist/css/theme-dark.css",
+    "./css/variables.css": "./dist/css/variables.css"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "node build.js"
+  }
+}

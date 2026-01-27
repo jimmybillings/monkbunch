@@ -1,0 +1,71 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+export const ColorBlue50 = "#e0f4ff";
+export const ColorBlue100 = "#bde5ff";
+export const ColorBlue200 = "#8bd1ff";
+export const ColorBlue300 = "#59bdff";
+export const ColorBlue400 = "#3d9eff";
+export const ColorBlue500 = "#3d6ce8";
+export const ColorBlue600 = "#2d58b7";
+export const ColorBlue700 = "#1e4186";
+export const ColorBlue800 = "#102a55";
+export const ColorBlue900 = "#051324";
+export const ColorGray50 = "#f6fafe";
+export const ColorGray100 = "#eff3fa";
+export const ColorGray200 = "#dbe1ec";
+export const ColorGray300 = "#b9c4d4";
+export const ColorGray400 = "#98a7b8";
+export const ColorGray500 = "#77889a";
+export const ColorGray600 = "#5d6c7e";
+export const ColorGray700 = "#445062";
+export const ColorGray800 = "#2b3446";
+export const ColorGray900 = "#181922";
+export const ColorGreen500 = "#10b981";
+export const ColorGreen600 = "#059669";
+export const ColorGreen700 = "#047857";
+export const ColorRed500 = "#ef4444";
+export const ColorRed600 = "#dc2626";
+export const ColorRed700 = "#b91c1c";
+export const ColorYellow500 = "#f59e0b";
+export const ColorYellow600 = "#d97706";
+export const ColorYellow700 = "#b45309";
+export const ColorWhite = "#ffffff";
+export const ColorBlack = "#1c1d1f";
+export const RadiusNone = "0";
+export const RadiusSm = "2px";
+export const RadiusMd = "4px";
+export const RadiusLg = "8px";
+export const RadiusXl = "12px";
+export const RadiusFull = "9999px";
+export const Space0 = "0";
+export const Space1 = "4px";
+export const Space2 = "8px";
+export const Space3 = "12px";
+export const Space4 = "16px";
+export const Space5 = "20px";
+export const Space6 = "24px";
+export const Space8 = "32px";
+export const Space10 = "40px";
+export const Space12 = "48px";
+export const Space16 = "64px";
+export const FontFamilyBase =
+  "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
+export const FontFamilyMono =
+  "'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace";
+export const FontSizeXs = "12px";
+export const FontSizeSm = "14px";
+export const FontSizeMd = "16px";
+export const FontSizeLg = "18px";
+export const FontSizeXl = "20px";
+export const FontSize2xl = "24px";
+export const FontSize3xl = "30px";
+export const FontSize4xl = "36px";
+export const FontWeightRegular = "400";
+export const FontWeightMedium = "500";
+export const FontWeightSemibold = "600";
+export const FontWeightBold = "700";
+export const FontLineHeightTight = "1.2";
+export const FontLineHeightNormal = "1.5";
+export const FontLineHeightRelaxed = "1.75";
