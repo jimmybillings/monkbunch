@@ -745,6 +745,212 @@ All new components will expose CSS parts following this pattern:
 
 ---
 
+## Layout System Architecture
+
+**Purpose:** Provide foundational layout primitives for building responsive, accessible UIs.
+
+### Core Primitive: MonkBox
+
+**Philosophy:** Box is the foundational layout primitive. All other layout components are specialized versions of Box or compose Box internally.
+
+**Design Principles:**
+1. **Composition over configuration** - Complex layouts from simple primitives
+2. **Token-driven** - All styling uses design tokens
+3. **Responsive-ready** - Built on responsive token foundation
+4. **Accessible** - Semantic HTML with proper ARIA support
+
+#### MonkBox Implementation
+
+**File:** `src/components/layout/box.ts`
+
+```typescript
+@customElement('monk-box')
+export class MonkBox extends MonkBaseElement {
+  // Layout
+  @property() display: BoxDisplay = 'block';
+
+  // Spacing (uses 0-16 scale)
+  @property() padding?: SpacingScale;
+  @property() margin?: SpacingScale;
+
+  // Visual styling
+  @property() bg?: BoxBg;
+  @property() border?: string;
+  @property() radius?: BoxRadius;
+  @property() shadow?: BoxShadow;
+}
+```
+
+**Supported Values:**
+
+| Property | Type | Values |
+|----------|------|--------|
+| `display` | BoxDisplay | block, inline-block, flex, inline-flex, grid, inline-grid |
+| `padding` | SpacingScale | 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16 (maps to --monk-space-*) |
+| `margin` | SpacingScale | 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16 (maps to --monk-space-*) |
+| `bg` | BoxBg | canvas, surface, surface-raised, subtle, muted, accent, accent-subtle |
+| `radius` | BoxRadius | sm, md, lg, xl, full |
+| `shadow` | BoxShadow | none, sm, md, lg, xl, 2xl |
+| `border` | string | Any CSS border value (defaults to 1px solid) |
+
+#### Usage Patterns
+
+**Simple Card:**
+```html
+<monk-box padding="8" bg="surface" radius="lg" shadow="md">
+  <monk-heading level="h3">Card Title</monk-heading>
+  <monk-text>Card content with elevation and spacing</monk-text>
+</monk-box>
+```
+
+**Flex Container:**
+```html
+<monk-box display="flex" padding="4" style="gap: 16px; align-items: center;">
+  <monk-box padding="4" bg="accent-subtle" radius="md">Item 1</monk-box>
+  <monk-box padding="4" bg="accent-subtle" radius="md">Item 2</monk-box>
+</monk-box>
+```
+
+**Grid Layout:**
+```html
+<monk-box
+  display="grid"
+  padding="4"
+  style="grid-template-columns: repeat(3, 1fr); gap: 16px;"
+>
+  <monk-box padding="6" bg="surface" radius="md" shadow="sm">Grid Item</monk-box>
+  <!-- More items... -->
+</monk-box>
+```
+
+**Nested Composition:**
+```html
+<monk-box bg="canvas" padding="6">
+  <!-- Header -->
+  <monk-box bg="accent" padding="4" radius="md" margin="4">
+    <monk-heading level="h2">Header</monk-heading>
+  </monk-box>
+
+  <!-- Content Area -->
+  <monk-box display="flex" padding="4" style="gap: 16px;">
+    <!-- Sidebar -->
+    <monk-box bg="surface" padding="4" radius="md" shadow="sm">
+      <monk-text weight="semibold">Sidebar</monk-text>
+    </monk-box>
+
+    <!-- Main Content -->
+    <monk-box bg="surface" padding="6" radius="md" shadow="md" style="flex: 1;">
+      <monk-heading level="h3">Main Content</monk-heading>
+      <monk-text>Nested boxes create complex layouts</monk-text>
+    </monk-box>
+  </monk-box>
+</monk-box>
+```
+
+#### CSS Parts for Customization
+
+**Box exposes `::part(box)` for external styling:**
+
+```css
+/* Add transitions to all boxes */
+monk-box::part(box) {
+  transition: all 0.2s ease;
+}
+
+/* Style flex boxes specifically */
+monk-box[display='flex']::part(box) {
+  align-items: center;
+}
+
+/* Add hover effects to elevated boxes */
+monk-box[shadow]::part(box):hover {
+  transform: translateY(-2px);
+  box-shadow: var(--monk-shadow-xl);
+}
+```
+
+#### Responsive Design with Box
+
+Combine Box with breakpoint tokens:
+
+```html
+<style>
+  .responsive-box {
+    width: 100%;
+  }
+
+  @media (min-width: var(--monk-breakpoint-md)) {
+    .responsive-box {
+      width: 50%;
+    }
+  }
+
+  @media (min-width: var(--monk-breakpoint-lg)) {
+    .responsive-box {
+      max-width: var(--monk-container-lg);
+    }
+  }
+</style>
+
+<monk-box class="responsive-box" padding="8" bg="surface">
+  <monk-text>Responsive container that adapts to screen size</monk-text>
+</monk-box>
+```
+
+### Future Layout Components
+
+**All future layout components will extend or compose MonkBox:**
+
+**Stack** - Vertical spacing with gap:
+```html
+<monk-stack gap="4">
+  <monk-box>Item 1</monk-box>
+  <monk-box>Item 2</monk-box>
+</monk-stack>
+```
+
+**Inline** - Horizontal spacing with gap:
+```html
+<monk-inline gap="2" wrap>
+  <monk-box>Tag 1</monk-box>
+  <monk-box>Tag 2</monk-box>
+</monk-inline>
+```
+
+**Grid** - Grid layout with responsive columns:
+```html
+<monk-grid columns="3" gap="4" responsive>
+  <monk-box>Grid item</monk-box>
+  <!-- More items... -->
+</monk-grid>
+```
+
+**Flex** - Flex layout with alignment props:
+```html
+<monk-flex direction="row" align="center" justify="space-between">
+  <monk-box>Left</monk-box>
+  <monk-box>Right</monk-box>
+</monk-flex>
+```
+
+**Container** - Max-width responsive container:
+```html
+<monk-container size="lg" centered>
+  <monk-box>Constrained content</monk-box>
+</monk-container>
+```
+
+### Layout Best Practices
+
+1. **Start with Box** - Use Box for all basic layout needs
+2. **Compose naturally** - Nest boxes to create complex layouts
+3. **Use semantic tokens** - Always use token-based spacing/colors
+4. **Leverage CSS Grid/Flexbox** - Use native CSS layout alongside Box
+5. **Responsive props** (future) - Plan for responsive prop variants
+6. **Accessibility** - Always provide proper ARIA attributes for regions
+
+---
+
 ## Build System
 
 ### Nx Workspace

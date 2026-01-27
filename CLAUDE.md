@@ -234,6 +234,84 @@ All components extend base classes:
 - Extends: `MonkBaseTypography`
 - File: `src/components/typography/link.ts`
 
+### **Layout Components** (Complete ✅)
+
+**Box** (`<monk-box>`):
+- The foundational layout primitive - all other layout components build on Box
+- Props: `display`, `padding`, `margin`, `bg`, `border`, `radius`, `shadow`
+- Extends: `MonkBaseElement`
+- File: `src/components/layout/box.ts`
+
+**Properties:**
+```typescript
+display: 'block' | 'inline-block' | 'flex' | 'inline-flex' | 'grid' | 'inline-grid'
+padding: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'
+margin: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'
+bg: 'canvas' | 'surface' | 'surface-raised' | 'subtle' | 'muted' | 'accent' | 'accent-subtle'
+radius: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+shadow: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+border: string (e.g., '1px')
+```
+
+**Usage Examples:**
+```html
+<!-- Simple card -->
+<monk-box padding="8" bg="surface" radius="lg" shadow="md">
+  <monk-heading level="h3">Card Title</monk-heading>
+  <monk-text>Card content goes here</monk-text>
+</monk-box>
+
+<!-- Flex container -->
+<monk-box display="flex" padding="4" style="gap: 16px;">
+  <monk-box padding="4" bg="accent-subtle">Item 1</monk-box>
+  <monk-box padding="4" bg="accent-subtle">Item 2</monk-box>
+</monk-box>
+
+<!-- Grid layout -->
+<monk-box
+  display="grid"
+  padding="4"
+  style="grid-template-columns: repeat(3, 1fr); gap: 16px;"
+>
+  <monk-box padding="6" bg="surface" radius="md">Grid Item</monk-box>
+  <!-- More items... -->
+</monk-box>
+
+<!-- Nested composition -->
+<monk-box bg="canvas" padding="6">
+  <monk-box bg="surface" padding="8" radius="lg" shadow="card">
+    <monk-heading level="h2">Section Title</monk-heading>
+    <monk-text>Boxes compose naturally for complex layouts</monk-text>
+  </monk-box>
+</monk-box>
+```
+
+**White-Label Customization:**
+```css
+/* Style all boxes */
+monk-box::part(box) {
+  transition: transform 0.2s;
+}
+
+/* Style flex boxes specifically */
+monk-box[display='flex']::part(box) {
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Add hover effects */
+monk-box[shadow]::part(box):hover {
+  transform: translateY(-2px);
+}
+```
+
+**Future Layout Components:**
+- Stack (vertical spacing with gap)
+- Inline (horizontal spacing with gap)
+- Grid (grid layouts with responsive columns)
+- Flex (flex layouts with alignment props)
+- Container (max-width responsive containers)
+
 ### **Component Patterns to Follow**
 
 1. **Use semantic tokens** - Never hardcode colors
@@ -551,19 +629,20 @@ monk-link::part(link):hover {
 - ✅ Design tokens (38 semantic + 39 base tokens = 77 total)
 - ✅ Foundational tokens (breakpoints, containers, shadows, z-index, animation)
 - ✅ Light/dark theme system
-- ✅ Typography components (Heading, Text, Link)
+- ✅ Typography components (Heading, Text, Link) with CSS parts
+- ✅ Layout primitives (MonkBox) with CSS parts
 - ✅ React wrappers for typography
 - ✅ Storybook with theme switcher
 - ✅ Accessibility testing setup
-- ✅ Comprehensive token documentation
+- ✅ Comprehensive token and component documentation
+- ✅ White-label customization (CSS custom properties + CSS parts)
 
 ### 🚧 In Progress
-- Phase 1 complete: Foundational tokens added
-- Phase 2: Adding CSS parts for white-label customization
-- Phase 3: Building layout primitives (MonkBox)
+- Phase 1-3 complete: Foundational architecture ready
+- React wrappers for layout components
 
 ### 📋 Next Steps (Planned)
-- Layout primitives (Box, Flex, Grid, Stack) - **Foundation ready**
+- Additional layout primitives (Stack, Flex, Grid, Inline, Container)
 - Button component (solid, outline, ghost variants)
 - Form components (Input, Textarea, Select, Checkbox, Radio)
 - Card component (with shadow tokens)
