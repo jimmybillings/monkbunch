@@ -1,0 +1,479 @@
+# Claude Agent Context: Monkbunch Monorepo
+
+**For Claude Agents:** This document provides complete context for continuing work on the Monkbunch monorepo. Read this first to understand the project architecture, key decisions, and patterns.
+
+---
+
+## 🎯 Project Overview
+
+**Location:** `/Users/jamesbillings/Desktop/monkbunch/`
+**Monorepo Name:** `monkbunch`
+
+This is a **monorepo** containing:
+- **Publishable packages** (under `packages/`) - npm packages like `@monkbunch/design-kit`
+- **Applications** (under `apps/` - to be added) - Internal apps like `portal` (not published to npm)
+
+### Current Packages (Publishable to npm)
+
+The design system is a **white-label design system** built with:
+- **Web Components** (Lit 3.x) - Framework-agnostic components
+- **React Wrappers** (@lit/react) - Optional React integration
+- **Design Tokens** (Style Dictionary) - Theme-aware token system
+- **Storybook** - Component documentation and testing
+- **TypeScript** - Strict typing throughout
+- **Accessibility First** - WCAG 2.1 AA compliance mandatory
+
+**Inspiration:** Heavily inspired by Chakra UI's component API patterns and token system.
+
+---
+
+## 📁 Monorepo Structure
+
+```
+monkbunch/                         # Monorepo root
+├── packages/                      # Publishable npm packages (@monkbunch/*)
+│   ├── design-tokens/         # Style Dictionary → CSS variables + TypeScript
+│   │   ├── tokens/
+│   │   │   ├── base/          # Raw values (colors, spacing, typography)
+│   │   │   ├── themes/        # light.json & dark.json (semantic tokens)
+│   │   │   └── component/     # Component-specific tokens (future)
+│   │   ├── formats/           # Custom Style Dictionary formats
+│   │   ├── build.js           # Token build script
+│   │   └── TOKENS.md          # Complete token reference
+│   │
+│   ├── design-kit/            # Lit web components
+│   │   ├── src/
+│   │   │   ├── core/          # Base classes & utilities
+│   │   │   │   ├── base-element.ts
+│   │   │   │   ├── base-typography.ts
+│   │   │   │   └── styles.ts
+│   │   │   ├── components/
+│   │   │   │   └── typography/  # Heading, Text, Link
+│   │   │   ├── utils/
+│   │   │   │   └── theme.ts     # Theme switching utilities
+│   │   │   └── theme/
+│   │   │       └── index.ts     # Imports token CSS
+│   │   └── web-test-runner.config.mjs
+│   │
+│   └── design-kit-react/      # React wrappers via @lit/react
+│       └── src/
+│           ├── typography.tsx  # React components
+│           └── index.ts
+│
+├── apps/                      # Internal applications (NOT published to npm)
+│   └── (to be added)          # Future apps like "portal" go here
+│
+├── .storybook/                # Unified Storybook config
+│   ├── main.ts
+│   └── preview.ts             # Theme switcher integration
+│
+├── CLAUDE.md                  # This file - read first!
+├── ARCHITECTURE.md            # System architecture deep dive
+├── nx.json                    # Nx configuration (apps/ and packages/ layout)
+└── package.json               # Monorepo root (name: "monkbunch")
+```
+
+**Key Distinction:**
+- `packages/*` → Published to npm as `@monkbunch/package-name`
+- `apps/*` → Internal applications, not published
+
+---
+
+## 🎨 Token System Architecture
+
+### **3-Tier Token Structure**
+
+1. **Base Tokens** (`tokens/base/*.json`)
+   - Raw values: colors, spacing, typography, border radius
+   - These DON'T change with theme
+   - Example: `color.blue.500`, `space.4`, `font.size.md`
+
+2. **Semantic Tokens** (`tokens/themes/{light|dark}.json`)
+   - Contextual meanings that ADAPT to theme
+   - Example: `text.primary` (gray.900 in light, gray.100 in dark)
+   - **35 tokens total** - see TOKENS.md for complete reference
+
+3. **Component Tokens** (`tokens/component/*.json`) - Future
+   - Component-specific tokens
+   - Example: `button.primary.bg`, `input.border.focus`
+
+### **Token Categories**
+
+**Text Colors** (11 tokens):
+```json
+text.primary, secondary, tertiary, disabled
+text.on-accent, on-muted
+text.link, success, warning, error, info
+```
+
+**Background Colors** (11 tokens):
+```json
+bg.canvas, surface, surface-raised
+bg.subtle, muted, hover, active
+bg.accent, accent-subtle, accent-hover, accent-active
+```
+
+**Border Colors** (10 tokens):
+```json
+border.default, muted, emphasized, disabled
+border.hover, focus
+border.success, warning, error, info
+```
+
+**Focus Ring** (3 tokens):
+```json
+focus.ring.color, width, offset
+```
+
+### **Theme System**
+
+- Controlled via `data-theme` attribute on `<html>`
+- CSS custom properties auto-update when theme changes
+- No JavaScript re-rendering needed
+- Supports: `light` (default), `dark`
+
+```javascript
+// Set theme
+document.documentElement.setAttribute('data-theme', 'dark');
+
+// Or use utility
+import { setTheme } from '@monkbunch/design-kit/utils/theme';
+setTheme('dark');
+```
+
+---
+
+## 🧩 Component Architecture
+
+### **Base Classes**
+
+All components extend base classes:
+
+**MonkBaseElement** (`core/base-element.ts`):
+- Extends `LitElement`
+- Common properties: `hidden`
+- Shared utilities
+
+**MonkBaseTypography** (`core/base-typography.ts`):
+- Extends `MonkBaseElement`
+- Typography properties: `align`, `transform`, `italic`, `nowrap`, `truncate`, `lineClamp`
+- Used by: Heading, Text, Link
+
+### **Typography Components** (Complete ✅)
+
+**Heading** (`<monk-heading>`):
+- Props: `level` (h1-h6), `color` (primary/secondary/tertiary)
+- Extends: `MonkBaseTypography`
+- File: `src/components/typography/heading.ts`
+
+**Text** (`<monk-text>`):
+- Props: `size` (xs/sm/md/lg/xl), `weight` (regular/medium/semibold/bold), `color` (8 variants)
+- Extends: `MonkBaseTypography`
+- File: `src/components/typography/text.ts`
+
+**Link** (`<monk-link>`):
+- Props: `href`, `target`, `underline`, `download`, `rel`
+- Extends: `MonkBaseTypography`
+- File: `src/components/typography/link.ts`
+
+### **Component Patterns to Follow**
+
+1. **Use semantic tokens** - Never hardcode colors
+   ```typescript
+   // ✅ Good
+   color: var(--monk-color-text-primary);
+
+   // ❌ Bad
+   color: #181922;
+   ```
+
+2. **Support theme switching** - Use CSS custom properties
+   ```typescript
+   :host([variant='primary']) {
+     background: var(--monk-color-bg-accent);
+     color: var(--monk-color-text-on-accent);
+   }
+   ```
+
+3. **Focus indicators** - Always use focus ring tokens
+   ```typescript
+   :host(:focus-visible) {
+     outline: var(--monk-focus-ring-width) solid var(--monk-focus-ring-color);
+     outline-offset: var(--monk-focus-ring-offset);
+   }
+   ```
+
+4. **Accessibility mandatory**
+   - WCAG 2.1 AA compliance
+   - Semantic HTML
+   - ARIA attributes
+   - Keyboard navigation
+   - Test with `@open-wc/testing`
+
+5. **Prop naming conventions** (Chakra-inspired)
+   - `size`: xs | sm | md | lg | xl
+   - `variant`: visual style (solid, outline, ghost)
+   - `colorScheme`: semantic color (not `color` for backgrounds)
+   - States: `disabled`, `loading`, etc.
+
+---
+
+## 🛠️ Development Commands
+
+```bash
+# Build all packages
+npm run build
+
+# Build specific package
+npm run build design-tokens
+npm run build design-kit
+npm run build design-kit-react
+
+# Run tests
+npm run test
+
+# Storybook (port 6006)
+npm run storybook
+
+# Build Storybook
+npm run build-storybook
+
+# Watch tokens
+npm run tokens:watch
+```
+
+### **Package-Specific Commands**
+
+```bash
+# Design tokens
+cd packages/design-tokens
+node build.js
+
+# Design kit
+cd packages/design-kit
+npx tsc -p tsconfig.json                    # Build
+npx web-test-runner                         # Test
+
+# Design kit React
+cd packages/design-kit-react
+npx tsc -p tsconfig.json                    # Build
+```
+
+---
+
+## 🚨 Critical Decisions Made (DO NOT CHANGE)
+
+### 1. **Token Naming**
+- ✅ Use `text.*` (not `fg.*`) - More explicit and beginner-friendly
+- ✅ Use full words (not abbreviations) - `disabled` not `dsbl`
+- ❌ DO NOT add `inverse` color back - Removed intentionally
+
+### 2. **Build Artifacts**
+- Compiled `.js` files ONLY in `dist/`
+- `.gitignore` prevents pollution of `src/`
+- Never commit compiled files in `src/`
+
+### 3. **TypeScript Config**
+- `skipLibCheck: true` - Necessary for React wrappers
+- No `rootDir` - Allows importing from node_modules
+- Strict mode enabled
+
+### 4. **React Wrappers**
+- Use `@lit/react` `createComponent()`
+- Props: `Omit<React.HTMLAttributes<HTMLElement>, 'onChange'>` to avoid conflicts
+- Events mapped: `onChange` → `change`, etc.
+
+### 5. **Theme Structure**
+- Semantic tokens in `tokens/themes/` (not `tokens/semantic/`)
+- Tokens match exact path structure: `color.text.primary` → `--monk-color-text-primary`
+- Base tokens reference: `{color.gray.900}` syntax
+
+---
+
+## 📝 Key Files to Reference
+
+**Token Reference:**
+- `packages/design-tokens/TOKENS.md` - Complete token documentation
+
+**Architecture:**
+- `ARCHITECTURE.md` - Deep dive into system design
+
+**Testing Patterns:**
+- `packages/design-kit/src/components/typography/heading.spec.ts` - Example test file
+
+**Stories Pattern:**
+- `packages/design-kit/src/components/typography/text.stories.ts` - Example Storybook stories
+
+**React Wrapper Pattern:**
+- `packages/design-kit-react/src/typography.tsx` - Example React wrappers
+
+---
+
+## 🔄 When Building New Components
+
+### Checklist:
+
+1. **Create component** in `packages/design-kit/src/components/{category}/`
+   - Extend `MonkBaseElement` or `MonkBaseTypography`
+   - Use semantic tokens (never hardcode)
+   - Include JSDoc with accessibility notes
+
+2. **Create tests** (`*.spec.ts`)
+   - Accessibility tests (axe-core)
+   - Keyboard navigation
+   - Props and states
+   - Use `@open-wc/testing`
+
+3. **Create Storybook stories** (`*.stories.ts`)
+   - Default story with controls
+   - Variant examples
+   - Accessibility story
+   - State demonstrations
+
+4. **Export from index**
+   - Add to `src/components/{category}/index.ts`
+   - Export types
+
+5. **Create React wrapper** in `packages/design-kit-react/src/`
+   - Use `createComponent()` from `@lit/react`
+   - Define TypeScript interface
+   - Map events
+
+6. **Document usage**
+   - Update package README
+   - Add API documentation
+
+---
+
+## 🎯 Current State
+
+### ✅ Completed
+- ✅ Nx workspace setup
+- ✅ Design tokens (35 semantic tokens)
+- ✅ Light/dark theme system
+- ✅ Typography components (Heading, Text, Link)
+- ✅ React wrappers for typography
+- ✅ Storybook with theme switcher
+- ✅ Accessibility testing setup
+- ✅ Comprehensive token documentation
+
+### 🚧 In Progress
+- Storybook verification with themes
+- README files for all packages
+
+### 📋 Next Steps (Planned)
+- Button component (solid, outline, ghost variants)
+- Form components (Input, Textarea, Select, Checkbox, Radio)
+- Layout primitives (Box, Flex, Grid, Stack)
+- Card component
+- Modal/Dialog
+- Navigation components
+
+---
+
+## 🐛 Common Issues & Solutions
+
+### Issue: Nx commands fail
+```bash
+# Use npm instead
+npm run build
+# or npx
+npx nx build design-kit
+```
+
+### Issue: Storybook shows [object Object]
+- Check that decorator uses `html` tagged template from 'lit'
+- Never use plain template strings with Lit templates
+
+### Issue: TypeScript errors in React wrappers
+- Ensure `skipLibCheck: true` in tsconfig.json
+- Use `Omit<React.HTMLAttributes, 'onChange'>` for props
+
+### Issue: Compiled files in src/
+- Check `.gitignore` includes `src/**/*.js`
+- Run `find src -name "*.js" -delete` to clean
+
+### Issue: Token not found during build
+- Verify token exists in base colors
+- Check JSON syntax (trailing commas not allowed)
+- Ensure proper reference syntax: `{color.blue.500}`
+
+---
+
+## 💡 Tips for New Components
+
+1. **Start with Chakra UI research**
+   - Check how Chakra implements similar components
+   - Adopt their prop naming conventions
+   - Follow their composition patterns
+
+2. **Token-first design**
+   - Never hardcode values
+   - Use semantic tokens for all colors, spacing, typography
+   - Test in both light and dark themes
+
+3. **Accessibility is mandatory**
+   - Semantic HTML first
+   - ARIA attributes when needed
+   - Keyboard navigation
+   - Focus indicators
+   - Screen reader testing
+
+4. **Test early and often**
+   - Write tests alongside components
+   - Use `@open-wc/testing` for accessibility
+   - Test all interactive states
+
+5. **Composition over configuration**
+   - Prefer nested components over props
+   - Keep prop APIs simple and predictable
+   - Follow Chakra's patterns
+
+---
+
+## 📚 External Resources
+
+**Inspiration:**
+- Chakra UI: https://chakra-ui.com/
+- Chakra UI Docs: https://chakra-ui.com/docs/components
+
+**Technologies:**
+- Lit: https://lit.dev/
+- @lit/react: https://lit.dev/docs/frameworks/react/
+- Style Dictionary: https://amzn.github.io/style-dictionary/
+- @open-wc/testing: https://open-wc.org/docs/testing/testing-package/
+
+---
+
+## ✨ Project Philosophy
+
+1. **Developer Experience First**
+   - Intuitive APIs inspired by Chakra UI
+   - Predictable prop patterns
+   - Clear documentation
+
+2. **Accessibility Non-Negotiable**
+   - WCAG 2.1 AA minimum
+   - Keyboard navigation everywhere
+   - Screen reader friendly
+
+3. **Theme-Aware Everything**
+   - Light/dark mode built-in
+   - White-label ready
+   - CSS custom properties
+
+4. **Framework Agnostic**
+   - Web components at core
+   - Optional React wrappers
+   - Future: Vue, Angular, Svelte
+
+5. **Type-Safe**
+   - TypeScript throughout
+   - Strict mode enabled
+   - Comprehensive types
+
+---
+
+**Last Updated:** January 2025
+**Current Version:** 0.1.0
+**Status:** Active Development (Typography components complete)
