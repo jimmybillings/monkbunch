@@ -1,0 +1,41 @@
+{
+  "name": "@monkbunch/design-kit",
+  "version": "0.1.0",
+  "description": "Monkbunch Design Kit - Lit web components with accessibility built-in",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./theme": {
+      "types": "./dist/theme/index.d.ts",
+      "default": "./dist/theme/index.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "default": "./dist/components/*/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "web-test-runner"
+  },
+  "keywords": ["web-components", "lit", "design-system", "accessibility"],
+  "author": "Monkbunch",
+  "license": "MIT",
+  "dependencies": {
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@open-wc/testing": "^4.0.0",
+    "@types/mocha": "^10.0.10",
+    "@types/sinon": "^17.0.3",
+    "@web/test-runner": "^0.18.0",
+    "@web/test-runner-playwright": "^0.11.0",
+    "sinon": "^19.0.2"
+  }
+}
