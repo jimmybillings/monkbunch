@@ -1,0 +1,14 @@
+# Compiled output
+dist/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Prevent compiled files in src (should only be in dist)
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+src/**/*.d.ts.map
+
+# Node modules
+node_modules/

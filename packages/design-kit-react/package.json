@@ -1,0 +1,30 @@
+{
+  "name": "@monkbunch/design-kit-react",
+  "version": "0.1.0",
+  "description": "React wrappers for Monkbunch Design Kit web components",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./typography": "./dist/typography.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": ["react", "web-components", "lit", "design-system", "accessibility"],
+  "author": "Monkbunch",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "dependencies": {
+    "@lit/react": "^1.0.5",
+    "@monkbunch/design-kit": "file:../design-kit"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "react": "^18.3.1"
+  }
+}
