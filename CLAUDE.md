@@ -305,11 +305,98 @@ monk-box[shadow]::part(box):hover {
 }
 ```
 
+**Stack** (`<monk-stack>`):
+- Layouts children with consistent spacing (vertical or horizontal)
+- Props: `direction`, `spacing`, `align`, `justify`, `wrap`
+- Extends: `MonkBaseElement`
+- File: `src/components/layout/stack.ts`
+
+**Properties:**
+```typescript
+direction: 'vertical' | 'horizontal'  // default: 'vertical'
+spacing: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'  // default: '4'
+align: 'start' | 'center' | 'end' | 'stretch'  // default: 'stretch'
+justify: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'  // default: 'start'
+wrap: boolean  // default: false
+```
+
+**Usage Examples:**
+```html
+<!-- Vertical stack (default) -->
+<monk-stack spacing="4">
+  <monk-box padding="4" bg="surface">Item 1</monk-box>
+  <monk-box padding="4" bg="surface">Item 2</monk-box>
+  <monk-box padding="4" bg="surface">Item 3</monk-box>
+</monk-stack>
+
+<!-- Horizontal stack -->
+<monk-stack direction="horizontal" spacing="3" align="center">
+  <monk-box padding="3" bg="accent">Left</monk-box>
+  <monk-box padding="3" bg="accent">Center</monk-box>
+  <monk-box padding="3" bg="accent">Right</monk-box>
+</monk-stack>
+
+<!-- Form layout -->
+<monk-stack spacing="5">
+  <monk-stack spacing="2">
+    <monk-text size="sm" weight="semibold">Name</monk-text>
+    <input type="text" />
+  </monk-stack>
+  <monk-stack spacing="2">
+    <monk-text size="sm" weight="semibold">Email</monk-text>
+    <input type="email" />
+  </monk-stack>
+  <button>Submit</button>
+</monk-stack>
+```
+
+**Flex** (`<monk-flex>`):
+- Flexbox layout primitive with common patterns
+- Props: `direction`, `align`, `justify`, `wrap`, `gap`, `inline`
+- Extends: `MonkBaseElement`
+- File: `src/components/layout/flex.ts`
+
+**Properties:**
+```typescript
+direction: 'row' | 'row-reverse' | 'column' | 'column-reverse'  // default: 'row'
+align: 'start' | 'center' | 'end' | 'stretch' | 'baseline'  // default: 'stretch'
+justify: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'  // default: 'start'
+wrap: 'nowrap' | 'wrap' | 'wrap-reverse'  // default: 'nowrap'
+gap: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'
+inline: boolean  // default: false
+```
+
+**Usage Examples:**
+```html
+<!-- Centered content -->
+<monk-flex justify="center" align="center" style="min-height: 300px;">
+  <monk-box padding="6" bg="accent">Centered Content</monk-box>
+</monk-flex>
+
+<!-- Header with space-between -->
+<monk-flex justify="between" align="center">
+  <monk-heading level="h3">Dashboard</monk-heading>
+  <monk-flex gap="3">
+    <monk-box padding="3" bg="accent">New</monk-box>
+    <monk-box padding="3" bg="surface">Settings</monk-box>
+  </monk-flex>
+</monk-flex>
+
+<!-- Media object pattern -->
+<monk-flex gap="4">
+  <monk-box padding="0" bg="accent" radius="full" style="width: 64px; height: 64px;">
+    <!-- Avatar -->
+  </monk-box>
+  <monk-flex direction="column" gap="2" style="flex: 1;">
+    <monk-heading level="h4">User Name</monk-heading>
+    <monk-text size="sm" color="secondary">User description...</monk-text>
+  </monk-flex>
+</monk-flex>
+```
+
 **Future Layout Components:**
-- Stack (vertical spacing with gap)
-- Inline (horizontal spacing with gap)
+- Inline (horizontal spacing with wrapping optimized for inline elements)
 - Grid (grid layouts with responsive columns)
-- Flex (flex layouts with alignment props)
 - Container (max-width responsive containers)
 
 ### **Component Patterns to Follow**
@@ -630,7 +717,7 @@ monk-link::part(link):hover {
 - ✅ Foundational tokens (breakpoints, containers, shadows, z-index, animation)
 - ✅ Light/dark theme system
 - ✅ Typography components (Heading, Text, Link) with CSS parts
-- ✅ Layout primitives (MonkBox) with CSS parts
+- ✅ Layout primitives (MonkBox, MonkStack, MonkFlex) with CSS parts
 - ✅ React wrappers for typography
 - ✅ Storybook with theme switcher
 - ✅ Accessibility testing setup

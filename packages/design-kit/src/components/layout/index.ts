@@ -12,3 +12,20 @@ export type {
   BoxRadius,
   BoxShadow,
 } from './box.js';
+
+export { MonkStack } from './stack.js';
+export type {
+  StackSpacing,
+  StackDirection,
+  StackAlign,
+  StackJustify,
+} from './stack.js';
+
+export { MonkFlex } from './flex.js';
+export type {
+  FlexDirection,
+  FlexAlign,
+  FlexJustify,
+  FlexWrap,
+  FlexGap,
+} from './flex.js';

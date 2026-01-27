@@ -897,19 +897,158 @@ Combine Box with breakpoint tokens:
 </monk-box>
 ```
 
+### MonkStack - Vertical/Horizontal Spacing
+
+**File:** `src/components/layout/stack.ts`
+
+**Purpose:** Layouts children with consistent spacing using flexbox gap property. Simplifies common vertical and horizontal list layouts.
+
+**Implementation:**
+```typescript
+@customElement('monk-stack')
+export class MonkStack extends MonkBaseElement {
+  @property() direction: 'vertical' | 'horizontal' = 'vertical';
+  @property() spacing: StackSpacing = '4';  // 0-16 scale
+  @property() align: 'start' | 'center' | 'end' | 'stretch' = 'stretch';
+  @property() justify: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' = 'start';
+  @property() wrap: boolean = false;
+}
+```
+
+**Usage Patterns:**
+
+**Vertical List (default):**
+```html
+<monk-stack spacing="4">
+  <monk-box padding="4" bg="surface">Item 1</monk-box>
+  <monk-box padding="4" bg="surface">Item 2</monk-box>
+  <monk-box padding="4" bg="surface">Item 3</monk-box>
+</monk-stack>
+```
+
+**Form Layout:**
+```html
+<monk-stack spacing="5">
+  <monk-stack spacing="2">
+    <monk-text size="sm" weight="semibold">Name</monk-text>
+    <input type="text" />
+  </monk-stack>
+  <monk-stack spacing="2">
+    <monk-text size="sm" weight="semibold">Email</monk-text>
+    <input type="email" />
+  </monk-stack>
+  <button>Submit</button>
+</monk-stack>
+```
+
+**Horizontal Button Group:**
+```html
+<monk-stack direction="horizontal" spacing="3" align="center">
+  <monk-box padding="3" bg="accent">Save</monk-box>
+  <monk-box padding="3" bg="surface">Cancel</monk-box>
+  <monk-box padding="3" bg="surface">Delete</monk-box>
+</monk-stack>
+```
+
+**CSS Parts:**
+```css
+/* Add animations to stack transitions */
+monk-stack::part(stack) {
+  transition: gap 0.2s ease;
+}
+
+/* Style horizontal stacks differently */
+monk-stack[direction='horizontal']::part(stack) {
+  border-bottom: 1px solid var(--monk-color-border-default);
+}
+```
+
+### MonkFlex - Flexbox Layout Primitive
+
+**File:** `src/components/layout/flex.ts`
+
+**Purpose:** Provides common flexbox patterns with declarative props. Simplifies alignment and justify operations.
+
+**Implementation:**
+```typescript
+@customElement('monk-flex')
+export class MonkFlex extends MonkBaseElement {
+  @property() direction: 'row' | 'row-reverse' | 'column' | 'column-reverse' = 'row';
+  @property() align: 'start' | 'center' | 'end' | 'stretch' | 'baseline' = 'stretch';
+  @property() justify: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly' = 'start';
+  @property() wrap: 'nowrap' | 'wrap' | 'wrap-reverse' = 'nowrap';
+  @property() gap?: FlexGap;  // 0-16 scale
+  @property() inline: boolean = false;
+}
+```
+
+**Usage Patterns:**
+
+**Centered Content:**
+```html
+<monk-flex justify="center" align="center" style="min-height: 300px;">
+  <monk-box padding="6" bg="accent">Centered Content</monk-box>
+</monk-flex>
+```
+
+**Header with Space Between:**
+```html
+<monk-flex justify="between" align="center">
+  <monk-heading level="h3">Dashboard</monk-heading>
+  <monk-flex gap="3">
+    <monk-box padding="3" bg="accent">New</monk-box>
+    <monk-box padding="3" bg="surface">Settings</monk-box>
+  </monk-flex>
+</monk-flex>
+```
+
+**Media Object Pattern:**
+```html
+<monk-flex gap="4">
+  <!-- Avatar -->
+  <monk-box padding="0" bg="accent" radius="full" style="width: 64px; height: 64px; flex-shrink: 0;">
+    <monk-text weight="bold">U</monk-text>
+  </monk-box>
+
+  <!-- Content -->
+  <monk-flex direction="column" gap="2" style="flex: 1;">
+    <monk-heading level="h4">User Name</monk-heading>
+    <monk-text size="sm" color="secondary">User description...</monk-text>
+  </monk-flex>
+</monk-flex>
+```
+
+**Toolbar:**
+```html
+<monk-flex justify="between" align="center">
+  <monk-flex gap="2">
+    <monk-box padding="2" bg="accent-subtle">Bold</monk-box>
+    <monk-box padding="2" bg="accent-subtle">Italic</monk-box>
+  </monk-flex>
+  <monk-box padding="2" bg="accent">Save</monk-box>
+</monk-flex>
+```
+
+**CSS Parts:**
+```css
+/* Style all flex containers */
+monk-flex::part(flex) {
+  transition: all 0.2s ease;
+}
+
+/* Add responsive behavior */
+@media (max-width: 640px) {
+  monk-flex[direction='row']::part(flex) {
+    flex-direction: column;
+  }
+}
+```
+
 ### Future Layout Components
 
 **All future layout components will extend or compose MonkBox:**
 
-**Stack** - Vertical spacing with gap:
-```html
-<monk-stack gap="4">
-  <monk-box>Item 1</monk-box>
-  <monk-box>Item 2</monk-box>
-</monk-stack>
-```
-
-**Inline** - Horizontal spacing with gap:
+**Inline** - Horizontal spacing with wrapping optimized for inline elements:
 ```html
 <monk-inline gap="2" wrap>
   <monk-box>Tag 1</monk-box>
@@ -923,14 +1062,6 @@ Combine Box with breakpoint tokens:
   <monk-box>Grid item</monk-box>
   <!-- More items... -->
 </monk-grid>
-```
-
-**Flex** - Flex layout with alignment props:
-```html
-<monk-flex direction="row" align="center" justify="space-between">
-  <monk-box>Left</monk-box>
-  <monk-box>Right</monk-box>
-</monk-flex>
 ```
 
 **Container** - Max-width responsive container:
