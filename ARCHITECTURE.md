@@ -580,6 +580,169 @@ Use attributes for states (not separate classes):
 }
 ```
 
+### CSS Parts Architecture
+
+**Purpose:** Enable external styling of Shadow DOM internals for white-label customization.
+
+#### What are CSS Parts?
+
+CSS Parts expose specific elements inside a component's Shadow DOM for external styling using the `::part()` pseudo-element selector. This provides a controlled API for customization without breaking Shadow DOM encapsulation.
+
+#### Implementation Pattern
+
+All components expose CSS parts on their primary internal elements:
+
+```typescript
+// Component implementation
+protected override render(): TemplateResult {
+  const partValue = `component-name ${this.variant} ${this.size}`;
+  return html`<div part="${partValue}"><slot></slot></div>`;
+}
+```
+
+#### Typography Components CSS Parts
+
+**MonkHeading** - Exposes `heading` part:
+
+```typescript
+// Implementation
+render() {
+  const tag = unsafeStatic(this.level);  // h1-h6
+  const partValue = `heading ${this.level} ${this.color}`;
+  return staticHtml`<${tag} part=${partValue}><slot></slot></${tag}>`;
+}
+```
+
+External usage:
+```css
+/* Style all headings */
+monk-heading::part(heading) {
+  font-family: 'Brand Font', serif;
+}
+
+/* Target specific levels */
+monk-heading[level='h1']::part(heading) {
+  text-transform: uppercase;
+}
+
+/* Target specific colors */
+monk-heading[color='primary']::part(heading) {
+  color: var(--custom-primary);
+}
+```
+
+**MonkText** - Exposes `text` part:
+
+```typescript
+// Implementation
+render() {
+  const partValue = `text ${this.size} ${this.weight} ${this.color}`;
+  return html`<span part="${partValue}"><slot></slot></span>`;
+}
+```
+
+External usage:
+```css
+/* Override line height */
+monk-text::part(text) {
+  line-height: 1.7;
+}
+
+/* Target specific sizes */
+monk-text[size='lg']::part(text) {
+  letter-spacing: -0.01em;
+}
+```
+
+**MonkLink** - Exposes `link` part:
+
+```typescript
+// Implementation
+render() {
+  const isExternal = this.target === '_blank' ? 'external' : 'internal';
+  const partValue = `link ${isExternal}`;
+  return html`<a part=${partValue} ...><slot></slot></a>`;
+}
+```
+
+External usage:
+```css
+/* Style all links */
+monk-link::part(link) {
+  text-decoration-thickness: 2px;
+}
+
+/* Target external links */
+monk-link::part(link external) {
+  display: inline-flex;
+  gap: 4px;
+}
+
+monk-link::part(link external)::after {
+  content: '↗';
+}
+```
+
+#### Part Naming Strategy
+
+Parts follow a consistent naming pattern:
+
+1. **Base name** - Primary element type (`heading`, `text`, `link`, `button`, etc.)
+2. **Variant tokens** - Component-specific properties included in part value
+   - Example: `heading h1 primary` → allows targeting by level and color
+   - Example: `text lg bold success` → allows targeting by size, weight, and color
+
+**Benefits:**
+- Customers can target general parts: `::part(heading)`
+- Or specific variants: `[level='h1']::part(heading)`
+- Part values are space-separated, allowing multi-part selectors
+
+#### CSS Parts vs CSS Custom Properties
+
+Use both complementary approaches:
+
+| Approach | When to Use | Example |
+|----------|-------------|---------|
+| **CSS Custom Properties** | Global theming, color/spacing/typography overrides | `--monk-color-text-primary: #1a1a1a` |
+| **CSS Parts** | Structural styling, layout changes, pseudo-elements | `::part(heading) { letter-spacing: -0.02em; }` |
+
+**CSS Custom Properties:**
+- Change token values globally or locally
+- Affect all components using that token
+- Theme-aware (light/dark mode)
+- No access to component internals
+
+**CSS Parts:**
+- Style specific element internals
+- Add pseudo-elements (::before, ::after)
+- Override internal structure/layout
+- Full CSS power for customization
+
+#### Testing CSS Parts
+
+All components include tests verifying part attributes:
+
+```typescript
+it('exposes CSS part for external styling', async () => {
+  const el = await fixture<MonkHeading>(html`
+    <monk-heading level="h1" color="primary">Heading</monk-heading>
+  `);
+  const headingEl = el.shadowRoot?.querySelector('h1');
+  expect(headingEl?.getAttribute('part')).to.include('heading');
+  expect(headingEl?.getAttribute('part')).to.include('h1');
+  expect(headingEl?.getAttribute('part')).to.include('primary');
+});
+```
+
+#### Future Component Parts
+
+All new components will expose CSS parts following this pattern:
+
+- `monk-button::part(button)`
+- `monk-input::part(input)`, `monk-input::part(label)`
+- `monk-card::part(card)`, `monk-card::part(header)`, `monk-card::part(body)`
+- `monk-modal::part(overlay)`, `monk-modal::part(dialog)`
+
 ---
 
 ## Build System

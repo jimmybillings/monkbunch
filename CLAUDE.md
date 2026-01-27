@@ -348,6 +348,147 @@ npx tsc -p tsconfig.json                    # Build
 
 ---
 
+## 🎨 White-Label Customization
+
+The design system supports white-label customization through two complementary approaches:
+
+### 1. **CSS Custom Properties** (Primary Method)
+
+Override design tokens at the root level or on specific elements:
+
+```css
+/* Global customization */
+:root {
+  --monk-color-text-primary: #1a1a1a;
+  --monk-font-family-base: 'Inter', sans-serif;
+  --monk-radius-md: 8px;
+}
+
+/* Scoped customization */
+.my-app {
+  --monk-color-bg-accent: #ff6b6b;
+  --monk-color-text-link: #4ecdc4;
+}
+```
+
+### 2. **CSS Parts** (Shadow DOM Styling)
+
+All typography components expose CSS parts for external styling:
+
+**MonkHeading** exposes `::part(heading)`:
+
+```css
+/* Style all headings */
+monk-heading::part(heading) {
+  font-family: 'Custom Font', serif;
+  letter-spacing: -0.02em;
+}
+
+/* Target specific levels */
+monk-heading[level='h1']::part(heading) {
+  text-transform: uppercase;
+}
+
+/* Target specific colors */
+monk-heading[color='primary']::part(heading) {
+  background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+```
+
+**MonkText** exposes `::part(text)`:
+
+```css
+/* Style all text */
+monk-text::part(text) {
+  line-height: 1.7; /* Override --monk-font-lineHeight-normal */
+}
+
+/* Target specific sizes */
+monk-text[size='lg']::part(text) {
+  font-variant: small-caps;
+}
+
+/* Target specific colors */
+monk-text[color='success']::part(text) {
+  font-weight: 600;
+}
+```
+
+**MonkLink** exposes `::part(link)`:
+
+```css
+/* Style all links */
+monk-link::part(link) {
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+/* Style external links */
+monk-link[target='_blank']::part(link external) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+monk-link[target='_blank']::part(link external)::after {
+  content: '↗';
+  font-size: 0.875em;
+}
+```
+
+### Best Practices
+
+1. **Prefer CSS Custom Properties**: Override tokens for global changes
+2. **Use CSS Parts for Specificity**: When you need to style internal structure
+3. **Maintain Accessibility**: Ensure sufficient color contrast (4.5:1 minimum)
+4. **Test Across Themes**: Verify customizations work in light and dark modes
+5. **Respect Motion Preferences**: Keep animations minimal and respect `prefers-reduced-motion`
+
+### Complete Customization Example
+
+```css
+/* Brand customization with tokens */
+:root {
+  /* Colors */
+  --monk-color-blue-500: #your-brand-color;
+  --monk-color-text-link: #your-brand-color;
+
+  /* Typography */
+  --monk-font-family-base: 'Your Brand Font', system-ui, sans-serif;
+  --monk-font-lineHeight-normal: 1.6;
+
+  /* Spacing */
+  --monk-space-4: 20px; /* Custom grid system */
+
+  /* Shadows */
+  --monk-shadow-card: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Fine-tune with CSS parts */
+monk-heading::part(heading) {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+monk-text::part(text) {
+  color: var(--custom-text-color, inherit);
+}
+
+monk-link::part(link) {
+  text-decoration: none;
+  border-bottom: 2px solid currentColor;
+  transition: border-color 0.2s;
+}
+
+monk-link::part(link):hover {
+  border-bottom-color: transparent;
+}
+```
+
+---
+
 ## 📝 Key Files to Reference
 
 **Token Reference:**
