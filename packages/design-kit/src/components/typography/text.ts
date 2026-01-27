@@ -59,6 +59,8 @@ export type TextColor =
  * @cssprop --monk-color-text-tertiary - Tertiary text color (default: gray-500)
  * @cssprop --monk-font-family-base - Font family (default: system fonts)
  * @cssprop --monk-font-line-height-normal - Line height (default: 1.5)
+ *
+ * @csspart text - The text element (span) for external styling via ::part()
  */
 @customElement('monk-text')
 export class MonkText extends MonkBaseTypography {
@@ -89,86 +91,91 @@ export class MonkText extends MonkBaseTypography {
     css`
       :host {
         display: block;
+      }
+
+      span {
         font-family: var(--monk-font-family-base);
         line-height: var(--monk-font-line-height-normal);
         margin: 0;
       }
 
       /* Size variants */
-      :host([size='xs']) {
+      :host([size='xs']) span {
         font-size: var(--monk-font-size-xs);
       }
 
-      :host([size='sm']) {
+      :host([size='sm']) span {
         font-size: var(--monk-font-size-sm);
       }
 
-      :host([size='md']) {
+      :host([size='md']) span {
         font-size: var(--monk-font-size-md);
       }
 
-      :host([size='lg']) {
+      :host([size='lg']) span {
         font-size: var(--monk-font-size-lg);
       }
 
-      :host([size='xl']) {
+      :host([size='xl']) span {
         font-size: var(--monk-font-size-xl);
       }
 
       /* Weight variants */
-      :host([weight='regular']) {
+      :host([weight='regular']) span {
         font-weight: var(--monk-font-weight-regular);
       }
 
-      :host([weight='medium']) {
+      :host([weight='medium']) span {
         font-weight: var(--monk-font-weight-medium);
       }
 
-      :host([weight='semibold']) {
+      :host([weight='semibold']) span {
         font-weight: var(--monk-font-weight-semibold);
       }
 
-      :host([weight='bold']) {
+      :host([weight='bold']) span {
         font-weight: var(--monk-font-weight-bold);
       }
 
       /* Color variants */
-      :host([color='primary']) {
+      :host([color='primary']) span {
         color: var(--monk-color-text-primary);
       }
 
-      :host([color='secondary']) {
+      :host([color='secondary']) span {
         color: var(--monk-color-text-secondary);
       }
 
-      :host([color='tertiary']) {
+      :host([color='tertiary']) span {
         color: var(--monk-color-text-tertiary);
       }
 
-      :host([color='link']) {
+      :host([color='link']) span {
         color: var(--monk-color-text-link);
       }
 
-      :host([color='success']) {
+      :host([color='success']) span {
         color: var(--monk-color-text-success);
       }
 
-      :host([color='warning']) {
+      :host([color='warning']) span {
         color: var(--monk-color-text-warning);
       }
 
-      :host([color='error']) {
+      :host([color='error']) span {
         color: var(--monk-color-text-error);
       }
 
-      :host([color='info']) {
+      :host([color='info']) span {
         color: var(--monk-color-text-info);
       }
     `,
   ];
 
   protected override render(): TemplateResult {
-    return html`<slot></slot>`;
+    // Render with part attribute for external styling
+    const partValue = `text ${this.size} ${this.weight} ${this.color}`;
+    return html`<span part="${partValue}"><slot></slot></span>`;
   }
 }
 

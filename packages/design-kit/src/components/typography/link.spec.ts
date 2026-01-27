@@ -321,4 +321,38 @@ describe('monk-link', () => {
       expect(color).to.not.equal('');
     });
   });
+
+  describe('White-Label Customization', () => {
+    it('exposes CSS part for external styling', async () => {
+      const el = await fixture<MonkLink>(html`
+        <monk-link href="#test">Styled Link</monk-link>
+      `);
+      const anchor = el.shadowRoot?.querySelector('a');
+      expect(anchor).to.exist;
+      expect(anchor?.getAttribute('part')).to.include('link');
+      expect(anchor?.getAttribute('part')).to.include('internal');
+    });
+
+    it('CSS part includes external indicator for target="_blank"', async () => {
+      const el = await fixture<MonkLink>(html`
+        <monk-link href="https://example.com" target="_blank">External Link</monk-link>
+      `);
+      const anchor = el.shadowRoot?.querySelector('a');
+      expect(anchor?.getAttribute('part')).to.include('link');
+      expect(anchor?.getAttribute('part')).to.include('external');
+    });
+
+    it('updates CSS part when target changes', async () => {
+      const el = await fixture<MonkLink>(html`
+        <monk-link href="#test">Link</monk-link>
+      `);
+      let anchor = el.shadowRoot?.querySelector('a');
+      expect(anchor?.getAttribute('part')).to.include('internal');
+
+      el.target = '_blank';
+      await elementUpdated(el);
+      anchor = el.shadowRoot?.querySelector('a');
+      expect(anchor?.getAttribute('part')).to.include('external');
+    });
+  });
 });

@@ -37,6 +37,8 @@ export type LinkTarget = '_blank' | '_self' | '_parent' | '_top';
  * @cssprop --monk-color-text-link - Link color (default: blue-500)
  * @cssprop --monk-color-blue-600 - Link hover color (default: blue-600)
  * @cssprop --monk-color-brand-primary - Focus outline color (default: blue-500)
+ *
+ * @csspart link - The anchor element for external styling via ::part()
  */
 @customElement('monk-link')
 export class MonkLink extends MonkBaseTypography {
@@ -123,8 +125,13 @@ export class MonkLink extends MonkBaseTypography {
     // Determine if we need ARIA label for external links
     const ariaLabel = this.target === '_blank' ? 'opens in new window' : undefined;
 
+    // Part value includes link type for targeted styling
+    const isExternal = this.target === '_blank' ? 'external' : 'internal';
+    const partValue = `link ${isExternal}`;
+
     return html`
       <a
+        part=${partValue}
         href=${this.href || 'javascript:void(0)'}
         target=${ifDefined(this.target)}
         rel=${ifDefined(computedRel)}

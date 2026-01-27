@@ -1,5 +1,6 @@
 import { html, css, type CSSResultArray, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { unsafeStatic, html as staticHtml } from 'lit/static-html.js';
 import { MonkBaseTypography } from '../../core/base-typography.js';
 import { coreStyles, reducedMotionStyles } from '../../core/styles.js';
 
@@ -47,6 +48,8 @@ export type HeadingColor = 'primary' | 'secondary' | 'tertiary';
  * @cssprop --monk-font-family-base - Font family (default: system fonts)
  * @cssprop --monk-font-line-height-tight - Line height for large headings (default: 1.2)
  * @cssprop --monk-font-line-height-normal - Line height for smaller headings (default: 1.5)
+ *
+ * @csspart heading - The heading element (h1-h6) for external styling via ::part()
  */
 @customElement('monk-heading')
 export class MonkHeading extends MonkBaseTypography {
@@ -70,98 +73,99 @@ export class MonkHeading extends MonkBaseTypography {
     css`
       :host {
         display: block;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
         font-family: var(--monk-font-family-base);
         color: var(--monk-color-text-primary);
         margin: 0;
       }
 
       /* Heading level styles */
-      :host([level='h1']) {
+      h1 {
         font-size: var(--monk-font-size-4xl);
         font-weight: var(--monk-font-weight-bold);
         line-height: var(--monk-font-line-height-tight);
       }
 
-      :host([level='h2']) {
+      h2 {
         font-size: var(--monk-font-size-3xl);
         font-weight: var(--monk-font-weight-bold);
         line-height: var(--monk-font-line-height-tight);
       }
 
-      :host([level='h3']) {
+      h3 {
         font-size: var(--monk-font-size-2xl);
         font-weight: var(--monk-font-weight-semibold);
         line-height: var(--monk-font-line-height-normal);
       }
 
-      :host([level='h4']) {
+      h4 {
         font-size: var(--monk-font-size-xl);
         font-weight: var(--monk-font-weight-semibold);
         line-height: var(--monk-font-line-height-normal);
       }
 
-      :host([level='h5']) {
+      h5 {
         font-size: var(--monk-font-size-lg);
         font-weight: var(--monk-font-weight-medium);
         line-height: var(--monk-font-line-height-normal);
       }
 
-      :host([level='h6']) {
+      h6 {
         font-size: var(--monk-font-size-md);
         font-weight: var(--monk-font-weight-medium);
         line-height: var(--monk-font-line-height-normal);
       }
 
       /* Color variants */
-      :host([color='primary']) {
+      :host([color='primary']) h1,
+      :host([color='primary']) h2,
+      :host([color='primary']) h3,
+      :host([color='primary']) h4,
+      :host([color='primary']) h5,
+      :host([color='primary']) h6 {
         color: var(--monk-color-text-primary);
       }
 
-      :host([color='secondary']) {
+      :host([color='secondary']) h1,
+      :host([color='secondary']) h2,
+      :host([color='secondary']) h3,
+      :host([color='secondary']) h4,
+      :host([color='secondary']) h5,
+      :host([color='secondary']) h6 {
         color: var(--monk-color-text-secondary);
       }
 
-      :host([color='tertiary']) {
+      :host([color='tertiary']) h1,
+      :host([color='tertiary']) h2,
+      :host([color='tertiary']) h3,
+      :host([color='tertiary']) h4,
+      :host([color='tertiary']) h5,
+      :host([color='tertiary']) h6 {
         color: var(--monk-color-text-tertiary);
       }
     `,
   ];
 
   protected override render(): TemplateResult {
-    // Render with a slot to allow users to provide content
-    // The semantic heading level is maintained via ARIA role
-    return html`<slot></slot>`;
-  }
+    // Render actual semantic heading with part attribute for external styling
+    const tag = unsafeStatic(this.level);
+    const partValue = `heading ${this.level} ${this.color}`;
 
-  /**
-   * Lifecycle: Called after the element's DOM has been updated
-   * Ensures accessibility attributes are properly set
-   */
-  protected override firstUpdated(): void {
-    // Set ARIA role to match semantic heading level for screen readers
-    // This ensures proper document outline even though we use host styling
-    this.setAttribute('role', 'heading');
-    this.setAttribute('aria-level', this.getAriaLevel().toString());
+    return staticHtml`<${tag} part=${partValue}><slot></slot></${tag}>`;
   }
 
   /**
    * Lifecycle: Called when observed properties change
-   * Updates ARIA attributes when level changes
+   * Emits change event when level changes
    */
   protected override updated(changedProperties: Map<string, unknown>): void {
     super.updated(changedProperties);
 
     if (changedProperties.has('level')) {
-      this.setAttribute('aria-level', this.getAriaLevel().toString());
       this.emitEvent('change', { level: this.level });
     }
-  }
-
-  /**
-   * Get numeric ARIA level from heading level string
-   */
-  private getAriaLevel(): number {
-    return parseInt(this.level.substring(1), 10);
   }
 }
 

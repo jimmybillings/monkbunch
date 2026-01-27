@@ -217,4 +217,37 @@ describe('monk-text', () => {
       await expect(el).to.be.accessible();
     });
   });
+
+  describe('White-Label Customization', () => {
+    it('exposes CSS part for external styling', async () => {
+      const el = await fixture<MonkText>(html`
+        <monk-text size="md" weight="regular" color="primary">Styled Text</monk-text>
+      `);
+      const textEl = el.shadowRoot?.querySelector('span');
+      expect(textEl).to.exist;
+      expect(textEl?.getAttribute('part')).to.include('text');
+      expect(textEl?.getAttribute('part')).to.include('md');
+      expect(textEl?.getAttribute('part')).to.include('regular');
+      expect(textEl?.getAttribute('part')).to.include('primary');
+    });
+
+    it('updates CSS part when properties change', async () => {
+      const el = await fixture<MonkText>(html`
+        <monk-text size="sm" weight="medium" color="secondary">Text</monk-text>
+      `);
+      let textEl = el.shadowRoot?.querySelector('span');
+      expect(textEl?.getAttribute('part')).to.include('sm');
+      expect(textEl?.getAttribute('part')).to.include('medium');
+      expect(textEl?.getAttribute('part')).to.include('secondary');
+
+      el.size = 'lg';
+      el.weight = 'bold';
+      el.color = 'success';
+      await elementUpdated(el);
+      textEl = el.shadowRoot?.querySelector('span');
+      expect(textEl?.getAttribute('part')).to.include('lg');
+      expect(textEl?.getAttribute('part')).to.include('bold');
+      expect(textEl?.getAttribute('part')).to.include('success');
+    });
+  });
 });

@@ -12,24 +12,13 @@ describe('monk-heading', () => {
       await expect(el).to.be.accessible();
     });
 
-    it('has proper ARIA role and level attributes', async () => {
+    it('renders semantic heading element (h1-h6)', async () => {
       const el = await fixture<MonkHeading>(html`
         <monk-heading level="h2">Section Title</monk-heading>
       `);
-      expect(el.getAttribute('role')).to.equal('heading');
-      expect(el.getAttribute('aria-level')).to.equal('2');
-    });
-
-    it('updates ARIA level when level property changes', async () => {
-      const el = await fixture<MonkHeading>(html`
-        <monk-heading level="h3">Heading</monk-heading>
-      `);
-      expect(el.getAttribute('aria-level')).to.equal('3');
-
-      el.level = 'h4';
-      await elementUpdated(el);
-
-      expect(el.getAttribute('aria-level')).to.equal('4');
+      const headingEl = el.shadowRoot?.querySelector('h2');
+      expect(headingEl).to.exist;
+      expect(headingEl?.textContent?.trim()).to.equal('Section Title');
     });
 
     it('supports all heading levels (h1-h6)', async () => {
@@ -39,8 +28,8 @@ describe('monk-heading', () => {
         const el = await fixture<MonkHeading>(html`
           <monk-heading level=${level}>Heading Level ${level}</monk-heading>
         `);
-        const expectedLevel = level.substring(1);
-        expect(el.getAttribute('aria-level')).to.equal(expectedLevel);
+        const headingEl = el.shadowRoot?.querySelector(level);
+        expect(headingEl).to.exist;
         await expect(el).to.be.accessible();
       }
     });
@@ -162,6 +151,33 @@ describe('monk-heading', () => {
       expect(h6.level).to.equal('h6');
       expect(h1.getAttribute('level')).to.equal('h1');
       expect(h6.getAttribute('level')).to.equal('h6');
+    });
+  });
+
+  describe('White-Label Customization', () => {
+    it('exposes CSS part for external styling', async () => {
+      const el = await fixture<MonkHeading>(html`
+        <monk-heading level="h1" color="primary">Styled Heading</monk-heading>
+      `);
+      const headingEl = el.shadowRoot?.querySelector('h1');
+      expect(headingEl).to.exist;
+      expect(headingEl?.getAttribute('part')).to.include('heading');
+      expect(headingEl?.getAttribute('part')).to.include('h1');
+      expect(headingEl?.getAttribute('part')).to.include('primary');
+    });
+
+    it('updates CSS part when properties change', async () => {
+      const el = await fixture<MonkHeading>(html`
+        <monk-heading level="h2" color="secondary">Heading</monk-heading>
+      `);
+      let headingEl = el.shadowRoot?.querySelector('h2');
+      expect(headingEl?.getAttribute('part')).to.include('h2');
+      expect(headingEl?.getAttribute('part')).to.include('secondary');
+
+      el.color = 'tertiary';
+      await elementUpdated(el);
+      headingEl = el.shadowRoot?.querySelector('h2');
+      expect(headingEl?.getAttribute('part')).to.include('tertiary');
     });
   });
 });
