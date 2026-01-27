@@ -91,7 +91,7 @@ monkbunch/                         # Monorepo root
 2. **Semantic Tokens** (`tokens/themes/{light|dark}.json`)
    - Contextual meanings that ADAPT to theme
    - Example: `text.primary` (gray.900 in light, gray.100 in dark)
-   - **35 tokens total** - see TOKENS.md for complete reference
+   - **38 semantic tokens** (text, bg, border, focus, shadows) - see TOKENS.md for complete reference
 
 3. **Component Tokens** (`tokens/component/*.json`) - Future
    - Component-specific tokens
@@ -123,6 +123,64 @@ border.success, warning, error, info
 **Focus Ring** (3 tokens):
 ```json
 focus.ring.color, width, offset
+```
+
+**Shadows** (3 semantic tokens):
+```json
+shadow.card, dropdown, modal
+```
+
+### **Responsive Design Tokens**
+
+**Breakpoints** (6 tokens):
+```json
+breakpoint.xs, sm, md, lg, xl, 2xl
+// Mobile-first: xs (0px), sm (640px), md (768px), lg (1024px), xl (1280px), 2xl (1536px)
+```
+
+**Containers** (6 tokens):
+```json
+container.sm, md, lg, xl, 2xl, full
+// Max-width containers: sm (640px), md (768px), lg (1024px), xl (1280px), 2xl (1536px), full (100%)
+```
+
+**Base Shadows** (7 tokens):
+```json
+shadow.none, sm, md, lg, xl, 2xl, inner
+// Example: shadow.md → "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)"
+```
+
+**Z-Index Scale** (10 tokens):
+```json
+z-index.hide, base, dropdown, sticky, fixed, overlay, modal, popover, toast, tooltip
+// Range: -1 (hide) to 1700 (tooltip)
+```
+
+**Animation** (10 tokens):
+```json
+// Duration
+duration.instant, fast, normal, slow, slower
+// 0ms, 150ms, 250ms, 350ms, 500ms
+
+// Easing
+easing.linear, ease-in, ease-out, ease-in-out, bounce
+```
+
+**Usage Examples:**
+```typescript
+// Responsive design
+@media (min-width: var(--monk-breakpoint-md)) {
+  max-width: var(--monk-container-lg);
+}
+
+// Elevation system
+box-shadow: var(--monk-shadow-card);  // Adapts to light/dark theme
+
+// Z-index layering
+z-index: var(--monk-z-index-modal);   // Always 1400
+
+// Animations
+transition: transform var(--monk-duration-normal) var(--monk-easing-ease-out);
 ```
 
 ### **Theme System**
@@ -349,7 +407,8 @@ npx tsc -p tsconfig.json                    # Build
 
 ### ✅ Completed
 - ✅ Nx workspace setup
-- ✅ Design tokens (35 semantic tokens)
+- ✅ Design tokens (38 semantic + 39 base tokens = 77 total)
+- ✅ Foundational tokens (breakpoints, containers, shadows, z-index, animation)
 - ✅ Light/dark theme system
 - ✅ Typography components (Heading, Text, Link)
 - ✅ React wrappers for typography
@@ -358,15 +417,16 @@ npx tsc -p tsconfig.json                    # Build
 - ✅ Comprehensive token documentation
 
 ### 🚧 In Progress
-- Storybook verification with themes
-- README files for all packages
+- Phase 1 complete: Foundational tokens added
+- Phase 2: Adding CSS parts for white-label customization
+- Phase 3: Building layout primitives (MonkBox)
 
 ### 📋 Next Steps (Planned)
+- Layout primitives (Box, Flex, Grid, Stack) - **Foundation ready**
 - Button component (solid, outline, ghost variants)
 - Form components (Input, Textarea, Select, Checkbox, Radio)
-- Layout primitives (Box, Flex, Grid, Stack)
-- Card component
-- Modal/Dialog
+- Card component (with shadow tokens)
+- Modal/Dialog (with z-index tokens)
 - Navigation components
 
 ---

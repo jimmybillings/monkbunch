@@ -52,7 +52,12 @@ tokens/
 │   ├── colors.json         # Blue/gray scales, primitives
 │   ├── spacing.json        # 4px grid system
 │   ├── typography.json     # Font families, sizes, weights
-│   └── radii.json          # Border radius values
+│   ├── radii.json          # Border radius values
+│   ├── breakpoints.json    # Responsive breakpoints (xs-2xl)
+│   ├── containers.json     # Container max-widths
+│   ├── shadows.json        # Elevation shadows (none-2xl)
+│   ├── z-index.json        # Stacking order scale
+│   └── animation.json      # Duration and easing tokens
 │
 ├── themes/                  # Semantic tokens (adapt to theme)
 │   ├── light.json          # Light theme mappings
@@ -326,6 +331,184 @@ function App() {
 
 **4. Focus Ring (3 tokens)**
 - color, width, offset
+
+**5. Shadows (3 semantic tokens)**
+- card, dropdown, modal
+- Adapts to theme (stronger shadows in dark mode for better visibility)
+
+### Foundational Token Systems
+
+#### Responsive Design Foundation
+
+**Breakpoints (6 tokens)**
+
+Mobile-first breakpoint system inspired by Tailwind/Chakra:
+
+```json
+{
+  "xs": "0px",      // Mobile (default)
+  "sm": "640px",    // Small tablets
+  "md": "768px",    // Tablets
+  "lg": "1024px",   // Desktops
+  "xl": "1280px",   // Large desktops
+  "2xl": "1536px"   // Extra large screens
+}
+```
+
+**Usage:**
+```css
+/* Mobile-first approach */
+.component {
+  width: 100%;
+}
+
+@media (min-width: var(--monk-breakpoint-md)) {
+  .component {
+    width: 50%;
+  }
+}
+
+@media (min-width: var(--monk-breakpoint-lg)) {
+  .component {
+    width: 33.333%;
+  }
+}
+```
+
+**Container Widths (6 tokens)**
+
+Max-width containers that align with breakpoints:
+
+```css
+.container {
+  width: 100%;
+  max-width: var(--monk-container-lg);  /* 1024px */
+  margin: 0 auto;
+  padding: 0 var(--monk-space-4);
+}
+```
+
+#### Shadow/Elevation System
+
+**Base Shadows (7 tokens)**
+
+Tailwind-inspired elevation scale using subtle shadows:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `shadow.none` | none | No elevation |
+| `shadow.sm` | 0 1px 2px rgba(0,0,0,0.05) | Subtle elevation |
+| `shadow.md` | 0 4px 6px rgba(0,0,0,0.1) | Cards, tiles |
+| `shadow.lg` | 0 10px 15px rgba(0,0,0,0.1) | Dropdowns, popovers |
+| `shadow.xl` | 0 20px 25px rgba(0,0,0,0.1) | Dialogs |
+| `shadow.2xl` | 0 25px 50px rgba(0,0,0,0.25) | Modals, overlays |
+| `shadow.inner` | inset 0 2px 4px rgba(0,0,0,0.05) | Pressed states |
+
+**Semantic Shadow Tokens**
+
+Theme-aware shadows that adapt to light/dark mode:
+
+```json
+// Light theme
+{
+  "shadow.card": "shadow.md",
+  "shadow.dropdown": "shadow.lg",
+  "shadow.modal": "shadow.2xl"
+}
+
+// Dark theme (stronger shadows for visibility)
+{
+  "shadow.card": "shadow.lg",
+  "shadow.dropdown": "shadow.xl",
+  "shadow.modal": "shadow.2xl"
+}
+```
+
+**Usage:**
+```typescript
+// Component uses semantic token
+box-shadow: var(--monk-shadow-card);
+
+// Automatically adapts:
+// Light mode: 0 4px 6px rgba(0,0,0,0.1)
+// Dark mode: 0 10px 15px rgba(0,0,0,0.1)
+```
+
+#### Z-Index Layering Strategy
+
+**Z-Index Scale (10 tokens)**
+
+Predictable stacking order for overlays and UI layers:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `z-index.hide` | -1 | Hidden elements |
+| `z-index.base` | 0 | Default stacking |
+| `z-index.dropdown` | 1000 | Dropdown menus |
+| `z-index.sticky` | 1100 | Sticky headers |
+| `z-index.fixed` | 1200 | Fixed positioning |
+| `z-index.overlay` | 1300 | Modal backdrops |
+| `z-index.modal` | 1400 | Modal dialogs |
+| `z-index.popover` | 1500 | Popovers |
+| `z-index.toast` | 1600 | Toast notifications |
+| `z-index.tooltip` | 1700 | Tooltips (highest) |
+
+**Rationale:**
+- 100-unit gaps allow insertion of intermediate layers if needed
+- Tooltips always on top (user-triggered, requires immediate attention)
+- Clear hierarchy prevents z-index conflicts
+
+**Usage:**
+```typescript
+// Modal component
+:host {
+  z-index: var(--monk-z-index-modal);  // Always 1400
+}
+
+// Modal backdrop
+.backdrop {
+  z-index: var(--monk-z-index-overlay);  // 1300, below modal
+}
+```
+
+#### Animation System
+
+**Duration Tokens (5 tokens)**
+
+Consistent animation timing respecting `prefers-reduced-motion`:
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `duration.instant` | 0ms | Instant state changes |
+| `duration.fast` | 150ms | Micro-interactions |
+| `duration.normal` | 250ms | Default transitions |
+| `duration.slow` | 350ms | Complex animations |
+| `duration.slower` | 500ms | Page transitions |
+
+**Easing Functions (5 tokens)**
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `easing.linear` | linear | Progress indicators |
+| `easing.ease-in` | cubic-bezier(0.4,0,1,1) | Exits, fade outs |
+| `easing.ease-out` | cubic-bezier(0,0,0.2,1) | Entrances, default |
+| `easing.ease-in-out` | cubic-bezier(0.4,0,0.2,1) | Smooth transitions |
+| `easing.bounce` | cubic-bezier(0.68,-0.55,0.265,1.55) | Playful effects |
+
+**Usage:**
+```typescript
+// Component transitions
+:host {
+  transition: transform var(--monk-duration-normal) var(--monk-easing-ease-out);
+}
+
+// Respect reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition-duration: var(--monk-duration-instant);
+  }
+}
+```
 
 ### Theme Switching Mechanism
 

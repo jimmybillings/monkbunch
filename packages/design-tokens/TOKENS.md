@@ -304,6 +304,188 @@ Uses a 4px grid system:
 }
 ```
 
+## Responsive Design Tokens
+
+### Breakpoints
+
+Use these for responsive media queries (mobile-first):
+
+| Token | CSS Variable | Value | Usage |
+|-------|-------------|-------|--------|
+| `breakpoint.xs` | `--monk-breakpoint-xs` | 0px | Extra small devices |
+| `breakpoint.sm` | `--monk-breakpoint-sm` | 640px | Small devices (landscape phones) |
+| `breakpoint.md` | `--monk-breakpoint-md` | 768px | Medium devices (tablets) |
+| `breakpoint.lg` | `--monk-breakpoint-lg` | 1024px | Large devices (desktops) |
+| `breakpoint.xl` | `--monk-breakpoint-xl` | 1280px | Extra large devices |
+| `breakpoint.2xl` | `--monk-breakpoint-2xl` | 1536px | 2X Extra large devices |
+
+**Examples:**
+```css
+/* Mobile-first responsive design */
+.container {
+  padding: 16px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 32px;
+  }
+}
+```
+
+### Container Widths
+
+Use these for max-width containers:
+
+| Token | CSS Variable | Value |
+|-------|-------------|-------|
+| `container.sm` | `--monk-container-sm` | 640px |
+| `container.md` | `--monk-container-md` | 768px |
+| `container.lg` | `--monk-container-lg` | 1024px |
+| `container.xl` | `--monk-container-xl` | 1280px |
+| `container.2xl` | `--monk-container-2xl` | 1536px |
+| `container.full` | `--monk-container-full` | 100% |
+
+**Examples:**
+```css
+.container {
+  max-width: var(--monk-container-lg);
+  margin: 0 auto;
+}
+
+.container-full {
+  max-width: var(--monk-container-full);
+}
+```
+
+## Visual Design Tokens
+
+### Shadows (Elevation)
+
+Use these for visual hierarchy and elevation:
+
+| Token | CSS Variable | Value | Usage |
+|-------|-------------|-------|--------|
+| `shadow.none` | `--monk-shadow-none` | none | No shadow |
+| `shadow.sm` | `--monk-shadow-sm` | 0 1px 2px 0 rgba(0,0,0,0.05) | Subtle elevation |
+| `shadow.md` | `--monk-shadow-md` | 0 4px 6px -1px rgba(0,0,0,0.1) | Cards, panels |
+| `shadow.lg` | `--monk-shadow-lg` | 0 10px 15px -3px rgba(0,0,0,0.1) | Dropdowns |
+| `shadow.xl` | `--monk-shadow-xl` | 0 20px 25px -5px rgba(0,0,0,0.1) | Modals |
+| `shadow.2xl` | `--monk-shadow-2xl` | 0 25px 50px -12px rgba(0,0,0,0.25) | Large modals |
+| `shadow.inner` | `--monk-shadow-inner` | inset 0 2px 4px 0 rgba(0,0,0,0.05) | Inner shadow |
+
+#### Semantic Shadows
+
+Theme-aware shadow tokens that adapt to light/dark mode:
+
+| Token | CSS Variable | Light Value | Dark Value |
+|-------|-------------|-------------|------------|
+| `shadow.card` | `--monk-shadow-card` | shadow.md | shadow.lg |
+| `shadow.dropdown` | `--monk-shadow-dropdown` | shadow.lg | shadow.xl |
+| `shadow.modal` | `--monk-shadow-modal` | shadow.2xl | shadow.2xl |
+
+**Examples:**
+```css
+.card {
+  box-shadow: var(--monk-shadow-card);
+}
+
+.dropdown {
+  box-shadow: var(--monk-shadow-dropdown);
+}
+
+.modal {
+  box-shadow: var(--monk-shadow-modal);
+}
+```
+
+### Z-Index Scale
+
+Use these for proper layering of stacked elements:
+
+| Token | CSS Variable | Value | Usage |
+|-------|-------------|-------|--------|
+| `z-index.hide` | `--monk-z-index-hide` | -1 | Hidden behind content |
+| `z-index.base` | `--monk-z-index-base` | 0 | Normal flow |
+| `z-index.dropdown` | `--monk-z-index-dropdown` | 1000 | Dropdown menus |
+| `z-index.sticky` | `--monk-z-index-sticky` | 1100 | Sticky headers |
+| `z-index.fixed` | `--monk-z-index-fixed` | 1200 | Fixed positioning |
+| `z-index.overlay` | `--monk-z-index-overlay` | 1300 | Modal overlays |
+| `z-index.modal` | `--monk-z-index-modal` | 1400 | Modal dialogs |
+| `z-index.popover` | `--monk-z-index-popover` | 1500 | Popovers |
+| `z-index.toast` | `--monk-z-index-toast` | 1600 | Toast notifications |
+| `z-index.tooltip` | `--monk-z-index-tooltip` | 1700 | Tooltips |
+
+**Examples:**
+```css
+.dropdown {
+  z-index: var(--monk-z-index-dropdown);
+}
+
+.modal-overlay {
+  z-index: var(--monk-z-index-overlay);
+}
+
+.modal {
+  z-index: var(--monk-z-index-modal);
+}
+
+.tooltip {
+  z-index: var(--monk-z-index-tooltip);
+}
+```
+
+## Animation Tokens
+
+### Duration
+
+Use these for consistent animation timing:
+
+| Token | CSS Variable | Value | Usage |
+|-------|-------------|-------|--------|
+| `duration.instant` | `--monk-duration-instant` | 0ms | Immediate changes |
+| `duration.fast` | `--monk-duration-fast` | 150ms | Quick transitions |
+| `duration.normal` | `--monk-duration-normal` | 250ms | Standard animations |
+| `duration.slow` | `--monk-duration-slow` | 350ms | Deliberate animations |
+| `duration.slower` | `--monk-duration-slower` | 500ms | Slow transitions |
+
+### Easing
+
+Use these for animation easing curves:
+
+| Token | CSS Variable | Value | Usage |
+|-------|-------------|-------|--------|
+| `easing.linear` | `--monk-easing-linear` | linear | Constant speed |
+| `easing.ease-in` | `--monk-easing-ease-in` | cubic-bezier(0.4, 0, 1, 1) | Accelerating |
+| `easing.ease-out` | `--monk-easing-ease-out` | cubic-bezier(0, 0, 0.2, 1) | Decelerating |
+| `easing.ease-in-out` | `--monk-easing-ease-in-out` | cubic-bezier(0.4, 0, 0.2, 1) | Smooth |
+| `easing.bounce` | `--monk-easing-bounce` | cubic-bezier(0.68, -0.55, 0.265, 1.55) | Bouncy effect |
+
+**Examples:**
+```css
+.button {
+  transition: background var(--monk-duration-fast) var(--monk-easing-ease-out);
+}
+
+.modal {
+  animation: slideIn var(--monk-duration-normal) var(--monk-easing-ease-in-out);
+}
+
+/* Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: var(--monk-duration-instant) !important;
+    transition-duration: var(--monk-duration-instant) !important;
+  }
+}
+```
+
 ## Theme Switching
 
 Themes are controlled via a `data-theme` attribute on the document root:
