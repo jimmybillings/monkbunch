@@ -2775,6 +2775,569 @@ export const Divider = createComponent({
 
 ---
 
+## Card Component Architecture
+
+**File:** `src/components/card/card.ts`
+
+**Purpose:** Flexible container for grouping related content and actions with multiple visual styles and interactive capabilities.
+
+### Design Philosophy
+
+The Card component follows Material Design and Chakra UI patterns for content containers:
+
+1. **Variant-first API** - `variant` controls visual style (elevated, outline, filled)
+2. **Interactive mode** - Optional `interactive` prop adds hover effects and click handlers
+3. **Flexible content** - Uses slots for any content structure (no predefined header/body/footer)
+4. **Customizable spacing** - Control padding, border radius, and shadow levels
+5. **Semantic HTML** - Uses `<article>` for content containers, `role="button"` for interactive cards
+6. **Accessibility built-in** - Keyboard navigation, focus states, and proper ARIA roles
+
+This approach provides semantic defaults while allowing unlimited composition through slots and styling flexibility through props.
+
+### Implementation Details
+
+#### Base Structure
+
+```typescript
+@customElement('monk-card')
+export class MonkCard extends MonkBaseElement {
+  @property({ type: String, reflect: true })
+  variant: CardVariant = 'elevated';
+
+  @property({ type: Boolean, reflect: true })
+  interactive = false;
+
+  @property({ type: String, reflect: true })
+  padding?: string;
+
+  @property({ type: String, reflect: true })
+  radius: string = 'md';
+
+  @property({ type: String, reflect: true })
+  shadow?: string;
+
+  @property({ type: String, reflect: true })
+  bg?: string;
+}
+```
+
+**Key Design Decisions:**
+
+1. **Reflected attributes** - All props reflect to attributes for CSS styling
+2. **Boolean interactive prop** - Adds hover effects, click handlers, and keyboard navigation
+3. **Optional padding** - Defaults to 24px (space-6) when not specified
+4. **TypeScript unions** - Strict typing for variant, padding scale, radius scale, shadow scale
+5. **Semantic elements** - `<article>` vs `role="button"` based on interactive state
+6. **Custom event emission** - Emits `card-click` event for click handling
+
+#### Token Integration Strategy
+
+Card uses semantic tokens with variant-specific overrides:
+
+```typescript
+// Default: Elevated variant with shadow
+:host([variant='elevated']) .card {
+  background: var(--monk-color-bg-surface);
+  box-shadow: var(--monk-shadow-md);
+  border: none;
+}
+
+// Outline variant with border
+:host([variant='outline']) .card {
+  background: var(--monk-color-bg-canvas);
+  border: 1px solid var(--monk-color-border-default);
+  box-shadow: none;
+}
+
+// Filled variant with subtle background
+:host([variant='filled']) .card {
+  background: var(--monk-color-bg-subtle);
+  border: none;
+  box-shadow: none;
+}
+```
+
+**Background Hierarchy (specificity order):**
+1. Custom `bg` prop - Highest priority (inline style)
+2. Variant-specific background - Default for each variant
+3. Theme tokens (`var(--monk-color-bg-*)`)
+
+### Variant Implementation
+
+#### 1. Elevated Variant (Default)
+
+**Visual:** Raised card with shadow, appears floating above the surface
+**Usage:** Default, product cards, blog posts, primary content containers
+**Token Pattern:**
+```css
+:host([variant='elevated']) .card {
+  background: var(--monk-color-bg-surface);
+  box-shadow: var(--monk-shadow-md);
+}
+
+:host([variant='elevated']:not([padding])) .card {
+  padding: var(--monk-space-6);  /* 24px default */
+}
+```
+
+**Rationale:** Shadow creates depth and visual hierarchy. Uses `bg-surface` token (white in light mode, dark in dark mode).
+
+#### 2. Outline Variant
+
+**Visual:** Flat card with border, no shadow
+**Usage:** Secondary content, list items, less prominent cards
+**Token Pattern:**
+```css
+:host([variant='outline']) .card {
+  background: var(--monk-color-bg-canvas);
+  border: 1px solid var(--monk-color-border-default);
+  box-shadow: none;
+}
+```
+
+**Rationale:** Border provides definition without shadow weight. Uses `bg-canvas` (page background color).
+
+#### 3. Filled Variant
+
+**Visual:** Card with subtle background, no border or shadow
+**Usage:** Dashboard stats, metric cards, subtle content grouping
+**Token Pattern:**
+```css
+:host([variant='filled']) .card {
+  background: var(--monk-color-bg-subtle);
+  border: none;
+  box-shadow: none;
+}
+```
+
+**Rationale:** Minimal visual weight. Uses `bg-subtle` token (10-20% opacity tint).
+
+### Interactive Mode Implementation
+
+**Feature:** Optional interactive mode for clickable cards
+
+**Implementation:**
+```typescript
+// Render with dynamic role and tabindex
+render() {
+  return html`
+    <div
+      part="card ${this.variant}${this.interactive ? ' interactive' : ''}"
+      class="card"
+      role="${this.interactive ? 'button' : 'article'}"
+      tabindex="${this.interactive ? '0' : undefined}"
+      @click="${this._handleClick}"
+      @keydown="${this._handleKeydown}"
+    >
+      <slot></slot>
+    </div>
+  `;
+}
+
+// Click handler
+private _handleClick(event: MouseEvent) {
+  if (this.interactive) {
+    this.dispatchEvent(
+      new CustomEvent('card-click', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+}
+
+// Keyboard handler (Enter and Space)
+private _handleKeydown(event: KeyboardEvent) {
+  if (this.interactive && (event.key === 'Enter' || event.key === ' ')) {
+    event.preventDefault();
+    this.dispatchEvent(
+      new CustomEvent('card-click', {
+        detail: { originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+}
+```
+
+**Hover Effects:**
+```css
+/* Elevated variant - lifts on hover */
+:host([interactive][variant='elevated']) .card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--monk-shadow-lg);
+}
+
+/* Outline variant - border color change */
+:host([interactive][variant='outline']) .card:hover {
+  border-color: var(--monk-color-border-accent);
+  background: var(--monk-color-bg-surface);
+}
+
+/* Filled variant - background intensifies */
+:host([interactive][variant='filled']) .card:hover {
+  background: var(--monk-color-bg-muted);
+}
+```
+
+**Design Decisions:**
+- Interactive cards use `role="button"` and `tabindex="0"` for keyboard accessibility
+- Enter and Space keys trigger click event (standard button behavior)
+- Emits `card-click` custom event (consistent naming pattern)
+- Hover effects respect `prefers-reduced-motion`
+- Transform and shadow transitions are 150ms (fast, responsive)
+
+### Padding Scale Implementation
+
+Uses space scale tokens with variant-specific defaults:
+
+```css
+/* Default padding when not specified */
+:host([variant='elevated']:not([padding])) .card { padding: var(--monk-space-6); }
+:host([variant='outline']:not([padding])) .card { padding: var(--monk-space-6); }
+:host([variant='filled']:not([padding])) .card { padding: var(--monk-space-6); }
+
+/* Explicit padding overrides */
+:host([padding='0']) .card { padding: var(--monk-space-0); }  /* 0px */
+:host([padding='4']) .card { padding: var(--monk-space-4); }  /* 16px */
+:host([padding='6']) .card { padding: var(--monk-space-6); }  /* 24px */
+:host([padding='8']) .card { padding: var(--monk-space-8); }  /* 32px */
+:host([padding='12']) .card { padding: var(--monk-space-12); }  /* 48px */
+```
+
+**Design Rationale:**
+- Default padding is 24px (space-6) for all variants
+- `padding="0"` allows full-width images (no padding override)
+- Full space scale supported (0-16) for flexibility
+- Padding applies to all sides uniformly (no directional padding yet)
+
+### Shadow Scale Implementation
+
+Allows customization of shadow depth for elevated variant:
+
+```css
+:host([shadow='none']) .card { box-shadow: none; }
+:host([shadow='sm']) .card { box-shadow: var(--monk-shadow-sm); }
+:host([shadow='md']) .card { box-shadow: var(--monk-shadow-md); }
+:host([shadow='lg']) .card { box-shadow: var(--monk-shadow-lg); }
+:host([shadow='xl']) .card { box-shadow: var(--monk-shadow-xl); }
+:host([shadow='2xl']) .card { box-shadow: var(--monk-shadow-2xl); }
+```
+
+**Usage:**
+```html
+<!-- Subtle shadow -->
+<monk-card shadow="sm">Low elevation</monk-card>
+
+<!-- Default shadow -->
+<monk-card>Medium elevation (default)</monk-card>
+
+<!-- Heavy shadow -->
+<monk-card shadow="2xl">Maximum elevation</monk-card>
+```
+
+**Design Decisions:**
+- Shadow prop works with all variants (can add shadow to outline/filled)
+- Default shadow is `md` for elevated variant
+- Shadow tokens defined in design tokens package
+- Works with interactive hover effects (shadow increases on hover)
+
+### Border Radius Implementation
+
+Uses radius scale tokens:
+
+```css
+:host([radius='none']) .card { border-radius: 0; }
+:host([radius='sm']) .card { border-radius: var(--monk-radius-sm); }   /* 4px */
+:host([radius='md']) .card { border-radius: var(--monk-radius-md); }   /* 8px */
+:host([radius='lg']) .card { border-radius: var(--monk-radius-lg); }   /* 12px */
+:host([radius='xl']) .card { border-radius: var(--monk-radius-xl); }   /* 16px */
+```
+
+**Default:** `md` (8px) for all variants
+
+**Design Rationale:**
+- Consistent with other components (Button, Badge)
+- Supports full radius scale from tokens
+- `radius="none"` for completely square cards
+
+### Custom Background Implementation
+
+**Problem Solved:** Users need color flexibility beyond semantic background tokens.
+
+**Solution:** Add `bg` prop that overrides variant-specific background via inline style.
+
+**Implementation:**
+```typescript
+render() {
+  const style = this.bg ? `background: ${this.bg};` : '';
+
+  return html`
+    <div class="card" style="${style}">
+      <slot></slot>
+    </div>
+  `;
+}
+```
+
+**Usage:**
+```html
+<!-- Web Components -->
+<monk-card bg="#fef3c7">Warm yellow card</monk-card>
+<monk-card bg="#dbeafe">Sky blue card</monk-card>
+<monk-card variant="outline" bg="#dcfce7">Mint green outline card</monk-card>
+
+<!-- React -->
+<Card bg="#fef3c7">Warm yellow card</Card>
+```
+
+**Benefits:**
+- Works like React props (familiar DX)
+- Type-safe with TypeScript
+- Inline style ensures highest specificity
+- Works with all variants
+
+### CSS Parts Architecture
+
+Card exposes a single `::part(card)` with multiple tokens:
+
+```typescript
+const partValue = `card ${this.variant}${this.interactive ? ' interactive' : ''}`;
+
+return html`
+  <div part="${partValue}" class="card">
+    <slot></slot>
+  </div>
+`;
+```
+
+**Part Value Strategy:**
+
+Multiple tokens allow targeted external styling:
+
+```css
+/* Style all cards */
+monk-card::part(card) {
+  font-family: 'Custom Font';
+}
+
+/* Target specific variants */
+monk-card[variant='elevated']::part(card) {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Target interactive cards */
+monk-card[interactive]::part(card) {
+  cursor: pointer;
+}
+
+/* Combine selectors */
+monk-card[variant='outline'][interactive]::part(card) {
+  border-width: 2px;
+}
+```
+
+### Accessibility Implementation
+
+#### 1. Semantic HTML
+
+Uses appropriate semantic elements based on interactive state:
+
+```html
+<!-- Non-interactive: article element -->
+<div part="card elevated" class="card" role="article">
+  <slot></slot>
+</div>
+
+<!-- Interactive: button role -->
+<div part="card elevated interactive" class="card" role="button" tabindex="0">
+  <slot></slot>
+</div>
+```
+
+**Benefits:**
+- `<article>` for content containers (proper semantics)
+- `role="button"` for interactive cards (screen reader announces as button)
+- `tabindex="0"` makes interactive cards keyboard focusable
+
+#### 2. Keyboard Navigation
+
+Interactive cards support Enter and Space keys:
+
+```typescript
+private _handleKeydown(event: KeyboardEvent) {
+  if (this.interactive && (event.key === 'Enter' || event.key === ' ')) {
+    event.preventDefault();  // Prevent page scroll on Space
+    this.dispatchEvent(new CustomEvent('card-click', { ... }));
+  }
+}
+```
+
+**Strategy:**
+- Enter key activates (standard button behavior)
+- Space key activates (standard button behavior)
+- Event.preventDefault() prevents default space scrolling
+- Emits same `card-click` event as mouse click
+
+#### 3. Focus Indicators
+
+```css
+:host([interactive]) .card:focus-visible {
+  outline: var(--monk-focus-ring-width) solid var(--monk-focus-ring-color);
+  outline-offset: var(--monk-focus-ring-offset);
+}
+```
+
+**Strategy:**
+- Uses `:focus-visible` (only shows on keyboard focus, not mouse click)
+- Uses focus ring tokens for consistency
+- Outline offset creates visual breathing room
+
+### React Wrapper
+
+**File:** `design-kit-react/src/card.tsx`
+
+```typescript
+export interface CardProps extends React.HTMLAttributes<HTMLElement> {
+  variant?: CardVariant;
+  interactive?: boolean;
+  padding?: string;
+  radius?: string;
+  shadow?: string;
+  bg?: string;
+  hidden?: boolean;
+  children?: React.ReactNode;
+  onCardClick?: (event: CustomEvent) => void;
+}
+
+export const Card = createComponent({
+  tagName: 'monk-card',
+  elementClass: MonkCardWC,
+  react: React,
+  events: {
+    onCardClick: 'card-click' as EventName<CustomEvent>,
+  },
+});
+```
+
+**Usage:**
+```tsx
+<Card interactive onCardClick={(e) => console.log('Clicked!', e.detail)}>
+  <h3>Clickable Card</h3>
+  <p>Click me!</p>
+</Card>
+
+<Card variant="outline" padding="8" radius="lg" bg="#fef3c7">
+  <h3>Custom Card</h3>
+  <p>With custom styling</p>
+</Card>
+```
+
+**Type Safety:**
+- Full TypeScript interface
+- Event handler `onCardClick` properly typed
+- IDE autocomplete for all props
+- Compile-time validation
+
+### Common Usage Patterns
+
+#### Product/Pricing Card
+```html
+<monk-card style="max-width: 350px;">
+  <monk-stack spacing="4">
+    <monk-flex justify="between">
+      <monk-heading level="h4">Premium Plan</monk-heading>
+      <monk-badge color-scheme="success">Popular</monk-badge>
+    </monk-flex>
+    <monk-text size="2xl" weight="bold">$29/month</monk-text>
+    <monk-divider></monk-divider>
+    <monk-stack spacing="2">
+      <monk-text>✓ Unlimited projects</monk-text>
+      <monk-text>✓ Priority support</monk-text>
+    </monk-stack>
+    <monk-button variant="solid" full-width>Get Started</monk-button>
+  </monk-stack>
+</monk-card>
+```
+
+#### Blog Post Card (Interactive)
+```html
+<monk-card interactive @card-click="${navigateToPost}">
+  <monk-stack spacing="3">
+    <monk-badge variant="subtle" size="sm">Tutorial</monk-badge>
+    <monk-heading level="h4">Getting Started with Web Components</monk-heading>
+    <monk-text color="secondary">Learn how to build reusable components...</monk-text>
+    <monk-divider></monk-divider>
+    <monk-text size="sm" color="accent">Read more →</monk-text>
+  </monk-stack>
+</monk-card>
+```
+
+#### Dashboard Stat Cards
+```html
+<monk-flex gap="4">
+  <monk-card variant="filled" style="flex: 1;">
+    <monk-stack spacing="2">
+      <monk-text size="sm" color="secondary">Total Revenue</monk-text>
+      <monk-text size="2xl" weight="bold">$45,231</monk-text>
+      <monk-text size="sm" color="success">+20.1%</monk-text>
+    </monk-stack>
+  </monk-card>
+</monk-flex>
+```
+
+### Performance Considerations
+
+#### Bundle Size
+- Component: ~3.2KB (minified + gzipped)
+- Includes all variants, interactive mode, and event handlers
+- Larger than Divider due to interactive logic
+
+#### Runtime Performance
+- CSS custom properties (no JavaScript overhead for styling)
+- Attribute selectors for variants
+- Shadow DOM scoping
+- Event delegation for click handling
+- Single event listener for both click and keyboard
+- Minimal re-renders (Lit's reactive properties)
+
+### Design Decisions
+
+**Why three variants instead of just elevated?**
+- Elevated: Default, works for most use cases
+- Outline: Less visual weight, works on colored backgrounds
+- Filled: Subtle differentiation, common in dashboard layouts
+- Covers all Material Design card elevation patterns
+
+**Why optional interactive mode instead of separate components?**
+- Single component with boolean prop is simpler
+- Reduces API surface area
+- Common pattern in React (Button vs. Link components)
+- Easy to toggle for responsive behavior
+
+**Why emit custom event instead of using onClick?**
+- Web Components standard pattern
+- Works across all frameworks
+- Composed: true allows event to cross shadow DOM boundary
+- Bubbles: true allows parent event delegation
+- Consistent with other design systems (Shoelace, Lion)
+
+**Why default padding of 24px (space-6)?**
+- Provides comfortable breathing room
+- Matches common design system defaults (Chakra, Material-UI)
+- Large enough for readability, small enough to not waste space
+- Can be overridden with `padding` prop
+
+**Why allow custom background via inline style?**
+- Highest specificity (overrides all CSS)
+- Familiar pattern from React styling
+- No CSS custom property needed
+- Works consistently across all variants
+
+---
+
 ## Build System
 
 ### Nx Workspace

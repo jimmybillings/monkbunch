@@ -1114,6 +1114,274 @@ function App() {
 
 ---
 
+### **Card Component** (Complete ✅)
+
+**Card** (`<monk-card>`):
+- Flexible container for grouping related content and actions
+- Props: `variant`, `interactive`, `padding`, `radius`, `shadow`, `bg`
+- Extends: `MonkBaseElement`
+- File: `src/components/card/card.ts`
+
+**Properties:**
+```typescript
+variant: 'elevated' | 'outline' | 'filled'  // default: 'elevated'
+interactive: boolean  // default: false
+padding?: string  // Space scale value (e.g., '4', '6', '8')
+radius: string  // default: 'md'
+shadow?: string  // Shadow scale value (e.g., 'sm', 'md', 'lg', 'xl')
+bg?: string  // Custom background color (overrides variant default)
+```
+
+**Usage Examples:**
+
+**Basic Variants:**
+```html
+<!-- Elevated card with shadow (default) -->
+<monk-card>
+  <h3>Card Title</h3>
+  <p>Card content goes here</p>
+</monk-card>
+
+<!-- Outline card with border -->
+<monk-card variant="outline">
+  <h3>Card Title</h3>
+  <p>Card with border, no shadow</p>
+</monk-card>
+
+<!-- Filled card with subtle background -->
+<monk-card variant="filled">
+  <h3>Card Title</h3>
+  <p>Card with subtle background</p>
+</monk-card>
+```
+
+**Interactive Cards:**
+```html
+<!-- Clickable card with hover effects -->
+<monk-card interactive>
+  <h3>Clickable Card</h3>
+  <p>Hover to see lift effect</p>
+</monk-card>
+
+<!-- With click handler -->
+<monk-card interactive id="product-card">
+  <h3>Product Name</h3>
+  <p>Click to view details</p>
+</monk-card>
+
+<script>
+  document.getElementById('product-card').addEventListener('card-click', (e) => {
+    console.log('Card clicked!', e.detail);
+    // Navigate to product details
+  });
+</script>
+```
+
+**Custom Styling:**
+```html
+<!-- Custom padding -->
+<monk-card padding="8">
+  <h3>Large Padding</h3>
+  <p>32px padding on all sides</p>
+</monk-card>
+
+<!-- Custom border radius -->
+<monk-card radius="lg">
+  <h3>Large Radius</h3>
+  <p>Rounded corners</p>
+</monk-card>
+
+<!-- Custom shadow level -->
+<monk-card shadow="xl">
+  <h3>Extra Large Shadow</h3>
+  <p>Heavy shadow for emphasis</p>
+</monk-card>
+
+<!-- Custom background color -->
+<monk-card bg="#fef3c7">
+  <h3>Warm Yellow</h3>
+  <p>Custom background color</p>
+</monk-card>
+
+<!-- Combine multiple props -->
+<monk-card variant="outline" padding="8" radius="lg" bg="#dbeafe">
+  <h3>Fully Custom</h3>
+  <p>Outline card with custom styling</p>
+</monk-card>
+```
+
+**Common Use Cases:**
+
+**Product Card:**
+```html
+<monk-card style="max-width: 350px;">
+  <monk-stack spacing="4">
+    <monk-flex justify="between" align="start">
+      <monk-heading level="h4">Premium Plan</monk-heading>
+      <monk-badge color-scheme="success">Popular</monk-badge>
+    </monk-flex>
+
+    <monk-text size="2xl" weight="bold">
+      $29<monk-text size="base">/month</monk-text>
+    </monk-text>
+
+    <monk-divider></monk-divider>
+
+    <monk-stack spacing="2">
+      <monk-text>✓ Unlimited projects</monk-text>
+      <monk-text>✓ 50GB storage</monk-text>
+      <monk-text>✓ Priority support</monk-text>
+      <monk-text>✓ Advanced analytics</monk-text>
+    </monk-stack>
+
+    <monk-button variant="solid" full-width>Get Started</monk-button>
+  </monk-stack>
+</monk-card>
+```
+
+**User Profile Card:**
+```html
+<monk-card variant="outline" style="max-width: 400px;">
+  <monk-stack spacing="4">
+    <monk-flex gap="4" align="center">
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+      <monk-stack spacing="1">
+        <monk-heading level="h4">Jane Cooper</monk-heading>
+        <monk-text color="secondary">Product Designer</monk-text>
+        <monk-flex gap="2">
+          <monk-badge variant="subtle" size="sm">Design</monk-badge>
+          <monk-badge variant="subtle" size="sm">UI/UX</monk-badge>
+        </monk-flex>
+      </monk-stack>
+    </monk-flex>
+
+    <monk-divider></monk-divider>
+
+    <monk-flex gap="6">
+      <monk-stack spacing="1">
+        <monk-text weight="semibold">128</monk-text>
+        <monk-text size="sm" color="secondary">Projects</monk-text>
+      </monk-stack>
+      <monk-stack spacing="1">
+        <monk-text weight="semibold">2.4k</monk-text>
+        <monk-text size="sm" color="secondary">Followers</monk-text>
+      </monk-stack>
+      <monk-stack spacing="1">
+        <monk-text weight="semibold">456</monk-text>
+        <monk-text size="sm" color="secondary">Following</monk-text>
+      </monk-stack>
+    </monk-flex>
+  </monk-stack>
+</monk-card>
+```
+
+**Blog Post Card (Interactive):**
+```html
+<monk-card interactive style="max-width: 450px;">
+  <monk-stack spacing="3">
+    <monk-badge variant="subtle" size="sm">Tutorial</monk-badge>
+    <monk-heading level="h4">Getting Started with Web Components</monk-heading>
+    <monk-text color="secondary">
+      Learn how to build reusable, framework-agnostic components using the Web Components standard.
+    </monk-text>
+    <monk-divider></monk-divider>
+    <monk-flex justify="between" align="center">
+      <monk-text size="sm" color="secondary">5 min read • Jan 24, 2025</monk-text>
+      <monk-text size="sm" color="accent">Read more →</monk-text>
+    </monk-flex>
+  </monk-stack>
+</monk-card>
+```
+
+**Dashboard Stat Cards:**
+```html
+<monk-flex gap="4" wrap="wrap">
+  <monk-card variant="filled" style="min-width: 200px; flex: 1;">
+    <monk-stack spacing="2">
+      <monk-text size="sm" color="secondary">Total Revenue</monk-text>
+      <monk-text size="2xl" weight="bold">$45,231</monk-text>
+      <monk-text size="sm" color="success">+20.1% from last month</monk-text>
+    </monk-stack>
+  </monk-card>
+
+  <monk-card variant="filled" style="min-width: 200px; flex: 1;">
+    <monk-stack spacing="2">
+      <monk-text size="sm" color="secondary">Active Users</monk-text>
+      <monk-text size="2xl" weight="bold">2,350</monk-text>
+      <monk-text size="sm" color="success">+180 this week</monk-text>
+    </monk-stack>
+  </monk-card>
+</monk-flex>
+```
+
+**Card with Image (Zero Padding):**
+```html
+<monk-card padding="0" style="max-width: 400px;">
+  <img src="image.jpg" alt="..." style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+  <div style="padding: 24px;">
+    <monk-stack spacing="3">
+      <monk-heading level="h5">Card with Image</monk-heading>
+      <monk-text>Zero padding allows full-width images at the top.</monk-text>
+    </monk-stack>
+  </div>
+</monk-card>
+```
+
+**React Usage:**
+```tsx
+import { Card, Stack, Heading, Text, Button, Badge } from '@monkbunch/design-kit-react';
+
+function App() {
+  return (
+    <>
+      {/* Basic elevated card */}
+      <Card>
+        <h3>Card Title</h3>
+        <p>Card content</p>
+      </Card>
+
+      {/* Outline card */}
+      <Card variant="outline">
+        <h3>Outline Card</h3>
+        <p>Card with border</p>
+      </Card>
+
+      {/* Interactive card */}
+      <Card interactive onCardClick={(e) => console.log('Clicked!', e.detail)}>
+        <h3>Clickable Card</h3>
+        <p>This card responds to clicks</p>
+      </Card>
+
+      {/* Custom styling */}
+      <Card padding="8" radius="lg" shadow="xl" bg="#fef3c7">
+        <h3>Custom Card</h3>
+        <p>With custom styling</p>
+      </Card>
+
+      {/* Product card composition */}
+      <Card style={{ maxWidth: '350px' }}>
+        <Stack spacing="4">
+          <Heading level="h4">Premium Plan</Heading>
+          <Text size="2xl" weight="bold">$29/month</Text>
+          <Button variant="solid" fullWidth>Get Started</Button>
+        </Stack>
+      </Card>
+    </>
+  );
+}
+```
+
+**Accessibility Features:**
+- Uses semantic `<article>` element for non-interactive cards
+- Uses `role="button"` for interactive cards
+- Interactive cards are keyboard accessible (Tab to focus, Enter/Space to activate)
+- Proper focus indicators with focus ring tokens
+- Emits `card-click` custom event for click handling
+- Screen readers announce card content properly
+- Respects `prefers-reduced-motion` for transitions
+
+---
+
 ### **Component Patterns to Follow**
 
 1. **Use semantic tokens** - Never hardcode colors
@@ -1436,15 +1704,15 @@ monk-link::part(link):hover {
 - ✅ Button component (solid, outline, ghost, link variants with 5 color schemes)
 - ✅ Badge component (solid, subtle, outline variants with 6 color schemes + custom colors)
 - ✅ Divider component (horizontal/vertical, solid/dashed/dotted, with optional labels)
-- ✅ React wrappers for typography, layout, button, badge, and divider
-- ✅ Storybook with theme switcher (80+ stories across all components)
+- ✅ Card component (elevated/outline/filled variants, interactive mode, custom shadows)
+- ✅ React wrappers for typography, layout, button, badge, divider, and card
+- ✅ Storybook with theme switcher (90+ stories across all components)
 - ✅ Accessibility testing setup
 - ✅ Comprehensive token and component documentation
 - ✅ White-label customization (CSS custom properties + CSS parts)
 
 ### 📋 Next Steps (Planned)
 - Form components (Input, Textarea, Select, Checkbox, Radio)
-- Card component (with shadow tokens)
 - Modal/Dialog (with z-index tokens)
 - Navigation components
 - Icon system integration
@@ -1556,4 +1824,4 @@ npx nx build design-kit
 
 **Last Updated:** January 2025
 **Current Version:** 0.1.0
-**Status:** Active Development (Typography, Layout, Button, Badge, and Divider components complete)
+**Status:** Active Development (Typography, Layout, Button, Badge, Divider, and Card components complete)
