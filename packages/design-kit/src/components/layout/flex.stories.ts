@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import './flex.js';
 import './box.js';
 import './stack.js';
@@ -79,7 +80,7 @@ export const Default: Story = {
       align=${args.align}
       justify=${args.justify}
       wrap=${args.wrap}
-      gap=${args.gap || ''}
+      gap=${ifDefined(args.gap)}
       ?inline=${args.inline}
     >
       <monk-box padding="6" bg="accent-subtle" radius="md">
@@ -202,7 +203,7 @@ export const Directions: Story = {
 export const Alignment: Story = {
   render: () => html`
     <monk-stack spacing="6">
-      ${['start', 'center', 'end', 'stretch', 'baseline'].map(
+      ${(['start', 'center', 'end', 'stretch', 'baseline'] as const).map(
         (align) => html`
           <monk-stack spacing="2">
             <monk-text size="sm" weight="semibold">align="${align}"</monk-text>
@@ -226,7 +227,7 @@ export const Alignment: Story = {
 export const Justify: Story = {
   render: () => html`
     <monk-stack spacing="6">
-      ${['start', 'center', 'end', 'between', 'around', 'evenly'].map(
+      ${(['start', 'center', 'end', 'between', 'around', 'evenly'] as const).map(
         (justify) => html`
           <monk-stack spacing="2">
             <monk-text size="sm" weight="semibold">justify="${justify}"</monk-text>
