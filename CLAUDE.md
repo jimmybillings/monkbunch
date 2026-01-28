@@ -498,6 +498,251 @@ inline: boolean  // default: false
 </monk-grid>
 ```
 
+### **Button Component** (Complete ✅)
+
+**Button** (`<monk-button>`):
+- The interactive button component with Material Design-inspired API
+- Props: `variant`, `colorScheme`, `size`, `disabled`, `fullWidth`, `type`
+- Extends: `MonkBaseElement`
+- File: `src/components/button/button.ts`
+
+**Properties:**
+```typescript
+variant: 'solid' | 'outline' | 'ghost' | 'link'  // default: 'solid'
+colorScheme: 'primary' | 'neutral' | 'success' | 'error' | 'warning'  // default: 'primary'
+size: 'xs' | 'sm' | 'md' | 'lg' | 'xl'  // default: 'md'
+disabled: boolean  // default: false
+fullWidth: boolean  // default: false
+type: 'button' | 'submit' | 'reset'  // default: 'button'
+```
+
+**Usage Examples:**
+
+**Basic Variants:**
+```html
+<!-- Solid (default) - Primary actions -->
+<monk-button>Save Changes</monk-button>
+<monk-button variant="solid" color-scheme="primary">Primary Action</monk-button>
+
+<!-- Outline - Secondary actions -->
+<monk-button variant="outline">Cancel</monk-button>
+<monk-button variant="outline" color-scheme="neutral">Secondary Action</monk-button>
+
+<!-- Ghost - Tertiary actions -->
+<monk-button variant="ghost">Skip</monk-button>
+<monk-button variant="ghost" color-scheme="neutral">Tertiary Action</monk-button>
+
+<!-- Link - Text-style buttons -->
+<monk-button variant="link">Learn more</monk-button>
+```
+
+**Color Schemes:**
+```html
+<!-- Primary (brand color) -->
+<monk-button color-scheme="primary">Primary</monk-button>
+
+<!-- Neutral (gray) -->
+<monk-button color-scheme="neutral">Neutral</monk-button>
+
+<!-- Success (green) -->
+<monk-button color-scheme="success">Approve</monk-button>
+<monk-button color-scheme="success">Confirm</monk-button>
+
+<!-- Error (red) -->
+<monk-button color-scheme="error">Delete</monk-button>
+<monk-button color-scheme="error">Remove</monk-button>
+
+<!-- Warning (yellow) -->
+<monk-button color-scheme="warning">Proceed Anyway</monk-button>
+```
+
+**Sizes:**
+```html
+<monk-button size="xs">Extra Small</monk-button>
+<monk-button size="sm">Small</monk-button>
+<monk-button size="md">Medium (default)</monk-button>
+<monk-button size="lg">Large</monk-button>
+<monk-button size="xl">Extra Large</monk-button>
+```
+
+**States:**
+```html
+<!-- Disabled -->
+<monk-button disabled>Disabled Button</monk-button>
+
+<!-- Full width -->
+<monk-container size="sm">
+  <monk-button full-width>Full Width Button</monk-button>
+</monk-container>
+
+<!-- Form types -->
+<form>
+  <monk-button type="submit">Submit Form</monk-button>
+  <monk-button type="reset" variant="outline">Reset Form</monk-button>
+  <monk-button type="button">Regular Button</monk-button>
+</form>
+```
+
+**Common Patterns:**
+
+**Button Groups:**
+```html
+<!-- Horizontal button group -->
+<monk-flex gap="3">
+  <monk-button>Save</monk-button>
+  <monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
+</monk-flex>
+
+<!-- Right-aligned actions -->
+<monk-flex gap="3" justify="end">
+  <monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
+  <monk-button>Save</monk-button>
+</monk-flex>
+
+<!-- Space between -->
+<monk-flex gap="3" justify="between">
+  <monk-button variant="ghost" color-scheme="neutral">Back</monk-button>
+  <monk-flex gap="3">
+    <monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
+    <monk-button>Continue</monk-button>
+  </monk-flex>
+</monk-flex>
+
+<!-- Vertical stack -->
+<monk-stack spacing="3">
+  <monk-button full-width>Primary Action</monk-button>
+  <monk-button variant="outline" color-scheme="neutral" full-width>
+    Secondary Action
+  </monk-button>
+  <monk-button variant="link" full-width>Tertiary Action</monk-button>
+</monk-stack>
+```
+
+**Use Case Examples:**
+```html
+<!-- Primary actions -->
+<monk-button>Save</monk-button>
+<monk-button>Submit</monk-button>
+<monk-button>Continue</monk-button>
+
+<!-- Secondary actions -->
+<monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
+<monk-button variant="ghost" color-scheme="neutral">Skip</monk-button>
+<monk-button variant="link">Learn more</monk-button>
+
+<!-- Confirmation actions -->
+<monk-button color-scheme="success">Approve</monk-button>
+<monk-button color-scheme="success">Confirm</monk-button>
+<monk-button variant="outline" color-scheme="success">Save Draft</monk-button>
+
+<!-- Destructive actions -->
+<monk-button color-scheme="error">Delete</monk-button>
+<monk-button color-scheme="error">Remove</monk-button>
+<monk-button variant="outline" color-scheme="error">Discard</monk-button>
+
+<!-- Warning actions -->
+<monk-button color-scheme="warning">Proceed Anyway</monk-button>
+<monk-button variant="outline" color-scheme="warning">Review</monk-button>
+```
+
+**Form Integration:**
+```html
+<monk-container size="sm">
+  <monk-box padding="6" bg="surface" radius="lg" shadow="md" border="1px">
+    <form>
+      <monk-stack spacing="4">
+        <monk-stack spacing="1">
+          <monk-text weight="medium">Email</monk-text>
+          <input type="email" placeholder="your@email.com" />
+        </monk-stack>
+
+        <monk-stack spacing="1">
+          <monk-text weight="medium">Password</monk-text>
+          <input type="password" />
+        </monk-stack>
+
+        <monk-flex gap="3">
+          <monk-button type="submit" full-width>Sign In</monk-button>
+          <monk-button type="reset" variant="outline" color-scheme="neutral" full-width>
+            Reset
+          </monk-button>
+        </monk-flex>
+      </monk-stack>
+    </form>
+  </monk-box>
+</monk-container>
+```
+
+**White-Label Customization:**
+```css
+/* Style all buttons */
+monk-button::part(button) {
+  font-family: 'Custom Font';
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Target specific variants */
+monk-button[variant='solid']::part(button) {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Target specific color schemes */
+monk-button[color-scheme='primary']::part(button) {
+  background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+}
+
+/* Add hover effects */
+monk-button::part(button):hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+/* Target specific sizes */
+monk-button[size='lg']::part(button) {
+  min-width: 120px;
+}
+```
+
+**React Usage:**
+```tsx
+import { Button } from '@monkbunch/design-kit-react';
+
+function App() {
+  return (
+    <>
+      <Button variant="solid" colorScheme="primary" size="md">
+        Save Changes
+      </Button>
+
+      <Button
+        variant="outline"
+        colorScheme="neutral"
+        onClick={() => console.log('clicked')}
+      >
+        Cancel
+      </Button>
+
+      <Button
+        colorScheme="error"
+        disabled={isLoading}
+        fullWidth
+      >
+        Delete
+      </Button>
+    </>
+  );
+}
+```
+
+**Accessibility Features:**
+- Uses native `<button>` element for keyboard navigation
+- Supports Tab navigation and Enter/Space activation
+- Focus visible styles for keyboard users with focus ring tokens
+- Proper color contrast ratios (WCAG AA compliant)
+- `aria-disabled` attribute on disabled buttons
+- `disabled` attribute prevents interaction
+- Respects `prefers-reduced-motion` for transitions
+
 ### **Component Patterns to Follow**
 
 1. **Use semantic tokens** - Never hardcode colors
@@ -817,14 +1062,14 @@ monk-link::part(link):hover {
 - ✅ Light/dark theme system
 - ✅ Typography components (Heading, Text, Link) with CSS parts
 - ✅ Layout primitives (Box, Stack, Flex, Container, Grid) with CSS parts
-- ✅ React wrappers for typography and layout
-- ✅ Storybook with theme switcher (50+ stories across all components)
+- ✅ Button component (solid, outline, ghost, link variants with 5 color schemes)
+- ✅ React wrappers for typography, layout, and button
+- ✅ Storybook with theme switcher (60+ stories across all components)
 - ✅ Accessibility testing setup
 - ✅ Comprehensive token and component documentation
 - ✅ White-label customization (CSS custom properties + CSS parts)
 
 ### 📋 Next Steps (Planned)
-- Button component (solid, outline, ghost variants)
 - Badge component (status indicators)
 - Divider component
 - Form components (Input, Textarea, Select, Checkbox, Radio)
@@ -940,4 +1185,4 @@ npx nx build design-kit
 
 **Last Updated:** January 2025
 **Current Version:** 0.1.0
-**Status:** Active Development (Typography components complete)
+**Status:** Active Development (Typography, Layout, and Button components complete)
