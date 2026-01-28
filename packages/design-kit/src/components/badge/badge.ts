@@ -43,10 +43,13 @@ export type BadgeSize = 'sm' | 'md' | 'lg';
  * <!-- Outline variant -->
  * <monk-badge variant="outline" color-scheme="info">Beta</monk-badge>
  *
- * <!-- Custom colors -->
+ * <!-- Custom colors using props -->
+ * <monk-badge bg="#ff6b6b" color="white">Custom Red</monk-badge>
+ * <monk-badge bg="#ffd93d" color="#333">Gold</monk-badge>
+ * <monk-badge variant="outline" border-color="#a855f7" color="#a855f7">Purple</monk-badge>
+ *
+ * <!-- Custom colors using CSS custom properties (also supported) -->
  * <monk-badge style="--badge-bg: #ff6b6b; --badge-color: white;">Custom</monk-badge>
- * <monk-badge style="--badge-bg: #ffd93d; --badge-color: #333;">Gold</monk-badge>
- * <monk-badge variant="outline" style="--badge-border-color: #a855f7; --badge-color: #a855f7;">Purple</monk-badge>
  * ```
  *
  * @accessibility
@@ -59,9 +62,9 @@ export type BadgeSize = 'sm' | 'md' | 'lg';
  * @cssprop --monk-color-border-* - Border color tokens
  * @cssprop --monk-space-* - Spacing tokens
  * @cssprop --monk-font-* - Typography tokens
- * @cssprop --badge-bg - Custom background color (overrides color-scheme)
- * @cssprop --badge-color - Custom text color (overrides color-scheme)
- * @cssprop --badge-border-color - Custom border color (overrides color-scheme)
+ * @cssprop --badge-bg - Custom background color (overrides color-scheme, set via `bg` prop or inline styles)
+ * @cssprop --badge-color - Custom text color (overrides color-scheme, set via `color` prop or inline styles)
+ * @cssprop --badge-border-color - Custom border color (overrides color-scheme, set via `border-color` prop or inline styles)
  *
  * @csspart badge - The badge element for external styling via ::part()
  */
@@ -87,6 +90,30 @@ export class MonkBadge extends MonkBaseElement {
    */
   @property({ type: String, reflect: true })
   size: BadgeSize = 'md';
+
+  /**
+   * Custom background color (overrides color-scheme)
+   * Accepts any valid CSS color value
+   * @example "#ff6b6b", "rgb(255, 107, 107)", "coral"
+   */
+  @property({ type: String, reflect: true })
+  bg?: string;
+
+  /**
+   * Custom text color (overrides color-scheme)
+   * Accepts any valid CSS color value
+   * @example "white", "#ffffff", "rgb(255, 255, 255)"
+   */
+  @property({ type: String, reflect: true })
+  color?: string;
+
+  /**
+   * Custom border color (overrides color-scheme, for outline variant)
+   * Accepts any valid CSS color value
+   * @example "#a855f7", "purple", "rgb(168, 85, 247)"
+   */
+  @property({ type: String, reflect: true, attribute: 'border-color' })
+  borderColor?: string;
 
   static override styles: CSSResultArray = [
     coreStyles,
@@ -253,6 +280,18 @@ export class MonkBadge extends MonkBaseElement {
 
   protected override render(): TemplateResult {
     const partValue = `badge ${this.variant} ${this.colorScheme} ${this.size}`;
+
+    // Apply custom colors as CSS custom properties on the host
+    // This allows them to override the semantic color scheme defaults
+    if (this.bg) {
+      this.style.setProperty('--badge-bg', this.bg);
+    }
+    if (this.color) {
+      this.style.setProperty('--badge-color', this.color);
+    }
+    if (this.borderColor) {
+      this.style.setProperty('--badge-border-color', this.borderColor);
+    }
 
     return html`
       <span part="${partValue}" class="badge">

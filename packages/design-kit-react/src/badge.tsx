@@ -17,6 +17,12 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLElement> {
   colorScheme?: BadgeColorScheme;
   /** Badge size */
   size?: BadgeSize;
+  /** Custom background color (overrides colorScheme) */
+  bg?: string;
+  /** Custom text color (overrides colorScheme) */
+  color?: string;
+  /** Custom border color (overrides colorScheme, for outline variant) */
+  borderColor?: string;
   /** Hidden state */
   hidden?: boolean;
   /** Children content */
@@ -39,6 +45,10 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLElement> {
  *
  * // Role indicator
  * <Badge variant="outline" colorScheme="info">Admin</Badge>
+ *
+ * // Custom colors
+ * <Badge bg="#ff6b6b" color="white">Custom Red</Badge>
+ * <Badge variant="outline" borderColor="#a855f7" color="#a855f7">Purple</Badge>
  * ```
  */
 export const Badge = createComponent({
