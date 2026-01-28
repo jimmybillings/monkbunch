@@ -184,6 +184,7 @@ export class MonkDivider extends MonkBaseElement {
       .label {
         padding: 0 var(--monk-space-3);
         color: var(--monk-color-text-secondary);
+        font-family: var(--monk-font-family-base);
         font-size: var(--monk-font-size-sm);
         font-weight: var(--monk-font-weight-medium);
         white-space: nowrap;
