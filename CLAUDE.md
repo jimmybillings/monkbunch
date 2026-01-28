@@ -916,6 +916,204 @@ function App() {
 - Non-interactive (no focus states needed)
 - Respects `prefers-reduced-motion` for transitions
 
+---
+
+### **Divider Component** (Complete ✅)
+
+**Divider** (`<monk-divider>`):
+- Visual separator for content sections
+- Props: `orientation`, `variant`, `thickness`, `label`, `color`
+- Extends: `MonkBaseElement`
+- File: `src/components/divider/divider.ts`
+
+**Properties:**
+```typescript
+orientation: 'horizontal' | 'vertical'  // default: 'horizontal'
+variant: 'solid' | 'dashed' | 'dotted'  // default: 'solid'
+thickness: 'thin' | 'medium' | 'thick'  // default: 'medium'
+label?: string  // Optional label text (horizontal only)
+color?: string  // Custom divider color (overrides default border color)
+```
+
+**Usage Examples:**
+
+**Basic Divider:**
+```html
+<!-- Simple horizontal divider -->
+<monk-divider></monk-divider>
+
+<!-- Vertical divider (needs container with height) -->
+<monk-flex gap="4" align="center" style="height: 100px;">
+  <monk-text>Left</monk-text>
+  <monk-divider orientation="vertical"></monk-divider>
+  <monk-text>Right</monk-text>
+</monk-flex>
+```
+
+**Variants:**
+```html
+<!-- Solid line (default) -->
+<monk-divider variant="solid"></monk-divider>
+
+<!-- Dashed line -->
+<monk-divider variant="dashed"></monk-divider>
+
+<!-- Dotted line -->
+<monk-divider variant="dotted"></monk-divider>
+```
+
+**Thickness:**
+```html
+<monk-divider thickness="thin"></monk-divider>     <!-- 1px -->
+<monk-divider thickness="medium"></monk-divider>   <!-- 1px default -->
+<monk-divider thickness="thick"></monk-divider>    <!-- 2px -->
+```
+
+**With Label:**
+```html
+<!-- Login form separator -->
+<monk-stack spacing="4">
+  <monk-text>Sign in with email</monk-text>
+  <monk-divider label="OR"></monk-divider>
+  <monk-text>Sign in with social</monk-text>
+</monk-stack>
+
+<!-- Section separator -->
+<monk-divider label="UPGRADE TO PRO"></monk-divider>
+
+<!-- Timeline separator -->
+<monk-divider label="TODAY"></monk-divider>
+```
+
+**Custom Colors:**
+```html
+<!-- Using color prop (recommended) -->
+<monk-divider color="#ff6b6b"></monk-divider>
+<monk-divider color="#ffd93d"></monk-divider>
+<monk-divider variant="dashed" color="#6bcf7f"></monk-divider>
+<monk-divider variant="dotted" thickness="thick" color="#a855f7"></monk-divider>
+
+<!-- Using CSS custom property (alternative) -->
+<monk-divider style="--divider-color: #ff6b6b;"></monk-divider>
+```
+
+**Common Use Cases:**
+
+**Card Section Separator:**
+```html
+<monk-box padding="6" bg="surface" radius="md" shadow="md" border="1px">
+  <monk-stack spacing="4">
+    <monk-heading level="h4">Product Title</monk-heading>
+    <monk-text>Main content description goes here.</monk-text>
+    <monk-divider></monk-divider>
+    <monk-flex gap="4" justify="between">
+      <monk-text color="secondary">Posted 2 days ago</monk-text>
+      <monk-text color="secondary">12 comments</monk-text>
+    </monk-flex>
+  </monk-stack>
+</monk-box>
+```
+
+**Sidebar Navigation:**
+```html
+<monk-stack spacing="4">
+  <monk-text>Dashboard</monk-text>
+  <monk-text>Projects</monk-text>
+  <monk-text>Team</monk-text>
+  <monk-divider></monk-divider>
+  <monk-text color="secondary">Settings</monk-text>
+  <monk-text color="secondary">Help</monk-text>
+</monk-stack>
+```
+
+**Form Sections:**
+```html
+<monk-stack spacing="6">
+  <monk-stack spacing="3">
+    <monk-heading level="h4">Personal Information</monk-heading>
+    <monk-text color="secondary">Update your details</monk-text>
+  </monk-stack>
+  <monk-divider></monk-divider>
+  <monk-stack spacing="3">
+    <monk-heading level="h4">Account Settings</monk-heading>
+    <monk-text color="secondary">Manage preferences</monk-text>
+  </monk-stack>
+</monk-stack>
+```
+
+**Toolbar Separator:**
+```html
+<monk-flex gap="4" align="center">
+  <monk-text>Bold</monk-text>
+  <monk-text>Italic</monk-text>
+  <monk-text>Underline</monk-text>
+  <monk-divider orientation="vertical" style="height: 24px;"></monk-divider>
+  <monk-text>Align Left</monk-text>
+  <monk-text>Align Center</monk-text>
+  <monk-divider orientation="vertical" style="height: 24px;"></monk-divider>
+  <monk-text>Undo</monk-text>
+  <monk-text>Redo</monk-text>
+</monk-flex>
+```
+
+**Login Form with Label:**
+```html
+<monk-stack spacing="6">
+  <monk-stack spacing="3">
+    <monk-button variant="solid" size="md" full-width>
+      Sign in with Email
+    </monk-button>
+  </monk-stack>
+
+  <monk-divider label="OR"></monk-divider>
+
+  <monk-stack spacing="3">
+    <monk-button variant="outline" size="md" full-width>
+      Sign in with Google
+    </monk-button>
+    <monk-button variant="outline" size="md" full-width>
+      Sign in with GitHub
+    </monk-button>
+  </monk-stack>
+</monk-stack>
+```
+
+**React Usage:**
+```tsx
+import { Divider, Stack, Text, Flex } from '@monkbunch/design-kit-react';
+
+function App() {
+  return (
+    <>
+      {/* Simple horizontal */}
+      <Divider />
+
+      {/* With label */}
+      <Divider label="OR" />
+
+      {/* Vertical separator */}
+      <Flex gap="4" align="center" style={{ height: '100px' }}>
+        <Text>Left</Text>
+        <Divider orientation="vertical" />
+        <Text>Right</Text>
+      </Flex>
+
+      {/* Custom styling */}
+      <Divider variant="dashed" thickness="thick" color="#a855f7" />
+    </>
+  );
+}
+```
+
+**Accessibility Features:**
+- Uses semantic `<hr>` element with ARIA `role="separator"`
+- Proper `aria-orientation` attribute (horizontal or vertical)
+- Not focusable (`pointer-events: none`)
+- Label text is properly marked up with semantic HTML
+- Works with screen readers for content structure
+
+---
+
 ### **Component Patterns to Follow**
 
 1. **Use semantic tokens** - Never hardcode colors
@@ -1237,14 +1435,14 @@ monk-link::part(link):hover {
 - ✅ Layout primitives (Box, Stack, Flex, Container, Grid) with CSS parts
 - ✅ Button component (solid, outline, ghost, link variants with 5 color schemes)
 - ✅ Badge component (solid, subtle, outline variants with 6 color schemes + custom colors)
-- ✅ React wrappers for typography, layout, button, and badge
-- ✅ Storybook with theme switcher (70+ stories across all components)
+- ✅ Divider component (horizontal/vertical, solid/dashed/dotted, with optional labels)
+- ✅ React wrappers for typography, layout, button, badge, and divider
+- ✅ Storybook with theme switcher (80+ stories across all components)
 - ✅ Accessibility testing setup
 - ✅ Comprehensive token and component documentation
 - ✅ White-label customization (CSS custom properties + CSS parts)
 
 ### 📋 Next Steps (Planned)
-- Divider component
 - Form components (Input, Textarea, Select, Checkbox, Radio)
 - Card component (with shadow tokens)
 - Modal/Dialog (with z-index tokens)
@@ -1358,4 +1556,4 @@ npx nx build design-kit
 
 **Last Updated:** January 2025
 **Current Version:** 0.1.0
-**Status:** Active Development (Typography, Layout, Button, and Badge components complete)
+**Status:** Active Development (Typography, Layout, Button, Badge, and Divider components complete)

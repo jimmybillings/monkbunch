@@ -2298,6 +2298,483 @@ export const Badge = createComponent({
 
 ---
 
+## Divider Component Architecture
+
+**File:** `src/components/divider/divider.ts`
+
+**Purpose:** Visual separator for content sections with optional labels and flexible styling.
+
+### Design Philosophy
+
+The Divider component follows Material Design and Chakra UI patterns for content separation:
+
+1. **Non-interactive** - Dividers are visual separators only, not interactive elements
+2. **Orientation flexibility** - Supports both horizontal and vertical layouts
+3. **Line style variants** - `variant` controls visual appearance (solid, dashed, dotted)
+4. **Optional labels** - Horizontal dividers can display text in the middle (e.g., "OR")
+5. **Thickness control** - Consistent sizing (thin, medium, thick)
+6. **Custom colors** - `color` prop overrides default border color
+7. **Semantic HTML** - Uses `<hr>` element with proper ARIA roles
+
+This approach provides semantic defaults while allowing visual customization through props.
+
+### Implementation Details
+
+#### Base Structure
+
+```typescript
+@customElement('monk-divider')
+export class MonkDivider extends MonkBaseElement {
+  @property({ type: String, reflect: true })
+  orientation: DividerOrientation = 'horizontal';
+
+  @property({ type: String, reflect: true })
+  variant: DividerVariant = 'solid';
+
+  @property({ type: String, reflect: true })
+  thickness: DividerThickness = 'medium';
+
+  @property({ type: String, reflect: true })
+  label?: string;
+
+  @property({ type: String, reflect: true })
+  color?: string;
+}
+```
+
+**Key Design Decisions:**
+
+1. **Reflected attributes** - All props reflect to attributes for CSS styling
+2. **Semantic HR element** - Uses `<hr>` (semantic separator) vs generic `<div>`
+3. **ARIA roles** - Proper `role="separator"` and `aria-orientation` attributes
+4. **TypeScript unions** - Strict typing for all orientations, variants, and thickness values
+5. **CSS custom property bridge** - `color` prop sets CSS custom properties for flexibility
+6. **Non-focusable** - `pointer-events: none` prevents interaction
+
+#### Token Integration Strategy
+
+Divider uses semantic border tokens with custom color override:
+
+```typescript
+// Default: Semantic border color
+:host([orientation='horizontal']) {
+  --divider-color: var(--monk-color-border-default);
+}
+
+// Line styles consume CSS custom properties
+.line {
+  border-top-style: var(--line-style, solid);
+  border-top-color: var(--divider-color);
+  border-top-width: var(--divider-thickness);
+}
+
+// Custom color prop overrides semantic default
+if (this.color) {
+  this.style.setProperty('--divider-color', this.color);
+}
+```
+
+**Color Hierarchy (specificity order):**
+1. Custom color prop (`color`) - Highest priority
+2. CSS custom properties (inline `style="--divider-color: #fff"`)
+3. Semantic border color (`var(--monk-color-border-default)`) - Default
+
+### Orientation Implementation
+
+#### 1. Horizontal Orientation (Default)
+
+**Visual:** Full-width horizontal line
+**Usage:** Section separators, card footers, form sections
+**Implementation:**
+```css
+:host([orientation='horizontal']) {
+  width: 100%;
+}
+
+:host([orientation='horizontal']) .line {
+  height: 0;
+  border-top-style: var(--line-style, solid);
+  border-top-color: var(--divider-color);
+  border-top-width: var(--divider-thickness);
+}
+```
+
+**Rationale:** Full-width by default, using border-top for the line.
+
+#### 2. Vertical Orientation
+
+**Visual:** Full-height vertical line
+**Usage:** Toolbar separators, sidebar sections, inline content division
+**Implementation:**
+```css
+:host([orientation='vertical']) {
+  height: 100%;
+  display: inline-flex;
+  align-self: stretch;
+}
+
+:host([orientation='vertical']) .line {
+  width: 0;
+  border-left-style: var(--line-style, solid);
+  border-left-color: var(--divider-color);
+  border-left-width: var(--divider-thickness);
+}
+```
+
+**Rationale:** Uses `align-self: stretch` to fill container height. Requires explicit height on parent.
+
+### Variant Implementation
+
+#### 1. Solid Variant (Default)
+
+**Visual:** Continuous solid line
+**Usage:** Default, standard section separators
+**Token Pattern:**
+```css
+:host([variant='solid']) {
+  --line-style: solid;
+}
+```
+
+**Rationale:** Clean, standard separator. Most common use case.
+
+#### 2. Dashed Variant
+
+**Visual:** Dashed line pattern
+**Usage:** Subtle separators, draft/temporary content sections
+**Token Pattern:**
+```css
+:host([variant='dashed']) {
+  --line-style: dashed;
+}
+```
+
+**Rationale:** Less visual weight than solid. Suggests temporary or informal division.
+
+#### 3. Dotted Variant
+
+**Visual:** Dotted line pattern
+**Usage:** Very subtle separators, decorative elements
+**Token Pattern:**
+```css
+:host([variant='dotted']) {
+  --line-style: dotted;
+}
+```
+
+**Rationale:** Minimal visual weight. Works well with thicker lines.
+
+### Thickness Implementation
+
+Uses consistent values across horizontal and vertical:
+
+```css
+/* Thin */
+:host([thickness='thin']) {
+  --divider-thickness: 1px;
+}
+
+/* Medium (default) */
+:host([thickness='medium']) {
+  --divider-thickness: 1px;
+}
+
+/* Thick */
+:host([thickness='thick']) {
+  --divider-thickness: 2px;
+}
+```
+
+**Design Rationale:**
+- Thin and medium are both 1px (medium is the named default)
+- Thick is 2px (more pronounced separation)
+- Values chosen for subtlety (dividers shouldn't dominate)
+
+### Label Implementation
+
+**Feature:** Optional text in the middle of horizontal dividers
+
+**Usage:** Login forms ("OR"), section headers ("TODAY"), upgrade prompts ("UPGRADE TO PRO")
+
+**Implementation:**
+```typescript
+const hasLabel = this.label && this.orientation === 'horizontal';
+
+return html`
+  <div part="divider" class="divider">
+    <hr part="line" class="line" />
+    ${hasLabel
+      ? html`
+          <span part="label" class="label">${this.label}</span>
+          <hr part="line" class="line" />
+        `
+      : ''}
+  </div>
+`;
+```
+
+**Styling:**
+```css
+.label {
+  padding: 0 var(--monk-space-3);
+  color: var(--monk-color-text-secondary);
+  font-size: var(--monk-font-size-sm);
+  font-weight: var(--monk-font-weight-medium);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+```
+
+**Design Decisions:**
+- Only works with horizontal orientation (vertical labels are complex and uncommon)
+- Two `<hr>` elements when label is present (left and right of label)
+- Label uses secondary text color (less prominent than surrounding content)
+- Letter-spacing improves readability of uppercase labels
+
+### Custom Color Implementation
+
+**Problem Solved:** Users need color flexibility beyond semantic border color.
+
+**Solution:** Add `color` prop that overrides default border color.
+
+**Implementation:**
+```typescript
+if (this.color) {
+  this.style.setProperty('--divider-color', this.color);
+}
+```
+
+**Usage:**
+```html
+<!-- Web Components -->
+<monk-divider color="#ff6b6b"></monk-divider>
+<monk-divider variant="dashed" color="#ffd93d"></monk-divider>
+<monk-divider variant="dotted" thickness="thick" color="#a855f7"></monk-divider>
+
+<!-- React -->
+<Divider color="#ff6b6b" />
+<Divider variant="dashed" color="#ffd93d" />
+```
+
+**Benefits:**
+- Works like React props (familiar DX)
+- Type-safe with TypeScript
+- No CSS classes or inline styles required
+- Full IDE autocomplete support
+
+### CSS Parts Architecture
+
+Divider exposes multiple parts for white-label customization:
+
+```typescript
+const partValue = `divider ${this.orientation} ${this.variant} ${this.thickness}`;
+
+return html`
+  <div part="${partValue}" class="divider">
+    <hr part="line" class="line" />
+    ${hasLabel ? html`<span part="label" class="label">${this.label}</span>` : ''}
+  </div>
+`;
+```
+
+**Part Value Strategy:**
+
+Multiple tokens allow targeted external styling:
+
+```css
+/* Style all dividers */
+monk-divider::part(divider) {
+  margin: 2rem 0;
+}
+
+/* Target specific orientations */
+monk-divider[orientation='vertical']::part(divider) {
+  margin: 0 1rem;
+}
+
+/* Style the line element */
+monk-divider::part(line) {
+  opacity: 0.5;
+}
+
+/* Style labels */
+monk-divider::part(label) {
+  font-family: 'Custom Font';
+  color: #666;
+}
+
+/* Combine selectors */
+monk-divider[variant='dashed']::part(line) {
+  border-style: dashed;
+}
+```
+
+### Accessibility Implementation
+
+#### 1. Semantic HTML
+
+Uses `<hr>` element with proper ARIA attributes:
+```html
+<div part="divider" class="divider" role="separator" aria-orientation="horizontal">
+  <hr part="line" class="line" />
+</div>
+```
+
+**Benefits:**
+- Semantic separator element
+- Screen readers announce as content divider
+- Proper `role="separator"` for assistive technology
+- `aria-orientation` indicates direction
+
+#### 2. Non-Interactive
+
+```css
+:host {
+  pointer-events: none;
+}
+```
+
+**Rationale:**
+- Dividers are visual only, not interactive
+- No keyboard navigation needed
+- No focus states required
+- Prevents accidental interaction
+
+#### 3. Label Accessibility
+
+```css
+.label {
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+}
+```
+
+**Strategy:**
+- Label text is regular HTML (screen reader accessible)
+- Letter-spacing improves readability of uppercase labels
+- Uses secondary text color (subtle but still readable)
+- Proper semantic markup (not decorative)
+
+### React Wrapper
+
+**File:** `design-kit-react/src/divider.tsx`
+
+```typescript
+export interface DividerProps extends React.HTMLAttributes<HTMLElement> {
+  orientation?: DividerOrientation;
+  variant?: DividerVariant;
+  thickness?: DividerThickness;
+  label?: string;
+  color?: string;
+  hidden?: boolean;
+}
+
+export const Divider = createComponent({
+  tagName: 'monk-divider',
+  elementClass: MonkDividerWC,
+  react: React,
+});
+```
+
+**Usage:**
+```tsx
+<Divider />
+<Divider label="OR" />
+<Divider orientation="vertical" />
+<Divider variant="dashed" color="#ff6b6b" />
+```
+
+**Type Safety:**
+- Full TypeScript interface with custom color prop
+- Extends `React.HTMLAttributes` for standard HTML props
+- IDE autocomplete for all props
+- Compile-time validation
+
+### Common Usage Patterns
+
+#### Card Section Separator
+```html
+<monk-box padding="6" bg="surface" radius="md" shadow="md">
+  <monk-stack spacing="4">
+    <monk-heading level="h4">Title</monk-heading>
+    <monk-text>Content</monk-text>
+    <monk-divider></monk-divider>
+    <monk-text color="secondary">Footer content</monk-text>
+  </monk-stack>
+</monk-box>
+```
+
+#### Login Form with Label
+```html
+<monk-stack spacing="6">
+  <monk-button full-width>Sign in with Email</monk-button>
+  <monk-divider label="OR"></monk-divider>
+  <monk-button variant="outline" full-width>Sign in with Google</monk-button>
+</monk-stack>
+```
+
+#### Toolbar Separator
+```html
+<monk-flex gap="4" align="center">
+  <monk-text>Bold</monk-text>
+  <monk-text>Italic</monk-text>
+  <monk-divider orientation="vertical" style="height: 24px;"></monk-divider>
+  <monk-text>Undo</monk-text>
+  <monk-text>Redo</monk-text>
+</monk-flex>
+```
+
+#### Sidebar Navigation
+```html
+<monk-stack spacing="4">
+  <monk-text>Dashboard</monk-text>
+  <monk-text>Projects</monk-text>
+  <monk-divider></monk-divider>
+  <monk-text color="secondary">Settings</monk-text>
+</monk-stack>
+```
+
+### Performance Considerations
+
+#### Bundle Size
+- Component: ~1.8KB (minified + gzipped)
+- Smaller than Badge (simpler visual styling)
+- All variants/orientations included
+
+#### Runtime Performance
+- CSS custom properties (no JavaScript overhead)
+- Attribute selectors for variants
+- Shadow DOM scoping
+- Minimal re-renders (static content)
+
+### Design Decisions
+
+**Why use `<hr>` instead of `<div>`?**
+- Semantic HTML (represents thematic break)
+- Screen reader support out of the box
+- Follows HTML5 specification for content separators
+- Proper `role="separator"` semantics
+
+**Why only horizontal labels?**
+- Vertical labels are uncommon in UI design
+- Complex rotation/alignment challenges
+- Horizontal labels cover 95% of use cases
+- Keeps implementation simple and performant
+
+**Why non-interactive (pointer-events: none)?**
+- Dividers are visual separators, not actions
+- Prevents accidental clicks/focus
+- Follows Material Design divider guidelines
+- Screen readers still announce semantic meaning
+
+**Why expose both `divider` and `line` parts?**
+- `divider` part for container-level styling (margins, spacing)
+- `line` part for line-specific styling (opacity, shadows)
+- Flexibility for white-label customization
+- Follows component encapsulation patterns
+
+---
+
 ## Build System
 
 ### Nx Workspace
