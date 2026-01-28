@@ -23,6 +23,9 @@ export * from './components/button/index.js';
 // Badge component
 export * from './components/badge/index.js';
 
+// Divider component
+export * from './components/divider/index.js';
+
 // Import theme CSS variables
 // This makes the design tokens available when the package is imported
 import './theme/index.js';

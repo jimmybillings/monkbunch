@@ -66,3 +66,12 @@ export {
   type BadgeColorScheme,
   type BadgeSize,
 } from './badge.js';
+
+// Divider component
+export {
+  Divider,
+  type DividerProps,
+  type DividerOrientation,
+  type DividerVariant,
+  type DividerThickness,
+} from './divider.js';
