@@ -48,7 +48,8 @@ monkbunch/                         # Monorepo root
 │   │   │   │   ├── base-typography.ts
 │   │   │   │   └── styles.ts
 │   │   │   ├── components/
-│   │   │   │   └── typography/  # Heading, Text, Link
+│   │   │   │   ├── typography/  # Heading, Text, Link
+│   │   │   │   └── layout/      # Box, Stack, Flex, Container, Grid
 │   │   │   ├── utils/
 │   │   │   │   └── theme.ts     # Theme switching utilities
 │   │   │   └── theme/
@@ -57,7 +58,8 @@ monkbunch/                         # Monorepo root
 │   │
 │   └── design-kit-react/      # React wrappers via @lit/react
 │       └── src/
-│           ├── typography.tsx  # React components
+│           ├── typography.tsx  # React components (Heading, Text, Link)
+│           ├── layout.tsx      # React components (Box, Stack, Flex, Container, Grid)
 │           └── index.ts
 │
 ├── apps/                      # Internal applications (NOT published to npm)
@@ -394,10 +396,107 @@ inline: boolean  // default: false
 </monk-flex>
 ```
 
-**Future Layout Components:**
-- Inline (horizontal spacing with wrapping optimized for inline elements)
-- Grid (grid layouts with responsive columns)
-- Container (max-width responsive containers)
+**Container** (`<monk-container>`):
+- Constrains content width for responsive layouts
+- Props: `size`, `centerContent`
+- Extends: `MonkBaseElement`
+- File: `src/components/layout/container.ts`
+
+**Properties:**
+```typescript
+size: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'  // default: 'xl'
+centerContent: boolean  // default: true
+```
+
+**Usage Examples:**
+```html
+<!-- Page layout -->
+<monk-container size="lg">
+  <monk-stack spacing="8">
+    <monk-heading level="h1">Welcome</monk-heading>
+    <monk-text>
+      Container ensures optimal reading width and centers content.
+      Perfect for blog posts, documentation, and content-focused pages.
+    </monk-text>
+  </monk-stack>
+</monk-container>
+
+<!-- Blog post with smaller container -->
+<monk-container size="md">
+  <monk-stack spacing="6">
+    <monk-heading level="h1">Article Title</monk-heading>
+    <monk-text>
+      The md container (768px max-width) provides optimal line length
+      for reading, typically 45-75 characters per line.
+    </monk-text>
+  </monk-stack>
+</monk-container>
+
+<!-- Full-width section -->
+<monk-container size="full">
+  <monk-grid columns="4" gap="4">
+    <!-- Dashboard widgets spanning full width -->
+  </monk-grid>
+</monk-container>
+```
+
+**Grid** (`<monk-grid>`):
+- CSS Grid layout primitive with responsive features
+- Props: `columns`, `rows`, `gap`, `columnGap`, `rowGap`, `minColumnWidth`, `autoFlow`, `inline`
+- Extends: `MonkBaseElement`
+- File: `src/components/layout/grid.ts`
+
+**Properties:**
+```typescript
+columns: string  // Number or custom value: "3" or "200px 1fr 2fr"
+rows: string  // Number or custom value: "2" or "auto 1fr auto"
+gap: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'
+columnGap: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'
+rowGap: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' | '12' | '16'
+minColumnWidth: string  // For responsive auto-fit: "200px"
+autoFlow: 'row' | 'column' | 'row-dense' | 'column-dense'  // default: 'row'
+inline: boolean  // default: false
+```
+
+**Usage Examples:**
+```html
+<!-- 3-column grid -->
+<monk-grid columns="3" gap="4">
+  <monk-box padding="6" bg="surface">Item 1</monk-box>
+  <monk-box padding="6" bg="surface">Item 2</monk-box>
+  <monk-box padding="6" bg="surface">Item 3</monk-box>
+  <monk-box padding="6" bg="surface">Item 4</monk-box>
+  <monk-box padding="6" bg="surface">Item 5</monk-box>
+  <monk-box padding="6" bg="surface">Item 6</monk-box>
+</monk-grid>
+
+<!-- Responsive grid (auto-fit) -->
+<monk-grid min-column-width="200px" gap="4">
+  <!-- Automatically adjusts columns based on available space -->
+  <monk-box padding="6" bg="surface">Card 1</monk-box>
+  <monk-box padding="6" bg="surface">Card 2</monk-box>
+  <monk-box padding="6" bg="surface">Card 3</monk-box>
+</monk-grid>
+
+<!-- Custom column widths (sidebar layout) -->
+<monk-grid columns="200px 1fr" gap="6">
+  <monk-box padding="4" bg="surface">Sidebar</monk-box>
+  <monk-box padding="4" bg="surface">Main Content</monk-box>
+</monk-grid>
+
+<!-- Dashboard grid with custom rows -->
+<monk-grid columns="2fr 1fr" rows="auto 1fr auto" gap="4">
+  <monk-box padding="4" bg="surface">Header (spans 2 columns)</monk-box>
+  <monk-box padding="8" bg="surface">Main Chart</monk-box>
+  <monk-box padding="4" bg="surface">Sidebar Stats</monk-box>
+  <monk-box padding="4" bg="surface">Footer (spans 2 columns)</monk-box>
+</monk-grid>
+
+<!-- Different column and row gaps -->
+<monk-grid columns="3" column-gap="6" row-gap="2">
+  <!-- Wide horizontal spacing, tight vertical spacing -->
+</monk-grid>
+```
 
 ### **Component Patterns to Follow**
 
@@ -717,24 +816,22 @@ monk-link::part(link):hover {
 - ✅ Foundational tokens (breakpoints, containers, shadows, z-index, animation)
 - ✅ Light/dark theme system
 - ✅ Typography components (Heading, Text, Link) with CSS parts
-- ✅ Layout primitives (MonkBox, MonkStack, MonkFlex) with CSS parts
-- ✅ React wrappers for typography
-- ✅ Storybook with theme switcher
+- ✅ Layout primitives (Box, Stack, Flex, Container, Grid) with CSS parts
+- ✅ React wrappers for typography and layout
+- ✅ Storybook with theme switcher (50+ stories across all components)
 - ✅ Accessibility testing setup
 - ✅ Comprehensive token and component documentation
 - ✅ White-label customization (CSS custom properties + CSS parts)
 
-### 🚧 In Progress
-- Phase 1-3 complete: Foundational architecture ready
-- React wrappers for layout components
-
 ### 📋 Next Steps (Planned)
-- Additional layout primitives (Stack, Flex, Grid, Inline, Container)
 - Button component (solid, outline, ghost variants)
+- Badge component (status indicators)
+- Divider component
 - Form components (Input, Textarea, Select, Checkbox, Radio)
 - Card component (with shadow tokens)
 - Modal/Dialog (with z-index tokens)
 - Navigation components
+- Icon system integration
 
 ---
 

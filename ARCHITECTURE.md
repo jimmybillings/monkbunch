@@ -1044,9 +1044,275 @@ monk-flex::part(flex) {
 }
 ```
 
-### Future Layout Components
+### MonkContainer - Responsive Width Constraint
 
-**All future layout components will extend or compose MonkBox:**
+**Purpose:** Constrains content width for optimal readability and responsive layouts.
+
+**Key Features:**
+- 6 size options matching breakpoint system
+- Auto-centering with horizontal padding
+- CSS parts for customization
+- Responsive padding that prevents edge-touching on mobile
+
+**Implementation:**
+
+```typescript
+@customElement('monk-container')
+export class MonkContainer extends MonkBaseElement {
+  @property({ type: String, reflect: true })
+  size: ContainerSize = 'xl';  // sm | md | lg | xl | 2xl | full
+
+  @property({ type: Boolean, reflect: true, attribute: 'center-content' })
+  centerContent = true;
+}
+```
+
+**Size Mapping:**
+```typescript
+sm   → max-width: 640px   (var(--monk-container-sm))
+md   → max-width: 768px   (var(--monk-container-md))
+lg   → max-width: 1024px  (var(--monk-container-lg))
+xl   → max-width: 1280px  (var(--monk-container-xl))
+2xl  → max-width: 1536px  (var(--monk-container-2xl))
+full → max-width: 100%    (no constraint)
+```
+
+**Usage Patterns:**
+
+```html
+<!-- Page layout (xl is default) -->
+<monk-container size="xl">
+  <monk-stack spacing="8">
+    <monk-heading level="h1">Welcome</monk-heading>
+    <monk-text>Content automatically centers and constrains.</monk-text>
+  </monk-stack>
+</monk-container>
+
+<!-- Blog post (narrow for optimal reading) -->
+<monk-container size="md">
+  <monk-stack spacing="6">
+    <monk-heading level="h1">Article Title</monk-heading>
+    <monk-text>
+      The md container provides 45-75 characters per line,
+      optimal for reading comprehension.
+    </monk-text>
+  </monk-stack>
+</monk-container>
+
+<!-- Dashboard (full width) -->
+<monk-container size="full">
+  <monk-grid columns="4" gap="4">
+    <!-- Stat widgets -->
+  </monk-grid>
+</monk-container>
+
+<!-- Not centered -->
+<monk-container size="lg" .centerContent=${false}>
+  <monk-text>This container is left-aligned</monk-text>
+</monk-container>
+```
+
+**CSS Parts for White-Label:**
+
+```css
+/* Customize all containers */
+monk-container::part(container) {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Size-specific styling */
+monk-container[size='sm']::part(container) {
+  max-width: 600px;  /* Override token */
+}
+
+/* Add background to container wrapper */
+monk-container::part(container) {
+  background: var(--custom-container-bg);
+  border-radius: var(--monk-radius-lg);
+}
+```
+
+**Responsive Behavior:**
+- Mobile: 16px horizontal padding, full width
+- Tablet: Begins constraining based on size
+- Desktop: Reaches max-width and centers
+
+---
+
+### MonkGrid - CSS Grid Layout Primitive
+
+**Purpose:** Declarative CSS Grid layouts with responsive column support.
+
+**Key Features:**
+- Simple numeric columns: `columns="3"` → 3 equal columns
+- Custom grid templates: `columns="200px 1fr 2fr"`
+- **Auto-fit responsive**: `min-column-width="200px"` → columns adjust automatically
+- Independent row/column gaps
+- Auto-flow control (row, column, dense)
+
+**Implementation:**
+
+```typescript
+@customElement('monk-grid')
+export class MonkGrid extends MonkBaseElement {
+  @property({ type: String, reflect: true })
+  columns?: string;  // "3" or "200px 1fr 2fr"
+
+  @property({ type: String, reflect: true })
+  rows?: string;  // "2" or "auto 1fr auto"
+
+  @property({ type: String, reflect: true })
+  gap?: GridGap;  // '0' | '1' | '2' | '3' | '4' | ...
+
+  @property({ type: String, reflect: true, attribute: 'column-gap' })
+  columnGap?: GridGap;
+
+  @property({ type: String, reflect: true, attribute: 'row-gap' })
+  rowGap?: GridGap;
+
+  @property({ type: String, reflect: true, attribute: 'min-column-width' })
+  minColumnWidth?: string;  // "200px" for responsive
+
+  @property({ type: String, reflect: true, attribute: 'auto-flow' })
+  autoFlow: GridAutoFlow = 'row';  // row | column | row-dense | column-dense
+
+  @property({ type: Boolean, reflect: true })
+  inline = false;
+}
+```
+
+**Dynamic Template Generation:**
+
+```typescript
+protected override updated(changedProperties: Map<string, unknown>): void {
+  // Numeric columns: "3" → "repeat(3, 1fr)"
+  if (this.columns && /^\d+$/.test(this.columns)) {
+    this.style.gridTemplateColumns = `repeat(${this.columns}, 1fr)`;
+  }
+  // Custom columns: "200px 1fr 2fr" → use directly
+  else if (this.columns) {
+    this.style.gridTemplateColumns = this.columns;
+  }
+
+  // Auto-fit responsive: "200px" → "repeat(auto-fit, minmax(200px, 1fr))"
+  if (this.minColumnWidth) {
+    this.style.gridTemplateColumns =
+      `repeat(auto-fit, minmax(${this.minColumnWidth}, 1fr))`;
+  }
+}
+```
+
+**Usage Patterns:**
+
+```html
+<!-- Simple 3-column grid -->
+<monk-grid columns="3" gap="4">
+  <monk-box padding="6" bg="surface">Item 1</monk-box>
+  <monk-box padding="6" bg="surface">Item 2</monk-box>
+  <monk-box padding="6" bg="surface">Item 3</monk-box>
+</monk-grid>
+
+<!-- Responsive grid (columns adjust automatically) -->
+<monk-grid min-column-width="200px" gap="4">
+  <!-- On wide screens: 6 columns, on tablet: 3 columns, on mobile: 1 column -->
+  <monk-box padding="6" bg="surface">Card 1</monk-box>
+  <monk-box padding="6" bg="surface">Card 2</monk-box>
+  <monk-box padding="6" bg="surface">Card 3</monk-box>
+  <monk-box padding="6" bg="surface">Card 4</monk-box>
+  <monk-box padding="6" bg="surface">Card 5</monk-box>
+  <monk-box padding="6" bg="surface">Card 6</monk-box>
+</monk-grid>
+
+<!-- Sidebar layout with custom widths -->
+<monk-grid columns="200px 1fr" gap="6">
+  <monk-box padding="4" bg="surface">Fixed-width sidebar</monk-box>
+  <monk-box padding="4" bg="surface">Flexible main content</monk-box>
+</monk-grid>
+
+<!-- Dashboard grid with custom rows -->
+<monk-grid columns="2fr 1fr" rows="auto 1fr auto" gap="4">
+  <monk-box padding="4" bg="surface">Header</monk-box>
+  <monk-box padding="8" bg="surface">Main chart area</monk-box>
+  <monk-box padding="4" bg="surface">Sidebar stats</monk-box>
+  <monk-box padding="4" bg="surface">Footer</monk-box>
+</monk-grid>
+
+<!-- Asymmetric gaps (wide columns, tight rows) -->
+<monk-grid columns="3" column-gap="6" row-gap="2">
+  <monk-box padding="4" bg="surface">Item</monk-box>
+  <!-- More items... -->
+</monk-grid>
+
+<!-- Auto-flow column (fills columns first) -->
+<monk-grid rows="3" gap="4" auto-flow="column">
+  <monk-box>1</monk-box>
+  <monk-box>2</monk-box>
+  <monk-box>3</monk-box>
+  <monk-box>4</monk-box>  <!-- Starts new column -->
+</monk-grid>
+```
+
+**Common Grid Patterns:**
+
+```html
+<!-- Image gallery -->
+<monk-grid min-column-width="250px" gap="4">
+  <monk-box padding="0" radius="md" style="aspect-ratio: 4/3;">
+    <img src="..." alt="..." style="width: 100%; height: 100%; object-fit: cover;">
+  </monk-box>
+  <!-- More images... -->
+</monk-grid>
+
+<!-- Dashboard stats -->
+<monk-grid columns="4" gap="4">
+  <monk-box padding="6" bg="surface" shadow="sm">
+    <monk-stack spacing="2">
+      <monk-text size="sm" color="secondary">Total Users</monk-text>
+      <monk-text size="2xl" weight="bold">1,234</monk-text>
+    </monk-stack>
+  </monk-box>
+  <!-- More stats... -->
+</monk-grid>
+
+<!-- Form with 2-column layout -->
+<monk-grid columns="2" gap="4">
+  <monk-stack spacing="2">
+    <monk-text size="sm" weight="semibold">First Name</monk-text>
+    <input type="text" />
+  </monk-stack>
+  <monk-stack spacing="2">
+    <monk-text size="sm" weight="semibold">Last Name</monk-text>
+    <input type="text" />
+  </monk-stack>
+</monk-grid>
+```
+
+**CSS Parts for White-Label:**
+
+```css
+/* Grid doesn't expose parts (slots directly) but can be styled via host */
+monk-grid {
+  /* Add container padding */
+  padding: var(--monk-space-4);
+}
+
+/* Size-specific styling */
+monk-grid[columns='3'] {
+  background: var(--custom-grid-bg);
+}
+
+/* Responsive override */
+@media (max-width: 768px) {
+  monk-grid[columns] {
+    grid-template-columns: 1fr !important; /* Stack on mobile */
+  }
+}
+```
+
+---
+
+### Future Layout Components
 
 **Inline** - Horizontal spacing with wrapping optimized for inline elements:
 ```html
@@ -1054,21 +1320,6 @@ monk-flex::part(flex) {
   <monk-box>Tag 1</monk-box>
   <monk-box>Tag 2</monk-box>
 </monk-inline>
-```
-
-**Grid** - Grid layout with responsive columns:
-```html
-<monk-grid columns="3" gap="4" responsive>
-  <monk-box>Grid item</monk-box>
-  <!-- More items... -->
-</monk-grid>
-```
-
-**Container** - Max-width responsive container:
-```html
-<monk-container size="lg" centered>
-  <monk-box>Constrained content</monk-box>
-</monk-container>
 ```
 
 ### Layout Best Practices
