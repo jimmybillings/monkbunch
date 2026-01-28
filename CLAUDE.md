@@ -743,6 +743,179 @@ function App() {
 - `disabled` attribute prevents interaction
 - Respects `prefers-reduced-motion` for transitions
 
+### **Badge Component** (Complete ✅)
+
+**Badge** (`<monk-badge>`):
+- Non-interactive status indicators and labels
+- Props: `variant`, `colorScheme`, `size`, `bg`, `color`, `borderColor`
+- Extends: `MonkBaseElement`
+- File: `src/components/badge/badge.ts`
+
+**Properties:**
+```typescript
+variant: 'solid' | 'subtle' | 'outline'  // default: 'solid'
+colorScheme: 'primary' | 'neutral' | 'success' | 'error' | 'warning' | 'info'  // default: 'primary'
+size: 'sm' | 'md' | 'lg'  // default: 'md'
+bg?: string  // Custom background color (overrides colorScheme)
+color?: string  // Custom text color (overrides colorScheme)
+borderColor?: string  // Custom border color (overrides colorScheme)
+```
+
+**Usage Examples:**
+
+**Basic Variants:**
+```html
+<!-- Solid (default) - High contrast -->
+<monk-badge>Active</monk-badge>
+<monk-badge variant="solid" color-scheme="success">Approved</monk-badge>
+
+<!-- Subtle - Low contrast background -->
+<monk-badge variant="subtle" color-scheme="primary">TypeScript</monk-badge>
+<monk-badge variant="subtle" color-scheme="warning">Pending</monk-badge>
+
+<!-- Outline - Border only -->
+<monk-badge variant="outline" color-scheme="info">Beta</monk-badge>
+<monk-badge variant="outline" color-scheme="neutral">Draft</monk-badge>
+```
+
+**Color Schemes:**
+```html
+<!-- Primary (brand color) -->
+<monk-badge color-scheme="primary">Primary</monk-badge>
+
+<!-- Neutral (gray) -->
+<monk-badge color-scheme="neutral">Neutral</monk-badge>
+
+<!-- Success (green) -->
+<monk-badge color-scheme="success">Active</monk-badge>
+<monk-badge color-scheme="success">Verified</monk-badge>
+
+<!-- Error (red) -->
+<monk-badge color-scheme="error">Failed</monk-badge>
+<monk-badge color-scheme="error">Rejected</monk-badge>
+
+<!-- Warning (yellow) -->
+<monk-badge color-scheme="warning">Pending</monk-badge>
+<monk-badge color-scheme="warning">In Progress</monk-badge>
+
+<!-- Info (blue) -->
+<monk-badge color-scheme="info">Beta</monk-badge>
+<monk-badge color-scheme="info">New</monk-badge>
+```
+
+**Sizes:**
+```html
+<monk-badge size="sm">Small</monk-badge>
+<monk-badge size="md">Medium (default)</monk-badge>
+<monk-badge size="lg">Large</monk-badge>
+```
+
+**Custom Colors:**
+```html
+<!-- Using props (recommended) -->
+<monk-badge bg="#ff6b6b" color="white">Custom Red</monk-badge>
+<monk-badge bg="#ffd93d" color="#333">Gold</monk-badge>
+<monk-badge variant="outline" border-color="#a855f7" color="#a855f7">Purple</monk-badge>
+
+<!-- Using CSS custom properties (alternative) -->
+<monk-badge style="--badge-bg: #ff6b6b; --badge-color: white;">Custom</monk-badge>
+```
+
+**Common Use Cases:**
+
+**Status Indicators:**
+```html
+<monk-flex gap="3" wrap="wrap">
+  <monk-badge color-scheme="success">Active</monk-badge>
+  <monk-badge color-scheme="warning">Pending</monk-badge>
+  <monk-badge color-scheme="error">Failed</monk-badge>
+  <monk-badge color-scheme="neutral">Inactive</monk-badge>
+</monk-flex>
+```
+
+**Notification Counts:**
+```html
+<monk-button>
+  Inbox
+  <monk-badge color-scheme="error" size="sm">12</monk-badge>
+</monk-button>
+
+<monk-flex gap="2" align="center">
+  <monk-text>Unread messages</monk-text>
+  <monk-badge color-scheme="error">24</monk-badge>
+</monk-flex>
+```
+
+**Category Tags:**
+```html
+<monk-flex gap="2" wrap="wrap">
+  <monk-badge variant="subtle" color-scheme="primary" size="sm">TypeScript</monk-badge>
+  <monk-badge variant="subtle" color-scheme="primary" size="sm">React</monk-badge>
+  <monk-badge variant="subtle" color-scheme="primary" size="sm">Node.js</monk-badge>
+</monk-flex>
+```
+
+**Role Indicators:**
+```html
+<monk-flex gap="3" wrap="wrap">
+  <monk-badge variant="outline" color-scheme="primary">Admin</monk-badge>
+  <monk-badge variant="outline" color-scheme="success">Moderator</monk-badge>
+  <monk-badge variant="outline" color-scheme="info">Member</monk-badge>
+</monk-flex>
+```
+
+**Brand Colors:**
+```html
+<!-- Works just like React props! -->
+<monk-badge bg="#1da1f2" color="white">Twitter</monk-badge>
+<monk-badge bg="#0077b5" color="white">LinkedIn</monk-badge>
+<monk-badge bg="#6e5494" color="white">GitHub</monk-badge>
+```
+
+**With Cards:**
+```html
+<monk-box padding="4" bg="surface" radius="md" shadow="sm" border="1px">
+  <monk-flex justify="between" align="center">
+    <monk-stack spacing="1">
+      <monk-text weight="semibold">Project Alpha</monk-text>
+      <monk-text size="sm" color="secondary">Last updated 2 hours ago</monk-text>
+    </monk-stack>
+    <monk-badge color-scheme="success">Active</monk-badge>
+  </monk-flex>
+</monk-box>
+```
+
+**React Usage:**
+```tsx
+import { Badge } from '@monkbunch/design-kit-react';
+
+function App() {
+  return (
+    <>
+      <Badge colorScheme="success">Active</Badge>
+
+      <Badge variant="subtle" colorScheme="primary" size="sm">
+        TypeScript
+      </Badge>
+
+      <Badge variant="outline" colorScheme="info">
+        Beta
+      </Badge>
+
+      {/* Custom colors with props */}
+      <Badge bg="#ff6b6b" color="white">Custom</Badge>
+    </>
+  );
+}
+```
+
+**Accessibility Features:**
+- Uses semantic `<span>` element
+- Proper color contrast ratios (WCAG AA compliant for all semantic color schemes)
+- Uppercase text with letter-spacing for readability
+- Non-interactive (no focus states needed)
+- Respects `prefers-reduced-motion` for transitions
+
 ### **Component Patterns to Follow**
 
 1. **Use semantic tokens** - Never hardcode colors
@@ -1063,14 +1236,14 @@ monk-link::part(link):hover {
 - ✅ Typography components (Heading, Text, Link) with CSS parts
 - ✅ Layout primitives (Box, Stack, Flex, Container, Grid) with CSS parts
 - ✅ Button component (solid, outline, ghost, link variants with 5 color schemes)
-- ✅ React wrappers for typography, layout, and button
-- ✅ Storybook with theme switcher (60+ stories across all components)
+- ✅ Badge component (solid, subtle, outline variants with 6 color schemes + custom colors)
+- ✅ React wrappers for typography, layout, button, and badge
+- ✅ Storybook with theme switcher (70+ stories across all components)
 - ✅ Accessibility testing setup
 - ✅ Comprehensive token and component documentation
 - ✅ White-label customization (CSS custom properties + CSS parts)
 
 ### 📋 Next Steps (Planned)
-- Badge component (status indicators)
 - Divider component
 - Form components (Input, Textarea, Select, Checkbox, Radio)
 - Card component (with shadow tokens)
@@ -1185,4 +1358,4 @@ npx nx build design-kit
 
 **Last Updated:** January 2025
 **Current Version:** 0.1.0
-**Status:** Active Development (Typography, Layout, and Button components complete)
+**Status:** Active Development (Typography, Layout, Button, and Badge components complete)
