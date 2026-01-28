@@ -57,3 +57,12 @@ export {
   type ButtonColorScheme,
   type ButtonSize,
 } from './button.js';
+
+// Badge component
+export {
+  Badge,
+  type BadgeProps,
+  type BadgeVariant,
+  type BadgeColorScheme,
+  type BadgeSize,
+} from './badge.js';
