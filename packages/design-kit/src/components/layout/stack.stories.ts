@@ -75,9 +75,9 @@ export const Default: Story = {
       justify=${args.justify}
       ?wrap=${args.wrap}
     >
-      <monk-box padding="4" bg="accent-subtle" radius="md">Item 1</monk-box>
-      <monk-box padding="4" bg="accent-subtle" radius="md">Item 2</monk-box>
-      <monk-box padding="4" bg="accent-subtle" radius="md">Item 3</monk-box>
+      <monk-box padding="4" bg="primary-subtle" radius="md">Item 1</monk-box>
+      <monk-box padding="4" bg="primary-subtle" radius="md">Item 2</monk-box>
+      <monk-box padding="4" bg="primary-subtle" radius="md">Item 3</monk-box>
     </monk-stack>
   `,
 };
@@ -92,9 +92,9 @@ export const VerticalSpacing: Story = {
       <monk-stack spacing="3">
         <monk-text size="sm" weight="semibold">spacing="2"</monk-text>
         <monk-stack spacing="2">
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
         </monk-stack>
       </monk-stack>
 
@@ -102,9 +102,9 @@ export const VerticalSpacing: Story = {
       <monk-stack spacing="3">
         <monk-text size="sm" weight="semibold">spacing="4"</monk-text>
         <monk-stack spacing="4">
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
         </monk-stack>
       </monk-stack>
 
@@ -112,9 +112,9 @@ export const VerticalSpacing: Story = {
       <monk-stack spacing="3">
         <monk-text size="sm" weight="semibold">spacing="8"</monk-text>
         <monk-stack spacing="8">
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-          <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+          <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
         </monk-stack>
       </monk-stack>
     </monk-flex>
@@ -127,13 +127,13 @@ export const VerticalSpacing: Story = {
 export const HorizontalStack: Story = {
   render: () => html`
     <monk-stack direction="horizontal" spacing="4">
-      <monk-box padding="6" bg="accent-subtle" radius="md">
+      <monk-box padding="6" bg="primary-subtle" radius="md">
         <monk-text weight="semibold">Item 1</monk-text>
       </monk-box>
-      <monk-box padding="6" bg="accent-subtle" radius="md">
+      <monk-box padding="6" bg="primary-subtle" radius="md">
         <monk-text weight="semibold">Item 2</monk-text>
       </monk-box>
-      <monk-box padding="6" bg="accent-subtle" radius="md">
+      <monk-box padding="6" bg="primary-subtle" radius="md">
         <monk-text weight="semibold">Item 3</monk-text>
       </monk-box>
     </monk-stack>
@@ -151,9 +151,9 @@ export const VerticalAlignment: Story = {
         <monk-text size="sm" weight="semibold">align="start"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack spacing="3" align="start">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1 (120px)</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2 (80px)</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3 (150px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1 (120px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2 (80px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3 (150px)</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -163,9 +163,9 @@ export const VerticalAlignment: Story = {
         <monk-text size="sm" weight="semibold">align="center"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack spacing="3" align="center">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1 (120px)</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2 (80px)</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3 (150px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1 (120px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2 (80px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3 (150px)</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -175,9 +175,9 @@ export const VerticalAlignment: Story = {
         <monk-text size="sm" weight="semibold">align="end"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack spacing="3" align="end">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1 (120px)</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2 (80px)</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3 (150px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1 (120px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2 (80px)</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3 (150px)</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -187,9 +187,9 @@ export const VerticalAlignment: Story = {
         <monk-text size="sm" weight="semibold">align="stretch"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack spacing="3" align="stretch">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -207,9 +207,9 @@ export const HorizontalJustify: Story = {
         <monk-text size="sm" weight="semibold">justify="start"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack direction="horizontal" spacing="3" justify="start">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -218,9 +218,9 @@ export const HorizontalJustify: Story = {
         <monk-text size="sm" weight="semibold">justify="center"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack direction="horizontal" spacing="3" justify="center">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -229,9 +229,9 @@ export const HorizontalJustify: Story = {
         <monk-text size="sm" weight="semibold">justify="end"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack direction="horizontal" spacing="3" justify="end">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -240,9 +240,9 @@ export const HorizontalJustify: Story = {
         <monk-text size="sm" weight="semibold">justify="between"</monk-text>
         <monk-box padding="4" bg="subtle" radius="md">
           <monk-stack direction="horizontal" spacing="3" justify="between">
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 1</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 2</monk-box>
-            <monk-box padding="3" bg="accent-subtle" radius="sm">Item 3</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 1</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 2</monk-box>
+            <monk-box padding="3" bg="primary-subtle" radius="sm">Item 3</monk-box>
           </monk-stack>
         </monk-box>
       </monk-stack>
@@ -286,7 +286,7 @@ export const FormLayout: Story = {
           </monk-stack>
 
           <monk-flex justify="center">
-            <monk-box padding="4" bg="accent" radius="md">
+            <monk-box padding="4" bg="primary" radius="md">
               <monk-text weight="semibold">Submit</monk-text>
             </monk-box>
           </monk-flex>
@@ -328,7 +328,7 @@ export const ButtonGroup: Story = {
       <monk-stack spacing="4">
         <monk-heading level="h4">Actions</monk-heading>
         <monk-stack direction="horizontal" spacing="3">
-          <monk-box padding="3" bg="accent" radius="md">
+          <monk-box padding="3" bg="primary" radius="md">
             <monk-text weight="semibold">Save</monk-text>
           </monk-box>
           <monk-box padding="3" bg="surface-raised" radius="md" border="1px">
@@ -354,7 +354,7 @@ export const WrappingStack: Story = {
         <monk-stack direction="horizontal" spacing="2" wrap>
           ${['JavaScript', 'TypeScript', 'React', 'Vue', 'Angular', 'Svelte', 'Node.js', 'Deno', 'Bun', 'Web Components', 'Lit', 'Stencil'].map(
             (tag) => html`
-              <monk-box padding="2" bg="accent-subtle" radius="sm">
+              <monk-box padding="2" bg="primary-subtle" radius="sm">
                 <monk-text size="sm">${tag}</monk-text>
               </monk-box>
             `
@@ -375,7 +375,7 @@ export const NestedStacks: Story = {
         <!-- Header with horizontal stack -->
         <monk-flex justify="between" align="center">
           <monk-heading level="h3">Dashboard</monk-heading>
-          <monk-box padding="2" bg="accent-subtle" radius="sm">
+          <monk-box padding="2" bg="primary-subtle" radius="sm">
             <monk-text size="sm" weight="semibold">Pro</monk-text>
           </monk-box>
         </monk-flex>
@@ -388,7 +388,7 @@ export const NestedStacks: Story = {
             { label: 'Growth', value: '+12%' },
           ].map(
             (stat) => html`
-              <monk-box padding="4" bg="accent-subtle" radius="md">
+              <monk-box padding="4" bg="primary-subtle" radius="md">
                 <monk-stack spacing="1" align="center">
                   <monk-text size="xl" weight="bold">${stat.value}</monk-text>
                   <monk-text size="sm" color="secondary">${stat.label}</monk-text>

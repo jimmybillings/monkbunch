@@ -16,7 +16,7 @@ export type SpacingScale = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '8' | '10' 
 /**
  * Background color semantic tokens
  */
-export type BoxBg = 'canvas' | 'surface' | 'surface-raised' | 'subtle' | 'muted' | 'accent' | 'accent-subtle';
+export type BoxBg = 'canvas' | 'surface' | 'surface-raised' | 'subtle' | 'muted' | 'primary' | 'primary-subtle';
 
 /**
  * Border radius scale
@@ -161,8 +161,8 @@ export class MonkBox extends MonkBaseElement {
       :host([bg='surface-raised']) .box { background: var(--monk-color-bg-surface-raised); }
       :host([bg='subtle']) .box { background: var(--monk-color-bg-subtle); }
       :host([bg='muted']) .box { background: var(--monk-color-bg-muted); }
-      :host([bg='accent']) .box { background: var(--monk-color-bg-accent); }
-      :host([bg='accent-subtle']) .box { background: var(--monk-color-bg-accent-subtle); }
+      :host([bg='primary']) .box { background: var(--monk-color-bg-primary); }
+      :host([bg='primary-subtle']) .box { background: var(--monk-color-bg-primary-subtle); }
 
       /* Border */
       :host([border]) .box {

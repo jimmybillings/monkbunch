@@ -82,7 +82,7 @@ export const Default: Story = {
       ?inline=${args.inline}
     >
       ${Array.from({ length: 6 }, (_, i) => html`
-        <monk-box padding="6" bg="accent-subtle" radius="md">
+        <monk-box padding="6" bg="primary-subtle" radius="md">
           <monk-text align="center" weight="semibold">Item ${i + 1}</monk-text>
         </monk-box>
       `)}
@@ -106,7 +106,7 @@ export const ColumnPatterns: Story = {
           <monk-text size="sm" weight="semibold">2 Columns</monk-text>
           <monk-grid columns="2" gap="4">
             ${Array.from({ length: 4 }, (_, i) => html`
-              <monk-box padding="6" bg="accent-subtle" radius="md">
+              <monk-box padding="6" bg="primary-subtle" radius="md">
                 <monk-text align="center">Item ${i + 1}</monk-text>
               </monk-box>
             `)}
@@ -118,7 +118,7 @@ export const ColumnPatterns: Story = {
           <monk-text size="sm" weight="semibold">3 Columns</monk-text>
           <monk-grid columns="3" gap="4">
             ${Array.from({ length: 6 }, (_, i) => html`
-              <monk-box padding="6" bg="accent-subtle" radius="md">
+              <monk-box padding="6" bg="primary-subtle" radius="md">
                 <monk-text align="center">Item ${i + 1}</monk-text>
               </monk-box>
             `)}
@@ -130,7 +130,7 @@ export const ColumnPatterns: Story = {
           <monk-text size="sm" weight="semibold">4 Columns</monk-text>
           <monk-grid columns="4" gap="4">
             ${Array.from({ length: 8 }, (_, i) => html`
-              <monk-box padding="6" bg="accent-subtle" radius="md">
+              <monk-box padding="6" bg="primary-subtle" radius="md">
                 <monk-text align="center">Item ${i + 1}</monk-text>
               </monk-box>
             `)}
@@ -151,7 +151,7 @@ export const CustomColumns: Story = {
       <monk-stack spacing="3">
         <monk-text size="sm" weight="semibold">Sidebar Layout (200px auto)</monk-text>
         <monk-grid columns="200px auto" gap="4">
-          <monk-box padding="6" bg="accent-subtle" radius="md">
+          <monk-box padding="6" bg="primary-subtle" radius="md">
             <monk-text>Sidebar</monk-text>
           </monk-box>
           <monk-box padding="6" bg="surface" radius="md" border="1px">
@@ -164,7 +164,7 @@ export const CustomColumns: Story = {
       <monk-stack spacing="3">
         <monk-text size="sm" weight="semibold">Ratio Layout (1fr 2fr)</monk-text>
         <monk-grid columns="1fr 2fr" gap="4">
-          <monk-box padding="6" bg="accent-subtle" radius="md">
+          <monk-box padding="6" bg="primary-subtle" radius="md">
             <monk-text>Narrow (1fr)</monk-text>
           </monk-box>
           <monk-box padding="6" bg="surface" radius="md" border="1px">
@@ -177,13 +177,13 @@ export const CustomColumns: Story = {
       <monk-stack spacing="3">
         <monk-text size="sm" weight="semibold">Mixed Layout (200px 1fr 200px)</monk-text>
         <monk-grid columns="200px 1fr 200px" gap="4">
-          <monk-box padding="6" bg="accent-subtle" radius="md">
+          <monk-box padding="6" bg="primary-subtle" radius="md">
             <monk-text>Left</monk-text>
           </monk-box>
           <monk-box padding="6" bg="surface" radius="md" border="1px">
             <monk-text>Center (flexible)</monk-text>
           </monk-box>
-          <monk-box padding="6" bg="accent-subtle" radius="md">
+          <monk-box padding="6" bg="primary-subtle" radius="md">
             <monk-text>Right</monk-text>
           </monk-box>
         </monk-grid>
@@ -207,7 +207,7 @@ export const ResponsiveGrid: Story = {
 
       <monk-grid min-column-width="200px" gap="4">
         ${Array.from({ length: 12 }, (_, i) => html`
-          <monk-box padding="6" bg="accent-subtle" radius="md">
+          <monk-box padding="6" bg="primary-subtle" radius="md">
             <monk-stack spacing="2" align="center">
               <monk-text weight="semibold">${i + 1}</monk-text>
               <monk-text size="xs" color="secondary">min-width: 200px</monk-text>
@@ -231,7 +231,7 @@ export const Gaps: Story = {
             <monk-text size="sm" weight="semibold">gap="${gap}"</monk-text>
             <monk-grid columns="4" gap=${gap}>
               ${Array.from({ length: 4 }, (_, i) => html`
-                <monk-box padding="4" bg="accent-subtle" radius="md">
+                <monk-box padding="4" bg="primary-subtle" radius="md">
                   <monk-text size="sm" align="center">${i + 1}</monk-text>
                 </monk-box>
               `)}
@@ -253,7 +253,7 @@ export const AsymmetricGaps: Story = {
         <monk-text size="sm" weight="semibold">column-gap="6" row-gap="2"</monk-text>
         <monk-grid columns="3" column-gap="6" row-gap="2">
           ${Array.from({ length: 6 }, (_, i) => html`
-            <monk-box padding="6" bg="accent-subtle" radius="md">
+            <monk-box padding="6" bg="primary-subtle" radius="md">
               <monk-text align="center">${i + 1}</monk-text>
             </monk-box>
           `)}
@@ -264,7 +264,7 @@ export const AsymmetricGaps: Story = {
         <monk-text size="sm" weight="semibold">column-gap="2" row-gap="6"</monk-text>
         <monk-grid columns="3" column-gap="2" row-gap="6">
           ${Array.from({ length: 6 }, (_, i) => html`
-            <monk-box padding="6" bg="accent-subtle" radius="md">
+            <monk-box padding="6" bg="primary-subtle" radius="md">
               <monk-text align="center">${i + 1}</monk-text>
             </monk-box>
           `)}
@@ -284,7 +284,7 @@ export const RowsExample: Story = {
         <monk-text size="sm" weight="semibold">columns="3" rows="2"</monk-text>
         <monk-grid columns="3" rows="2" gap="4">
           ${Array.from({ length: 6 }, (_, i) => html`
-            <monk-box padding="6" bg="accent-subtle" radius="md">
+            <monk-box padding="6" bg="primary-subtle" radius="md">
               <monk-text align="center">Item ${i + 1}</monk-text>
             </monk-box>
           `)}
@@ -294,13 +294,13 @@ export const RowsExample: Story = {
       <monk-stack spacing="3">
         <monk-text size="sm" weight="semibold">Custom row heights (auto 1fr auto)</monk-text>
         <monk-grid columns="1" rows="auto 1fr auto" gap="4">
-          <monk-box padding="4" bg="accent-subtle" radius="md">
+          <monk-box padding="4" bg="primary-subtle" radius="md">
             <monk-text>Header (auto)</monk-text>
           </monk-box>
           <monk-box padding="12" bg="surface" radius="md" border="1px">
             <monk-text>Main Content (1fr - takes remaining space)</monk-text>
           </monk-box>
-          <monk-box padding="4" bg="accent-subtle" radius="md">
+          <monk-box padding="4" bg="primary-subtle" radius="md">
             <monk-text>Footer (auto)</monk-text>
           </monk-box>
         </monk-grid>
@@ -319,7 +319,7 @@ export const AutoFlow: Story = {
         <monk-text size="sm" weight="semibold">auto-flow="row" (default)</monk-text>
         <monk-grid columns="3" gap="4" auto-flow="row">
           ${Array.from({ length: 5 }, (_, i) => html`
-            <monk-box padding="6" bg="accent-subtle" radius="md">
+            <monk-box padding="6" bg="primary-subtle" radius="md">
               <monk-text align="center">${i + 1}</monk-text>
             </monk-box>
           `)}
@@ -330,7 +330,7 @@ export const AutoFlow: Story = {
         <monk-text size="sm" weight="semibold">auto-flow="column"</monk-text>
         <monk-grid rows="2" gap="4" auto-flow="column">
           ${Array.from({ length: 6 }, (_, i) => html`
-            <monk-box padding="6" bg="accent-subtle" radius="md">
+            <monk-box padding="6" bg="primary-subtle" radius="md">
               <monk-text align="center">${i + 1}</monk-text>
             </monk-box>
           `)}
@@ -352,7 +352,7 @@ export const CardGrid: Story = {
           ${Array.from({ length: 6 }, (_, i) => html`
             <monk-box padding="6" bg="surface" radius="lg" shadow="md" border="1px">
               <monk-stack spacing="4">
-                <monk-box padding="8" bg="accent-subtle" radius="md">
+                <monk-box padding="8" bg="primary-subtle" radius="md">
                   <monk-text align="center" size="xl" weight="bold">${i + 1}</monk-text>
                 </monk-box>
                 <monk-stack spacing="2">
@@ -405,7 +405,7 @@ export const Dashboard: Story = {
           <monk-box padding="8" bg="surface" radius="lg" shadow="md" border="1px">
             <monk-stack spacing="4">
               <monk-heading level="h3">Revenue Chart</monk-heading>
-              <monk-box padding="20" bg="accent-subtle" radius="md">
+              <monk-box padding="20" bg="primary-subtle" radius="md">
                 <monk-text align="center" color="secondary">Chart placeholder</monk-text>
               </monk-box>
             </monk-stack>
@@ -417,7 +417,7 @@ export const Dashboard: Story = {
               <monk-heading level="h3">Recent Activity</monk-heading>
               <monk-stack spacing="3">
                 ${Array.from({ length: 4 }, (_, i) => html`
-                  <monk-box padding="3" bg="accent-subtle" radius="sm">
+                  <monk-box padding="3" bg="primary-subtle" radius="sm">
                     <monk-text size="sm">Activity ${i + 1}</monk-text>
                   </monk-box>
                 `)}
@@ -442,12 +442,12 @@ export const ImageGallery: Story = {
           ${Array.from({ length: 9 }, (_, i) => html`
             <monk-box
               padding="0"
-              bg="accent-subtle"
+              bg="primary-subtle"
               radius="md"
               style="aspect-ratio: 4/3; overflow: hidden;"
             >
               <monk-stack spacing="0" style="height: 100%;">
-                <monk-box padding="8" bg="accent-subtle" style="flex: 1;">
+                <monk-box padding="8" bg="primary-subtle" style="flex: 1;">
                   <monk-text align="center" weight="semibold">Image ${i + 1}</monk-text>
                 </monk-box>
               </monk-stack>
@@ -499,7 +499,7 @@ export const FormLayout: Story = {
             </monk-box>
           </monk-stack>
 
-          <monk-box padding="4" bg="accent" radius="md">
+          <monk-box padding="4" bg="primary" radius="md">
             <monk-text weight="semibold" align="center">Submit</monk-text>
           </monk-box>
         </monk-stack>

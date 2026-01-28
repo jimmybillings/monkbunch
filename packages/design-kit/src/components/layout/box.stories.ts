@@ -28,7 +28,7 @@ const meta: Meta<MonkBox> = {
     },
     bg: {
       control: 'select',
-      options: ['canvas', 'surface', 'surface-raised', 'subtle', 'muted', 'accent', 'accent-subtle'],
+      options: ['canvas', 'surface', 'surface-raised', 'subtle', 'muted', 'primary', 'primary-subtle'],
       description: 'Background color (semantic token)',
     },
     border: {
@@ -106,13 +106,13 @@ export const FlexRow: Story = {
   },
   render: (args) => html`
     <monk-box display=${args.display} padding=${args.padding} bg=${args.bg}>
-      <monk-box padding="4" bg="accent-subtle" radius="md" style="margin-right: 16px;">
+      <monk-box padding="4" bg="primary-subtle" radius="md" style="margin-right: 16px;">
         <monk-text weight="semibold">Item 1</monk-text>
       </monk-box>
-      <monk-box padding="4" bg="accent-subtle" radius="md" style="margin-right: 16px;">
+      <monk-box padding="4" bg="primary-subtle" radius="md" style="margin-right: 16px;">
         <monk-text weight="semibold">Item 2</monk-text>
       </monk-box>
-      <monk-box padding="4" bg="accent-subtle" radius="md">
+      <monk-box padding="4" bg="primary-subtle" radius="md">
         <monk-text weight="semibold">Item 3</monk-text>
       </monk-box>
     </monk-box>
@@ -155,7 +155,7 @@ export const NestedLayout: Story = {
   render: () => html`
     <monk-box bg="canvas" padding="6">
       <!-- Header -->
-      <monk-box bg="accent" padding="4" radius="md" margin="4">
+      <monk-box bg="primary" padding="4" radius="md" margin="4">
         <monk-heading level="h2" color="primary">Header Section</monk-heading>
       </monk-box>
 
@@ -187,7 +187,7 @@ export const SpacingScale: Story = {
         (spacing) => html`
           <monk-box display="flex" style="align-items: center; gap: 16px;">
             <monk-text style="width: 100px;" weight="semibold">padding="${spacing}"</monk-text>
-            <monk-box padding=${spacing} bg="accent-subtle" border="1px">
+            <monk-box padding=${spacing} bg="primary-subtle" border="1px">
               <monk-text>Content</monk-text>
             </monk-box>
           </monk-box>
@@ -223,7 +223,7 @@ export const RadiusScale: Story = {
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
       ${['sm', 'md', 'lg', 'xl', 'full'].map(
         (radius) => html`
-          <monk-box padding="8" bg="accent-subtle" radius=${radius} border="1px">
+          <monk-box padding="8" bg="primary-subtle" radius=${radius} border="1px">
             <monk-text weight="semibold" align="center">radius="${radius}"</monk-text>
           </monk-box>
         `
@@ -238,7 +238,7 @@ export const RadiusScale: Story = {
 export const BackgroundColors: Story = {
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 16px;">
-      ${['canvas', 'surface', 'surface-raised', 'subtle', 'muted', 'accent', 'accent-subtle'].map(
+      ${['canvas', 'surface', 'surface-raised', 'subtle', 'muted', 'primary', 'primary-subtle'].map(
         (bg) => html`
           <monk-box padding="4" bg=${bg} border="1px" radius="md">
             <monk-text weight="semibold">bg="${bg}"</monk-text>

@@ -136,12 +136,12 @@ describe('monk-box', () => {
       expect(el.getAttribute('bg')).to.equal('surface');
     });
 
-    it('applies accent background', async () => {
+    it('applies primary background', async () => {
       const el = await fixture<MonkBox>(html`
-        <monk-box bg="accent">Accent</monk-box>
+        <monk-box bg="primary">Primary</monk-box>
       `);
-      expect(el.bg).to.equal('accent');
-      expect(el.getAttribute('bg')).to.equal('accent');
+      expect(el.bg).to.equal('primary');
+      expect(el.getAttribute('bg')).to.equal('primary');
     });
 
     it('updates background dynamically', async () => {
