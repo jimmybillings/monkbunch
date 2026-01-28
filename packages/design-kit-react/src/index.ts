@@ -75,3 +75,6 @@ export {
   type DividerVariant,
   type DividerThickness,
 } from './divider.js';
+
+// Card component
+export { Card, type CardProps, type CardVariant } from './card.js';
