@@ -17,6 +17,9 @@ export * from './components/typography/index.js';
 // Layout components
 export * from './components/layout/index.js';
 
+// Button component
+export * from './components/button/index.js';
+
 // Import theme CSS variables
 // This makes the design tokens available when the package is imported
 import './theme/index.js';

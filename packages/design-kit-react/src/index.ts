@@ -48,3 +48,12 @@ export {
   type GridGap,
   type GridAutoFlow,
 } from './layout.js';
+
+// Button component
+export {
+  Button,
+  type ButtonProps,
+  type ButtonVariant,
+  type ButtonColorScheme,
+  type ButtonSize,
+} from './button.js';
