@@ -10,6 +10,7 @@
       "on-success": { "value": "{color.white}", "type": "color" },
       "on-error": { "value": "{color.white}", "type": "color" },
       "on-warning": { "value": "{color.gray.900}", "type": "color" },
+      "on-info": { "value": "{color.white}", "type": "color" },
       "on-muted": { "value": "{color.gray.700}", "type": "color" },
       "link": { "value": "{color.blue.500}", "type": "color" },
       "success": { "value": "{color.green.600}", "type": "color" },
@@ -44,7 +45,11 @@
       "warning": { "value": "{color.yellow.500}", "type": "color" },
       "warning-subtle": { "value": "{color.yellow.50}", "type": "color" },
       "warning-hover": { "value": "{color.yellow.600}", "type": "color" },
-      "warning-active": { "value": "{color.yellow.700}", "type": "color" }
+      "warning-active": { "value": "{color.yellow.700}", "type": "color" },
+      "info": { "value": "{color.blue.500}", "type": "color" },
+      "info-subtle": { "value": "{color.blue.50}", "type": "color" },
+      "info-hover": { "value": "{color.blue.600}", "type": "color" },
+      "info-active": { "value": "{color.blue.700}", "type": "color" }
     },
     "border": {
       "default": { "value": "{color.gray.300}", "type": "color" },

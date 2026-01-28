@@ -76,6 +76,7 @@
   --monk-color-text-on-success: var(--monk-color-white);
   --monk-color-text-on-error: var(--monk-color-white);
   --monk-color-text-on-warning: var(--monk-color-gray-900);
+  --monk-color-text-on-info: var(--monk-color-white);
   --monk-color-text-on-muted: var(--monk-color-gray-300);
   --monk-color-text-link: var(--monk-color-blue-300);
   --monk-color-text-success: var(--monk-color-green-500);
@@ -109,6 +110,10 @@
   --monk-color-bg-warning-subtle: var(--monk-color-yellow-900);
   --monk-color-bg-warning-hover: var(--monk-color-yellow-600);
   --monk-color-bg-warning-active: var(--monk-color-yellow-700);
+  --monk-color-bg-info: var(--monk-color-blue-500);
+  --monk-color-bg-info-subtle: var(--monk-color-blue-900);
+  --monk-color-bg-info-hover: var(--monk-color-blue-600);
+  --monk-color-bg-info-active: var(--monk-color-blue-700);
   --monk-color-border-default: var(--monk-color-gray-600);
   --monk-color-border-muted: var(--monk-color-gray-700);
   --monk-color-border-emphasized: var(--monk-color-gray-500);
