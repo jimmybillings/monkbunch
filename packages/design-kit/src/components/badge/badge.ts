@@ -42,6 +42,11 @@ export type BadgeSize = 'sm' | 'md' | 'lg';
  *
  * <!-- Outline variant -->
  * <monk-badge variant="outline" color-scheme="info">Beta</monk-badge>
+ *
+ * <!-- Custom colors -->
+ * <monk-badge style="--badge-bg: #ff6b6b; --badge-color: white;">Custom</monk-badge>
+ * <monk-badge style="--badge-bg: #ffd93d; --badge-color: #333;">Gold</monk-badge>
+ * <monk-badge variant="outline" style="--badge-border-color: #a855f7; --badge-color: #a855f7;">Purple</monk-badge>
  * ```
  *
  * @accessibility
@@ -54,6 +59,9 @@ export type BadgeSize = 'sm' | 'md' | 'lg';
  * @cssprop --monk-color-border-* - Border color tokens
  * @cssprop --monk-space-* - Spacing tokens
  * @cssprop --monk-font-* - Typography tokens
+ * @cssprop --badge-bg - Custom background color (overrides color-scheme)
+ * @cssprop --badge-color - Custom text color (overrides color-scheme)
+ * @cssprop --badge-border-color - Custom border color (overrides color-scheme)
  *
  * @csspart badge - The badge element for external styling via ::part()
  */
@@ -101,6 +109,11 @@ export class MonkBadge extends MonkBaseElement {
         vertical-align: middle;
         text-transform: uppercase;
         letter-spacing: 0.025em;
+
+        /* CSS custom properties for custom colors */
+        background: var(--badge-bg);
+        color: var(--badge-color);
+        border-color: var(--badge-border-color, transparent);
       }
 
       /* Sizes */
@@ -124,116 +137,116 @@ export class MonkBadge extends MonkBaseElement {
 
       /* Solid Variant - Primary */
       :host([variant='solid'][color-scheme='primary']) .badge {
-        background: var(--monk-color-bg-primary);
-        color: var(--monk-color-text-on-primary);
+        --badge-bg: var(--monk-color-bg-primary);
+        --badge-color: var(--monk-color-text-on-primary);
       }
 
       /* Solid Variant - Neutral */
       :host([variant='solid'][color-scheme='neutral']) .badge {
-        background: var(--monk-color-bg-neutral);
-        color: var(--monk-color-text-on-neutral);
+        --badge-bg: var(--monk-color-bg-neutral);
+        --badge-color: var(--monk-color-text-on-neutral);
       }
 
       /* Solid Variant - Success */
       :host([variant='solid'][color-scheme='success']) .badge {
-        background: var(--monk-color-bg-success);
-        color: var(--monk-color-text-on-success);
+        --badge-bg: var(--monk-color-bg-success);
+        --badge-color: var(--monk-color-text-on-success);
       }
 
       /* Solid Variant - Error */
       :host([variant='solid'][color-scheme='error']) .badge {
-        background: var(--monk-color-bg-error);
-        color: var(--monk-color-text-on-error);
+        --badge-bg: var(--monk-color-bg-error);
+        --badge-color: var(--monk-color-text-on-error);
       }
 
       /* Solid Variant - Warning */
       :host([variant='solid'][color-scheme='warning']) .badge {
-        background: var(--monk-color-bg-warning);
-        color: var(--monk-color-text-on-warning);
+        --badge-bg: var(--monk-color-bg-warning);
+        --badge-color: var(--monk-color-text-on-warning);
       }
 
       /* Solid Variant - Info */
       :host([variant='solid'][color-scheme='info']) .badge {
-        background: var(--monk-color-bg-info);
-        color: var(--monk-color-text-on-info);
+        --badge-bg: var(--monk-color-bg-info);
+        --badge-color: var(--monk-color-text-on-info);
       }
 
       /* Subtle Variant - Primary */
       :host([variant='subtle'][color-scheme='primary']) .badge {
-        background: var(--monk-color-bg-primary-subtle);
-        color: var(--monk-color-bg-primary);
+        --badge-bg: var(--monk-color-bg-primary-subtle);
+        --badge-color: var(--monk-color-bg-primary);
       }
 
       /* Subtle Variant - Neutral */
       :host([variant='subtle'][color-scheme='neutral']) .badge {
-        background: var(--monk-color-bg-neutral-subtle);
-        color: var(--monk-color-text-primary);
+        --badge-bg: var(--monk-color-bg-neutral-subtle);
+        --badge-color: var(--monk-color-text-primary);
       }
 
       /* Subtle Variant - Success */
       :host([variant='subtle'][color-scheme='success']) .badge {
-        background: var(--monk-color-bg-success-subtle);
-        color: var(--monk-color-bg-success);
+        --badge-bg: var(--monk-color-bg-success-subtle);
+        --badge-color: var(--monk-color-bg-success);
       }
 
       /* Subtle Variant - Error */
       :host([variant='subtle'][color-scheme='error']) .badge {
-        background: var(--monk-color-bg-error-subtle);
-        color: var(--monk-color-bg-error);
+        --badge-bg: var(--monk-color-bg-error-subtle);
+        --badge-color: var(--monk-color-bg-error);
       }
 
       /* Subtle Variant - Warning */
       :host([variant='subtle'][color-scheme='warning']) .badge {
-        background: var(--monk-color-bg-warning-subtle);
-        color: var(--monk-color-bg-warning-active);
+        --badge-bg: var(--monk-color-bg-warning-subtle);
+        --badge-color: var(--monk-color-bg-warning-active);
       }
 
       /* Subtle Variant - Info */
       :host([variant='subtle'][color-scheme='info']) .badge {
-        background: var(--monk-color-bg-info-subtle);
-        color: var(--monk-color-bg-info);
+        --badge-bg: var(--monk-color-bg-info-subtle);
+        --badge-color: var(--monk-color-bg-info);
       }
 
       /* Outline Variant - Primary */
       :host([variant='outline'][color-scheme='primary']) .badge {
-        background: transparent;
-        border-color: var(--monk-color-bg-primary);
-        color: var(--monk-color-bg-primary);
+        --badge-bg: transparent;
+        --badge-border-color: var(--monk-color-bg-primary);
+        --badge-color: var(--monk-color-bg-primary);
       }
 
       /* Outline Variant - Neutral */
       :host([variant='outline'][color-scheme='neutral']) .badge {
-        background: transparent;
-        border-color: var(--monk-color-border-default);
-        color: var(--monk-color-text-primary);
+        --badge-bg: transparent;
+        --badge-border-color: var(--monk-color-border-default);
+        --badge-color: var(--monk-color-text-primary);
       }
 
       /* Outline Variant - Success */
       :host([variant='outline'][color-scheme='success']) .badge {
-        background: transparent;
-        border-color: var(--monk-color-bg-success);
-        color: var(--monk-color-bg-success);
+        --badge-bg: transparent;
+        --badge-border-color: var(--monk-color-bg-success);
+        --badge-color: var(--monk-color-bg-success);
       }
 
       /* Outline Variant - Error */
       :host([variant='outline'][color-scheme='error']) .badge {
-        background: transparent;
-        border-color: var(--monk-color-bg-error);
-        color: var(--monk-color-bg-error);
+        --badge-bg: transparent;
+        --badge-border-color: var(--monk-color-bg-error);
+        --badge-color: var(--monk-color-bg-error);
       }
 
       /* Outline Variant - Warning */
       :host([variant='outline'][color-scheme='warning']) .badge {
-        background: transparent;
-        border-color: var(--monk-color-bg-warning);
-        color: var(--monk-color-bg-warning-active);
+        --badge-bg: transparent;
+        --badge-border-color: var(--monk-color-bg-warning);
+        --badge-color: var(--monk-color-bg-warning-active);
       }
 
       /* Outline Variant - Info */
       :host([variant='outline'][color-scheme='info']) .badge {
-        background: transparent;
-        border-color: var(--monk-color-bg-info);
-        color: var(--monk-color-bg-info);
+        --badge-bg: transparent;
+        --badge-border-color: var(--monk-color-bg-info);
+        --badge-color: var(--monk-color-bg-info);
       }
     `,
   ];

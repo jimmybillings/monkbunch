@@ -373,6 +373,101 @@ export const Composition: Story = {
 };
 
 /**
+ * Custom colors - use CSS custom properties for unlimited color flexibility
+ */
+export const CustomColors: Story = {
+  render: () => html`
+    <monk-stack spacing="6">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Custom Solid Colors</monk-heading>
+        <monk-text color="secondary">
+          Override badge colors using --badge-bg and --badge-color CSS custom properties
+        </monk-text>
+        <monk-flex gap="3" wrap="wrap">
+          <monk-badge style="--badge-bg: #ff6b6b; --badge-color: white;">Red</monk-badge>
+          <monk-badge style="--badge-bg: #ffd93d; --badge-color: #333;">Gold</monk-badge>
+          <monk-badge style="--badge-bg: #6bcf7f; --badge-color: white;">Green</monk-badge>
+          <monk-badge style="--badge-bg: #4d96ff; --badge-color: white;">Blue</monk-badge>
+          <monk-badge style="--badge-bg: #a855f7; --badge-color: white;">Purple</monk-badge>
+          <monk-badge style="--badge-bg: #ff9770; --badge-color: white;">Orange</monk-badge>
+          <monk-badge style="--badge-bg: #ec4899; --badge-color: white;">Pink</monk-badge>
+          <monk-badge style="--badge-bg: #14b8a6; --badge-color: white;">Teal</monk-badge>
+        </monk-flex>
+      </monk-stack>
+
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Custom Outline Colors</monk-heading>
+        <monk-text color="secondary">
+          Override outline badge colors using --badge-border-color and --badge-color
+        </monk-text>
+        <monk-flex gap="3" wrap="wrap">
+          <monk-badge variant="outline" style="--badge-border-color: #ff6b6b; --badge-color: #ff6b6b;">Red</monk-badge>
+          <monk-badge variant="outline" style="--badge-border-color: #ffd93d; --badge-color: #d4a300;">Gold</monk-badge>
+          <monk-badge variant="outline" style="--badge-border-color: #6bcf7f; --badge-color: #6bcf7f;">Green</monk-badge>
+          <monk-badge variant="outline" style="--badge-border-color: #4d96ff; --badge-color: #4d96ff;">Blue</monk-badge>
+          <monk-badge variant="outline" style="--badge-border-color: #a855f7; --badge-color: #a855f7;">Purple</monk-badge>
+          <monk-badge variant="outline" style="--badge-border-color: #ff9770; --badge-color: #ff9770;">Orange</monk-badge>
+        </monk-flex>
+      </monk-stack>
+
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Custom Subtle Colors</monk-heading>
+        <monk-text color="secondary">
+          Create subtle variants with custom background and text colors
+        </monk-text>
+        <monk-flex gap="3" wrap="wrap">
+          <monk-badge variant="subtle" style="--badge-bg: #ffe5e5; --badge-color: #d32f2f;">Light Red</monk-badge>
+          <monk-badge variant="subtle" style="--badge-bg: #fff4e5; --badge-color: #e65100;">Light Orange</monk-badge>
+          <monk-badge variant="subtle" style="--badge-bg: #e5ffe5; --badge-color: #2e7d32;">Light Green</monk-badge>
+          <monk-badge variant="subtle" style="--badge-bg: #e5f3ff; --badge-color: #1565c0;">Light Blue</monk-badge>
+          <monk-badge variant="subtle" style="--badge-bg: #f3e5ff; --badge-color: #6a1b9a;">Light Purple</monk-badge>
+        </monk-flex>
+      </monk-stack>
+
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Brand Colors Example</monk-heading>
+        <monk-text color="secondary">
+          Use your brand colors for custom badge schemes
+        </monk-text>
+        <monk-flex gap="3" wrap="wrap">
+          <monk-badge style="--badge-bg: #1da1f2; --badge-color: white;">Twitter</monk-badge>
+          <monk-badge style="--badge-bg: #0077b5; --badge-color: white;">LinkedIn</monk-badge>
+          <monk-badge style="--badge-bg: #6e5494; --badge-color: white;">GitHub</monk-badge>
+          <monk-badge style="--badge-bg: #ff0000; --badge-color: white;">YouTube</monk-badge>
+          <monk-badge style="--badge-bg: #25d366; --badge-color: white;">WhatsApp</monk-badge>
+        </monk-flex>
+      </monk-stack>
+
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Using CSS Classes</monk-heading>
+        <monk-text color="secondary">
+          Apply custom colors via CSS classes for reusable color schemes
+        </monk-text>
+        <style>
+          .badge-coral {
+            --badge-bg: #ff7f50;
+            --badge-color: white;
+          }
+          .badge-mint {
+            --badge-bg: #98ff98;
+            --badge-color: #2d5016;
+          }
+          .badge-lavender {
+            --badge-bg: #e6e6fa;
+            --badge-color: #6b46c1;
+          }
+        </style>
+        <monk-flex gap="3" wrap="wrap">
+          <monk-badge class="badge-coral">Coral</monk-badge>
+          <monk-badge class="badge-mint">Mint</monk-badge>
+          <monk-badge class="badge-lavender">Lavender</monk-badge>
+        </monk-flex>
+      </monk-stack>
+    </monk-stack>
+  `,
+};
+
+/**
  * Accessibility demonstration
  */
 export const Accessibility: Story = {
