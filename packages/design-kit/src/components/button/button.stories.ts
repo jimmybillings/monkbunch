@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
 import './button.js';
+import '../layout/flex.js';
+import '../layout/stack.js';
+import '../layout/box.js';
+import '../layout/container.js';
+import '../typography/heading.js';
+import '../typography/text.js';
 import type { MonkButton } from './button.js';
 
 const meta: Meta<MonkButton> = {
@@ -88,12 +94,12 @@ export const Default: Story = {
  */
 export const Variants: Story = {
   render: () => html`
-    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+    <monk-flex gap="4" wrap="wrap">
       <monk-button variant="solid">Solid</monk-button>
       <monk-button variant="outline">Outline</monk-button>
       <monk-button variant="ghost">Ghost</monk-button>
       <monk-button variant="link">Link</monk-button>
-    </div>
+    </monk-flex>
   `,
 };
 
@@ -102,13 +108,13 @@ export const Variants: Story = {
  */
 export const ColorSchemes: Story = {
   render: () => html`
-    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+    <monk-flex gap="4" wrap="wrap">
       <monk-button color-scheme="primary">Primary</monk-button>
       <monk-button color-scheme="neutral">Neutral</monk-button>
       <monk-button color-scheme="success">Success</monk-button>
       <monk-button color-scheme="error">Error</monk-button>
       <monk-button color-scheme="warning">Warning</monk-button>
-    </div>
+    </monk-flex>
   `,
 };
 
@@ -117,13 +123,13 @@ export const ColorSchemes: Story = {
  */
 export const Sizes: Story = {
   render: () => html`
-    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+    <monk-flex gap="4" align="center" wrap="wrap">
       <monk-button size="xs">Extra Small</monk-button>
       <monk-button size="sm">Small</monk-button>
       <monk-button size="md">Medium</monk-button>
       <monk-button size="lg">Large</monk-button>
       <monk-button size="xl">Extra Large</monk-button>
-    </div>
+    </monk-flex>
   `,
 };
 
@@ -132,11 +138,11 @@ export const Sizes: Story = {
  */
 export const VariantColorMatrix: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 24px;">
+    <monk-stack spacing="8">
       <!-- Solid -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Solid</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Solid</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           ${(['primary', 'neutral', 'success', 'error', 'warning'] as const).map(
             (color) => html`
               <monk-button variant="solid" color-scheme=${color}>
@@ -144,13 +150,13 @@ export const VariantColorMatrix: Story = {
               </monk-button>
             `
           )}
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Outline -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Outline</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Outline</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           ${(['primary', 'neutral', 'success', 'error', 'warning'] as const).map(
             (color) => html`
               <monk-button variant="outline" color-scheme=${color}>
@@ -158,13 +164,13 @@ export const VariantColorMatrix: Story = {
               </monk-button>
             `
           )}
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Ghost -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Ghost</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Ghost</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           ${(['primary', 'neutral', 'success', 'error', 'warning'] as const).map(
             (color) => html`
               <monk-button variant="ghost" color-scheme=${color}>
@@ -172,13 +178,13 @@ export const VariantColorMatrix: Story = {
               </monk-button>
             `
           )}
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Link -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Link</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Link</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           ${(['primary', 'neutral', 'success', 'error', 'warning'] as const).map(
             (color) => html`
               <monk-button variant="link" color-scheme=${color}>
@@ -186,9 +192,9 @@ export const VariantColorMatrix: Story = {
               </monk-button>
             `
           )}
-        </div>
-      </div>
-    </div>
+        </monk-flex>
+      </monk-stack>
+    </monk-stack>
   `,
 };
 
@@ -197,12 +203,12 @@ export const VariantColorMatrix: Story = {
  */
 export const DisabledState: Story = {
   render: () => html`
-    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+    <monk-flex gap="4" wrap="wrap">
       <monk-button disabled>Solid Disabled</monk-button>
       <monk-button variant="outline" disabled>Outline Disabled</monk-button>
       <monk-button variant="ghost" disabled>Ghost Disabled</monk-button>
       <monk-button variant="link" disabled>Link Disabled</monk-button>
-    </div>
+    </monk-flex>
   `,
 };
 
@@ -211,9 +217,9 @@ export const DisabledState: Story = {
  */
 export const FullWidth: Story = {
   render: () => html`
-    <div style="max-width: 400px;">
+    <monk-container size="sm">
       <monk-button full-width>Full Width Button</monk-button>
-    </div>
+    </monk-container>
   `,
 };
 
@@ -222,56 +228,56 @@ export const FullWidth: Story = {
  */
 export const UseCases: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 32px;">
+    <monk-stack spacing="8">
       <!-- Primary Actions -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Primary Actions</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Primary Actions</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           <monk-button>Save</monk-button>
           <monk-button>Submit</monk-button>
           <monk-button>Continue</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Secondary Actions -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Secondary Actions</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Secondary Actions</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           <monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
           <monk-button variant="ghost" color-scheme="neutral">Skip</monk-button>
           <monk-button variant="link">Learn more</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Confirmation Actions -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Confirmation Actions</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Confirmation Actions</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           <monk-button color-scheme="success">Approve</monk-button>
           <monk-button color-scheme="success">Confirm</monk-button>
           <monk-button variant="outline" color-scheme="success">Save Draft</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Destructive Actions -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Destructive Actions</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Destructive Actions</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           <monk-button color-scheme="error">Delete</monk-button>
           <monk-button color-scheme="error">Remove</monk-button>
           <monk-button variant="outline" color-scheme="error">Discard</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Warning Actions -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Warning Actions</h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Warning Actions</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           <monk-button color-scheme="warning">Proceed Anyway</monk-button>
           <monk-button variant="outline" color-scheme="warning">Review</monk-button>
-        </div>
-      </div>
-    </div>
+        </monk-flex>
+      </monk-stack>
+    </monk-stack>
   `,
 };
 
@@ -280,49 +286,51 @@ export const UseCases: Story = {
  */
 export const ButtonGroups: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 32px;">
+    <monk-stack spacing="8">
       <!-- Left aligned actions -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Left Aligned</h4>
-        <div style="display: flex; gap: 12px;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Left Aligned</monk-heading>
+        <monk-flex gap="3">
           <monk-button>Save</monk-button>
           <monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Right aligned actions -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Right Aligned</h4>
-        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Right Aligned</monk-heading>
+        <monk-flex gap="3" justify="end">
           <monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
           <monk-button>Save</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Space between -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Space Between</h4>
-        <div style="display: flex; gap: 12px; justify-content: space-between;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Space Between</monk-heading>
+        <monk-flex gap="3" justify="between">
           <monk-button variant="ghost" color-scheme="neutral">Back</monk-button>
-          <div style="display: flex; gap: 12px;">
+          <monk-flex gap="3">
             <monk-button variant="outline" color-scheme="neutral">Cancel</monk-button>
             <monk-button>Continue</monk-button>
-          </div>
-        </div>
-      </div>
+          </monk-flex>
+        </monk-flex>
+      </monk-stack>
 
       <!-- Vertical stack -->
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">Vertical Stack</h4>
-        <div style="display: flex; flex-direction: column; gap: 12px; max-width: 200px;">
-          <monk-button full-width>Primary Action</monk-button>
-          <monk-button variant="outline" color-scheme="neutral" full-width>
-            Secondary Action
-          </monk-button>
-          <monk-button variant="link" full-width>Tertiary Action</monk-button>
-        </div>
-      </div>
-    </div>
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Vertical Stack</monk-heading>
+        <monk-container size="sm">
+          <monk-stack spacing="3">
+            <monk-button full-width>Primary Action</monk-button>
+            <monk-button variant="outline" color-scheme="neutral" full-width>
+              Secondary Action
+            </monk-button>
+            <monk-button variant="link" full-width>Tertiary Action</monk-button>
+          </monk-stack>
+        </monk-container>
+      </monk-stack>
+    </monk-stack>
   `,
 };
 
@@ -331,41 +339,42 @@ export const ButtonGroups: Story = {
  */
 export const FormExample: Story = {
   render: () => html`
-    <form
-      style="max-width: 400px; padding: 24px; border: 1px solid #ddd; border-radius: 8px;"
-      @submit=${(e: Event) => {
-        e.preventDefault();
-        console.log('Form submitted');
-      }}
-    >
-      <div style="margin-bottom: 16px;">
-        <label style="display: block; margin-bottom: 4px; font-weight: 500;">
-          Email
-        </label>
-        <input
-          type="email"
-          placeholder="your@email.com"
-          style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
-        />
-      </div>
+    <monk-container size="sm">
+      <monk-box padding="6" bg="surface" radius="lg" shadow="md" border="1px">
+        <form
+          @submit=${(e: Event) => {
+            e.preventDefault();
+            console.log('Form submitted');
+          }}
+        >
+          <monk-stack spacing="4">
+            <monk-stack spacing="1">
+              <monk-text weight="medium">Email</monk-text>
+              <input
+                type="email"
+                placeholder="your@email.com"
+                style="width: 100%; padding: 8px; border: 1px solid var(--monk-color-border-default); border-radius: var(--monk-radius-sm); font-family: var(--monk-font-family-base);"
+              />
+            </monk-stack>
 
-      <div style="margin-bottom: 20px;">
-        <label style="display: block; margin-bottom: 4px; font-weight: 500;">
-          Password
-        </label>
-        <input
-          type="password"
-          style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"
-        />
-      </div>
+            <monk-stack spacing="1">
+              <monk-text weight="medium">Password</monk-text>
+              <input
+                type="password"
+                style="width: 100%; padding: 8px; border: 1px solid var(--monk-color-border-default); border-radius: var(--monk-radius-sm); font-family: var(--monk-font-family-base);"
+              />
+            </monk-stack>
 
-      <div style="display: flex; gap: 12px;">
-        <monk-button type="submit" full-width>Sign In</monk-button>
-        <monk-button type="reset" variant="outline" color-scheme="neutral" full-width>
-          Reset
-        </monk-button>
-      </div>
-    </form>
+            <monk-flex gap="3">
+              <monk-button type="submit" full-width>Sign In</monk-button>
+              <monk-button type="reset" variant="outline" color-scheme="neutral" full-width>
+                Reset
+              </monk-button>
+            </monk-flex>
+          </monk-stack>
+        </form>
+      </monk-box>
+    </monk-container>
   `,
 };
 
@@ -374,36 +383,30 @@ export const FormExample: Story = {
  */
 export const Accessibility: Story = {
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 24px;">
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">
-          Keyboard Navigation
-        </h4>
-        <p style="margin: 0 0 12px 0; color: #666;">
+    <monk-stack spacing="6">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Keyboard Navigation</monk-heading>
+        <monk-text color="secondary">
           Tab to focus, Enter/Space to activate, Tab+Shift to reverse
-        </p>
-        <div style="display: flex; gap: 12px;">
+        </monk-text>
+        <monk-flex gap="3">
           <monk-button>First Button</monk-button>
           <monk-button variant="outline">Second Button</monk-button>
           <monk-button variant="ghost">Third Button</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">
-          Disabled State (not focusable)
-        </h4>
-        <div style="display: flex; gap: 12px;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Disabled State (not focusable)</monk-heading>
+        <monk-flex gap="3">
           <monk-button disabled>Disabled Button</monk-button>
           <monk-button>Enabled Button</monk-button>
-        </div>
-      </div>
+        </monk-flex>
+      </monk-stack>
 
-      <div>
-        <h4 style="margin: 0 0 12px 0; font-weight: 600;">
-          Color Contrast (WCAG AA compliant)
-        </h4>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <monk-stack spacing="3">
+        <monk-heading level="h4">Color Contrast (WCAG AA compliant)</monk-heading>
+        <monk-flex gap="3" wrap="wrap">
           ${(['primary', 'neutral', 'success', 'error', 'warning'] as const).map(
             (color) => html`
               <monk-button color-scheme=${color}>
@@ -411,9 +414,9 @@ export const Accessibility: Story = {
               </monk-button>
             `
           )}
-        </div>
-      </div>
-    </div>
+        </monk-flex>
+      </monk-stack>
+    </monk-stack>
   `,
   parameters: {
     a11y: {
