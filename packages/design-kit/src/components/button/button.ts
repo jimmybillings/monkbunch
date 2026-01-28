@@ -118,7 +118,7 @@ export class MonkButton extends MonkBaseElement {
         align-items: center;
         justify-content: center;
         gap: var(--monk-space-2);
-        font-family: var(--monk-font-family-sans);
+        font-family: var(--monk-font-family-base);
         font-weight: var(--monk-font-weight-semibold);
         border-radius: var(--monk-radius-md);
         border: 1px solid transparent;
