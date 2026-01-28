@@ -29,6 +29,9 @@ export * from './components/divider/index.js';
 // Card component
 export * from './components/card/index.js';
 
+// Input components
+export * from './components/input/index.js';
+
 // Import theme CSS variables
 // This makes the design tokens available when the package is imported
 import './theme/index.js';

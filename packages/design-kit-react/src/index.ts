@@ -78,3 +78,11 @@ export {
 
 // Card component
 export { Card, type CardProps, type CardVariant } from './card.js';
+
+// Input components
+export {
+  TextInput,
+  type TextInputProps,
+  type InputSize,
+  type InputVariant,
+} from './text-input.js';
