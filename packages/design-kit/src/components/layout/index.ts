@@ -29,3 +29,9 @@ export type {
   FlexWrap,
   FlexGap,
 } from './flex.js';
+
+export { MonkContainer } from './container.js';
+export type { ContainerSize } from './container.js';
+
+export { MonkGrid } from './grid.js';
+export type { GridGap, GridAutoFlow } from './grid.js';
