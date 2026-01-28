@@ -136,114 +136,114 @@ export class MonkBadge extends MonkBaseElement {
       }
 
       /* Solid Variant - Primary */
-      :host([variant='solid'][color-scheme='primary']) .badge {
+      :host([variant='solid'][color-scheme='primary']) {
         --badge-bg: var(--monk-color-bg-primary);
         --badge-color: var(--monk-color-text-on-primary);
       }
 
       /* Solid Variant - Neutral */
-      :host([variant='solid'][color-scheme='neutral']) .badge {
+      :host([variant='solid'][color-scheme='neutral']) {
         --badge-bg: var(--monk-color-bg-neutral);
         --badge-color: var(--monk-color-text-on-neutral);
       }
 
       /* Solid Variant - Success */
-      :host([variant='solid'][color-scheme='success']) .badge {
+      :host([variant='solid'][color-scheme='success']) {
         --badge-bg: var(--monk-color-bg-success);
         --badge-color: var(--monk-color-text-on-success);
       }
 
       /* Solid Variant - Error */
-      :host([variant='solid'][color-scheme='error']) .badge {
+      :host([variant='solid'][color-scheme='error']) {
         --badge-bg: var(--monk-color-bg-error);
         --badge-color: var(--monk-color-text-on-error);
       }
 
       /* Solid Variant - Warning */
-      :host([variant='solid'][color-scheme='warning']) .badge {
+      :host([variant='solid'][color-scheme='warning']) {
         --badge-bg: var(--monk-color-bg-warning);
         --badge-color: var(--monk-color-text-on-warning);
       }
 
       /* Solid Variant - Info */
-      :host([variant='solid'][color-scheme='info']) .badge {
+      :host([variant='solid'][color-scheme='info']) {
         --badge-bg: var(--monk-color-bg-info);
         --badge-color: var(--monk-color-text-on-info);
       }
 
       /* Subtle Variant - Primary */
-      :host([variant='subtle'][color-scheme='primary']) .badge {
+      :host([variant='subtle'][color-scheme='primary']) {
         --badge-bg: var(--monk-color-bg-primary-subtle);
         --badge-color: var(--monk-color-bg-primary);
       }
 
       /* Subtle Variant - Neutral */
-      :host([variant='subtle'][color-scheme='neutral']) .badge {
+      :host([variant='subtle'][color-scheme='neutral']) {
         --badge-bg: var(--monk-color-bg-neutral-subtle);
         --badge-color: var(--monk-color-text-primary);
       }
 
       /* Subtle Variant - Success */
-      :host([variant='subtle'][color-scheme='success']) .badge {
+      :host([variant='subtle'][color-scheme='success']) {
         --badge-bg: var(--monk-color-bg-success-subtle);
         --badge-color: var(--monk-color-bg-success);
       }
 
       /* Subtle Variant - Error */
-      :host([variant='subtle'][color-scheme='error']) .badge {
+      :host([variant='subtle'][color-scheme='error']) {
         --badge-bg: var(--monk-color-bg-error-subtle);
         --badge-color: var(--monk-color-bg-error);
       }
 
       /* Subtle Variant - Warning */
-      :host([variant='subtle'][color-scheme='warning']) .badge {
+      :host([variant='subtle'][color-scheme='warning']) {
         --badge-bg: var(--monk-color-bg-warning-subtle);
         --badge-color: var(--monk-color-bg-warning-active);
       }
 
       /* Subtle Variant - Info */
-      :host([variant='subtle'][color-scheme='info']) .badge {
+      :host([variant='subtle'][color-scheme='info']) {
         --badge-bg: var(--monk-color-bg-info-subtle);
         --badge-color: var(--monk-color-bg-info);
       }
 
       /* Outline Variant - Primary */
-      :host([variant='outline'][color-scheme='primary']) .badge {
+      :host([variant='outline'][color-scheme='primary']) {
         --badge-bg: transparent;
         --badge-border-color: var(--monk-color-bg-primary);
         --badge-color: var(--monk-color-bg-primary);
       }
 
       /* Outline Variant - Neutral */
-      :host([variant='outline'][color-scheme='neutral']) .badge {
+      :host([variant='outline'][color-scheme='neutral']) {
         --badge-bg: transparent;
         --badge-border-color: var(--monk-color-border-default);
         --badge-color: var(--monk-color-text-primary);
       }
 
       /* Outline Variant - Success */
-      :host([variant='outline'][color-scheme='success']) .badge {
+      :host([variant='outline'][color-scheme='success']) {
         --badge-bg: transparent;
         --badge-border-color: var(--monk-color-bg-success);
         --badge-color: var(--monk-color-bg-success);
       }
 
       /* Outline Variant - Error */
-      :host([variant='outline'][color-scheme='error']) .badge {
+      :host([variant='outline'][color-scheme='error']) {
         --badge-bg: transparent;
         --badge-border-color: var(--monk-color-bg-error);
         --badge-color: var(--monk-color-bg-error);
       }
 
       /* Outline Variant - Warning */
-      :host([variant='outline'][color-scheme='warning']) .badge {
+      :host([variant='outline'][color-scheme='warning']) {
         --badge-bg: transparent;
         --badge-border-color: var(--monk-color-bg-warning);
         --badge-color: var(--monk-color-bg-warning-active);
       }
 
       /* Outline Variant - Info */
-      :host([variant='outline'][color-scheme='info']) .badge {
+      :host([variant='outline'][color-scheme='info']) {
         --badge-bg: transparent;
         --badge-border-color: var(--monk-color-bg-info);
         --badge-color: var(--monk-color-bg-info);
