@@ -1,6 +1,13 @@
 export { BaseInput } from './base-input.js';
+export { MaskedInput } from './masked-input.js';
 export { MonkTextInput } from './text-input.js';
 export { MonkEmailInput } from './email-input.js';
 export { MonkPasswordInput } from './password-input.js';
+export { MonkPhoneInput } from './phone-input.js';
+export { MonkDateInput } from './date-input.js';
+export { MonkDollarInput } from './dollar-input.js';
+export { MonkNumberInput } from './number-input.js';
+export { MonkURLInput } from './url-input.js';
+export { MonkSearchInput } from './search-input.js';
 export type { InputSize, InputVariant, ValidateOn } from './base-input.js';
 export { validators, type ValidatorFn } from './validators.js';
