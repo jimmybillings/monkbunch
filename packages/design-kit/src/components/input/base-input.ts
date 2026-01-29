@@ -4,6 +4,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { MonkBaseElement } from '../../core/base-element.js';
 import { coreStyles, reducedMotionStyles } from '../../core/styles.js';
+import { type ValidatorFn } from './validators.js';
 
 /**
  * Input size
@@ -14,6 +15,11 @@ export type InputSize = 'sm' | 'md' | 'lg';
  * Input variant (visual style)
  */
 export type InputVariant = 'outline' | 'filled' | 'flushed';
+
+/**
+ * When to trigger validation
+ */
+export type ValidateOn = 'blur' | 'input' | 'change' | 'submit';
 
 /**
  * Base input class for all input components
@@ -116,6 +122,38 @@ export abstract class BaseInput extends MonkBaseElement {
    */
   @property({ type: Boolean, attribute: 'show-count' })
   showCount = false;
+
+  /**
+   * Enable automatic validation
+   * @default false
+   */
+  @property({ type: Boolean, reflect: true })
+  validate = false;
+
+  /**
+   * When to validate
+   * - 'blur': Validate when input loses focus (recommended)
+   * - 'input': Validate on every keystroke
+   * - 'change': Validate on change event
+   * - 'submit': Only validate when explicitly called (form submit)
+   * @default 'blur'
+   */
+  @property({ type: String, attribute: 'validate-on' })
+  validateOn: ValidateOn = 'blur';
+
+  /**
+   * Array of custom validator functions
+   * Each function receives the input value and returns true if valid
+   */
+  @property({ type: Array, attribute: false })
+  validators?: ValidatorFn[];
+
+  /**
+   * Custom validation error message
+   * Used when custom validators fail
+   */
+  @property({ type: String, attribute: 'validation-message' })
+  validationMessage?: string;
 
   /**
    * Internal focus state
@@ -393,9 +431,113 @@ export abstract class BaseInput extends MonkBaseElement {
     this._input?.select();
   }
 
+  /**
+   * Check if the input passes HTML5 constraint validation
+   * @returns true if valid, false otherwise
+   */
+  public checkValidity(): boolean {
+    return this._input?.checkValidity() ?? true;
+  }
+
+  /**
+   * Check validity and show browser validation UI if invalid
+   * @returns true if valid, false otherwise
+   */
+  public reportValidity(): boolean {
+    return this._input?.reportValidity() ?? true;
+  }
+
+  /**
+   * Set a custom validation message
+   * Pass an empty string to clear the error
+   * @param message - Error message or empty string to clear
+   */
+  public setCustomValidity(message: string): void {
+    this._input?.setCustomValidity(message);
+    if (message) {
+      this.invalid = true;
+      this.errorMessage = message;
+    } else {
+      this.invalid = false;
+      this.errorMessage = '';
+    }
+  }
+
+  /**
+   * Convenience method to set an error (alias for setCustomValidity)
+   * @param message - Error message
+   */
+  public setError(message: string): void {
+    this.setCustomValidity(message);
+  }
+
+  /**
+   * Convenience method to clear error (alias for setCustomValidity(''))
+   */
+  public clearError(): void {
+    this.setCustomValidity('');
+  }
+
+  /**
+   * Manually trigger validation
+   * Runs custom validators first, then HTML5 validation
+   * @returns true if valid, false if invalid
+   */
+  public performValidation(): boolean {
+    if (!this.validate) return true;
+
+    // Run custom validators first
+    if (this.validators && this.validators.length > 0) {
+      const hasError = this.validators.some((validator) => !validator(this.value));
+      if (hasError) {
+        this.invalid = true;
+        this.errorMessage = this.validationMessage || 'Validation failed';
+        this.dispatchEvent(
+          new CustomEvent('input-invalid', {
+            detail: { value: this.value, message: this.errorMessage },
+            bubbles: true,
+            composed: true,
+          })
+        );
+        return false;
+      }
+    }
+
+    // Then check HTML5 validity
+    const isValid = this.checkValidity();
+    this.invalid = !isValid;
+
+    if (!isValid) {
+      this.errorMessage = this.validationMessage || this._input.validationMessage;
+      this.dispatchEvent(
+        new CustomEvent('input-invalid', {
+          detail: { value: this.value, message: this.errorMessage },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    } else {
+      this.errorMessage = '';
+      this.dispatchEvent(
+        new CustomEvent('input-valid', {
+          detail: { value: this.value },
+          bubbles: true,
+          composed: true,
+        })
+      );
+    }
+
+    return isValid;
+  }
+
   protected _handleInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+
+    // Trigger validation if validateOn is 'input'
+    if (this.validate && this.validateOn === 'input') {
+      this.performValidation();
+    }
 
     this.dispatchEvent(
       new CustomEvent('input-change', {
@@ -409,6 +551,11 @@ export abstract class BaseInput extends MonkBaseElement {
   protected _handleChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.value = input.value;
+
+    // Trigger validation if validateOn is 'change'
+    if (this.validate && this.validateOn === 'change') {
+      this.performValidation();
+    }
 
     this.dispatchEvent(
       new CustomEvent('input-changed', {
@@ -433,6 +580,11 @@ export abstract class BaseInput extends MonkBaseElement {
 
   protected _handleBlur(event: FocusEvent): void {
     this._focused = false;
+
+    // Trigger validation if validateOn is 'blur' (default)
+    if (this.validate && this.validateOn === 'blur') {
+      this.performValidation();
+    }
 
     this.dispatchEvent(
       new CustomEvent('input-blur', {

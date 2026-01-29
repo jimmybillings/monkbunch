@@ -142,3 +142,162 @@ export const FormExamples: Story = {
     </monk-stack>
   `,
 };
+
+export const AutomaticValidation: Story = {
+  render: () => html`
+    <monk-stack spacing="6" style="max-width: 400px;">
+      <monk-heading level="h3">Automatic Validation</monk-heading>
+      <monk-text>
+        Try typing an invalid email and clicking outside the field (blur). The
+        validation will automatically trigger.
+      </monk-text>
+
+      <monk-email-input
+        label="Email (validate on blur)"
+        placeholder="you@example.com"
+        required
+        validate
+        validate-on="blur"
+        helper-text="Validation triggers when you leave the field"
+      ></monk-email-input>
+
+      <monk-email-input
+        label="Email (validate on input)"
+        placeholder="you@example.com"
+        required
+        validate
+        validate-on="input"
+        helper-text="Validation triggers as you type"
+      ></monk-email-input>
+
+      <monk-email-input
+        label="Email (validate on change)"
+        placeholder="you@example.com"
+        required
+        validate
+        validate-on="change"
+        helper-text="Validation triggers on change event"
+      ></monk-email-input>
+    </monk-stack>
+  `,
+};
+
+export const CustomValidationMessage: Story = {
+  render: () => html`
+    <monk-stack spacing="6" style="max-width: 400px;">
+      <monk-heading level="h3">Custom Validation Message</monk-heading>
+
+      <monk-email-input
+        label="Work Email"
+        placeholder="you@company.com"
+        required
+        validate
+        validation-message="Please enter a valid work email address"
+        helper-text="Use your company email"
+      ></monk-email-input>
+    </monk-stack>
+  `,
+};
+
+export const ValidationEvents: Story = {
+  render: () => {
+    const handleInvalid = (e: CustomEvent) => {
+      console.log('Input is invalid:', e.detail);
+      const message = document.getElementById('validation-message');
+      if (message) {
+        message.textContent = `Invalid: ${e.detail.message}`;
+        message.style.color = 'var(--monk-color-text-error)';
+      }
+    };
+
+    const handleValid = (e: CustomEvent) => {
+      console.log('Input is valid:', e.detail);
+      const message = document.getElementById('validation-message');
+      if (message) {
+        message.textContent = 'Valid email address!';
+        message.style.color = 'var(--monk-color-text-success)';
+      }
+    };
+
+    return html`
+      <monk-stack spacing="6" style="max-width: 400px;">
+        <monk-heading level="h3">Validation Events</monk-heading>
+        <monk-text>
+          Type an email to see validation events in the console and below.
+        </monk-text>
+
+        <monk-email-input
+          label="Email"
+          placeholder="you@example.com"
+          required
+          validate
+          validate-on="blur"
+          @input-invalid=${handleInvalid}
+          @input-valid=${handleValid}
+        ></monk-email-input>
+
+        <div
+          id="validation-message"
+          style="padding: 12px; border-radius: 6px; background: var(--monk-color-bg-subtle); font-family: var(--monk-font-family-mono); font-size: var(--monk-font-size-sm);"
+        >
+          Waiting for validation...
+        </div>
+      </monk-stack>
+    `;
+  },
+};
+
+export const ProgrammaticValidation: Story = {
+  render: () => {
+    const handleSetError = () => {
+      const input = document.getElementById(
+        'api-email'
+      ) as any;
+      input?.setError('This email is already registered');
+    };
+
+    const handleClearError = () => {
+      const input = document.getElementById(
+        'api-email'
+      ) as any;
+      input?.clearError();
+    };
+
+    const handleCheckValidity = () => {
+      const input = document.getElementById(
+        'api-email'
+      ) as any;
+      const isValid = input?.checkValidity();
+      alert('Email is ' + (isValid ? 'valid' : 'invalid'));
+    };
+
+    return html`
+      <monk-stack spacing="6" style="max-width: 400px;">
+        <monk-heading level="h3">Programmatic Validation</monk-heading>
+        <monk-text>
+          Use the buttons to test the validation API methods.
+        </monk-text>
+
+        <monk-email-input
+          id="api-email"
+          label="Email"
+          placeholder="you@example.com"
+          required
+          helper-text="Try the buttons below"
+        ></monk-email-input>
+
+        <monk-stack spacing="3" direction="row">
+          <monk-button variant="outline" size="sm" @click=${handleSetError}>
+            Set API Error
+          </monk-button>
+          <monk-button variant="outline" size="sm" @click=${handleClearError}>
+            Clear Error
+          </monk-button>
+          <monk-button variant="outline" size="sm" @click=${handleCheckValidity}>
+            Check Validity
+          </monk-button>
+        </monk-stack>
+      </monk-stack>
+    `;
+  },
+};
