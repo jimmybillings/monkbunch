@@ -86,3 +86,5 @@ export {
   type InputSize,
   type InputVariant,
 } from './text-input.js';
+export { EmailInput, type EmailInputProps } from './email-input.js';
+export { PasswordInput, type PasswordInputProps } from './password-input.js';
