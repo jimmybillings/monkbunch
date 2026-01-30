@@ -18,7 +18,8 @@ describe('monk-heading', () => {
       `);
       const headingEl = el.shadowRoot?.querySelector('h2');
       expect(headingEl).to.exist;
-      expect(headingEl?.textContent?.trim()).to.equal('Section Title');
+      // Check slotted content via the host element's textContent
+      expect(el.textContent?.trim()).to.equal('Section Title');
     });
 
     it('supports all heading levels (h1-h6)', async () => {

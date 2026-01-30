@@ -36,48 +36,45 @@ export class MonkDateInput extends MaskedInput {
   protected readonly prompt = 'MM/DD/YYYY';
   protected readonly mask: Mask = new Mask({ eager: false, mask: '##/##/####' });
 
-  protected override update(changedProperties: PropertyValues<this>): void {
-    super.update(changedProperties);
-
-    // Convert ISO date format (YYYY-MM-DD) to UI format (MM/DD/YYYY) if needed
-    const apiDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (this._input && apiDatePattern.test(this._input.value)) {
-      this._input.value = this.formatDateApiToUi(this._input.value);
-    }
-  }
-
-  protected override firstUpdated(changedProperties: PropertyValues): void {
-    // Convert API format to UI format before maska initialization
-    if (this._input) {
+  protected override willUpdate(changedProperties: PropertyValues<this>): void {
+    // Convert different date formats to unmasked format (MMDDYYYY) BEFORE rendering
+    if (changedProperties.has('value')) {
+      // Convert ISO format (YYYY-MM-DD) to unmasked format (MMDDYYYY)
       const apiDatePattern = /^\d{4}-\d{2}-\d{2}$/;
-      if (apiDatePattern.test(this._input.value)) {
-        this._input.value = this.formatDateApiToUi(this._input.value);
+      if (apiDatePattern.test(this.value)) {
+        const [year, month, day] = this.value.split('T')[0].split('-');
+        this.value = `${month}${day}${year}`;
+      }
+
+      // Convert UI format with slashes (MM/DD/YYYY or M/D/YYYY) to unmasked format
+      const uiDatePattern = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+      if (uiDatePattern.test(this.value)) {
+        const [month, day, year] = this.value.split('/');
+        this.value = `${month.padStart(2, '0')}${day.padStart(2, '0')}${year}`;
       }
     }
-    super.firstUpdated(changedProperties);
+
+    super.willUpdate(changedProperties);
   }
 
   /**
-   * Format ISO date string (YYYY-MM-DD) to UI format (MM/DD/YYYY)
+   * Format unmasked date string (MMDDYYYY) to ISO format (YYYY-MM-DD)
    */
-  private formatDateApiToUi(isoString: string): string {
-    const [year, month, day] = isoString.split('T')[0].split('-');
-    return `${month}/${day}/${year}`;
-  }
-
-  /**
-   * Format UI date string (MM/DD/YYYY) to ISO format (YYYY-MM-DD)
-   */
-  public formatDateUiToApi(uiString: string): string {
-    const [month, day, year] = uiString.split('/');
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+  private formatUnmaskedToApi(unmasked: string): string {
+    if (unmasked.length !== 8) {
+      return '';
+    }
+    const month = unmasked.slice(0, 2);
+    const day = unmasked.slice(2, 4);
+    const year = unmasked.slice(4, 8);
+    return `${year}-${month}-${day}`;
   }
 
   /**
    * Get the date value in ISO format (YYYY-MM-DD) for API submission
    */
   public getApiValue(): string {
-    return this.formatDateUiToApi(this.value);
+    return this.formatUnmaskedToApi(this.value);
   }
 }
 

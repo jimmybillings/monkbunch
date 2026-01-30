@@ -117,6 +117,31 @@ export abstract class BaseInput extends MonkBaseElement {
   maxlength?: number;
 
   /**
+   * Minimum value (for number inputs)
+   */
+  @property({ type: String })
+  min?: string;
+
+  /**
+   * Maximum value (for number inputs)
+   */
+  @property({ type: String })
+  max?: string;
+
+  /**
+   * Step value (for number inputs)
+   */
+  @property({ type: String })
+  step?: string;
+
+  /**
+   * Input mode hint for mobile keyboards
+   * Common values: 'text', 'numeric', 'decimal', 'tel', 'email', 'url'
+   */
+  @property({ type: String })
+  inputmode?: string;
+
+  /**
    * Whether to show character count
    * @default false
    */
@@ -661,6 +686,10 @@ export abstract class BaseInput extends MonkBaseElement {
           ?required=${this.required}
           autocomplete=${ifDefined(this.autocomplete)}
           maxlength=${ifDefined(this.maxlength)}
+          min=${ifDefined(this.min)}
+          max=${ifDefined(this.max)}
+          step=${ifDefined(this.step)}
+          inputmode=${ifDefined(this.inputmode)}
           aria-invalid=${this.invalid ? 'true' : 'false'}
           aria-describedby=${ifDefined(
             this.errorMessage ? 'error-message' : this.helperText ? 'helper-text' : undefined

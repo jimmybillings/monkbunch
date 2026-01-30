@@ -187,7 +187,8 @@ describe('MonkCard', () => {
       expect(element.getAttribute('bg')).to.equal('#ff6b6b');
 
       const card = element.shadowRoot?.querySelector('.card') as HTMLElement;
-      expect(card.style.background).to.equal('#ff6b6b');
+      // Browsers normalize hex colors to RGB format
+      expect(card.style.background).to.equal('rgb(255, 107, 107)');
     });
 
     it('should support RGB color values', async () => {

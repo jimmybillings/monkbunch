@@ -1,5 +1,6 @@
 import { html, css, type CSSResultArray, type TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { MonkBaseElement } from '../../core/base-element.js';
 import { coreStyles, reducedMotionStyles } from '../../core/styles.js';
 
@@ -253,7 +254,7 @@ export class MonkCard extends MonkBaseElement {
         class="card"
         style="${style}"
         role="${this.interactive ? 'button' : 'article'}"
-        tabindex="${this.interactive ? '0' : undefined}"
+        tabindex="${ifDefined(this.interactive ? '0' : undefined)}"
         @click="${this._handleClick}"
         @keydown="${this._handleKeydown}"
       >

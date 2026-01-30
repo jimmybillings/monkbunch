@@ -42,6 +42,18 @@ export abstract class MaskedInput extends BaseInput {
     }
   }
 
+  protected override updated(changedProperties: PropertyValues<this>): void {
+    // Override BaseInput's updated to sync unmasked value to masked display
+    if (changedProperties.has('value') && this._input) {
+      const maskedValue = this.mask.masked(this.value);
+      const displayValue = `${maskedValue}${this.prompt.slice(maskedValue.length)}`;
+
+      if (this._input.value !== displayValue) {
+        this._input.value = displayValue;
+      }
+    }
+  }
+
   protected override firstUpdated(changedProperties: PropertyValues): void {
     super.firstUpdated(changedProperties);
 
@@ -90,8 +102,47 @@ export abstract class MaskedInput extends BaseInput {
   }
 
   protected override _handleInput(event: Event): void {
-    // Let maska handle the masking, then call parent
-    super._handleInput(event);
+    const input = event.target as HTMLInputElement;
+
+    // Store unmasked value, but display masked value
+    const unmaskedValue = this.mask.unmasked(input.value);
+    this.value = unmaskedValue;
+
+    // Trigger validation if validateOn is 'input'
+    if (this.validate && this.validateOn === 'input') {
+      this.performValidation();
+    }
+
+    // Dispatch event with unmasked value
+    this.dispatchEvent(
+      new CustomEvent('input-change', {
+        detail: { value: this.value, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  protected override _handleChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    // Store unmasked value
+    const unmaskedValue = this.mask.unmasked(input.value);
+    this.value = unmaskedValue;
+
+    // Trigger validation if validateOn is 'change'
+    if (this.validate && this.validateOn === 'change') {
+      this.performValidation();
+    }
+
+    // Dispatch event with unmasked value
+    this.dispatchEvent(
+      new CustomEvent('input-changed', {
+        detail: { value: this.value, originalEvent: event },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   /**
