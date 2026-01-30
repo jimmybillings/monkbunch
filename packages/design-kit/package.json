@@ -19,12 +19,19 @@
       "default": "./dist/components/*/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "web-test-runner"
   },
-  "keywords": ["web-components", "lit", "design-system", "accessibility"],
+  "keywords": [
+    "web-components",
+    "lit",
+    "design-system",
+    "accessibility"
+  ],
   "author": "Monkbunch",
   "license": "MIT",
   "dependencies": {
@@ -35,8 +42,11 @@
     "@open-wc/testing": "^4.0.0",
     "@types/mocha": "^10.0.10",
     "@types/sinon": "^17.0.3",
+    "@web/dev-server-esbuild": "^1.0.4",
     "@web/test-runner": "^0.18.0",
     "@web/test-runner-playwright": "^0.11.0",
-    "sinon": "^19.0.2"
+    "async-mutex": "^0.4.0",
+    "sinon": "^19.0.2",
+    "unbzip2-stream": "^1.4.3"
   }
 }
