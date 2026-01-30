@@ -293,6 +293,32 @@ describe('MonkTextInput', () => {
       expect(element.shadowRoot?.activeElement).to.equal(input);
     });
 
+    it('should blur input when blur() is called', async () => {
+      const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
+
+      element.focus();
+      await element.updateComplete;
+
+      element.blur();
+      await element.updateComplete;
+
+      const input = element.shadowRoot?.querySelector('input');
+      expect(element.shadowRoot?.activeElement).to.not.equal(input);
+    });
+
+    it('should select input text when select() is called', async () => {
+      const element = await fixture<MonkTextInput>(html`
+        <monk-text-input value="test text"></monk-text-input>
+      `);
+
+      element.select();
+      await element.updateComplete;
+
+      const input = element.shadowRoot?.querySelector('input') as HTMLInputElement;
+      expect(input.selectionStart).to.equal(0);
+      expect(input.selectionEnd).to.equal('test text'.length);
+    });
+
     it('should emit focus event', async () => {
       const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
 
@@ -316,6 +342,84 @@ describe('MonkTextInput', () => {
 
       const event = await oneEvent(element, 'input-blur');
       expect(event).to.exist;
+    });
+  });
+
+  describe('Validation Methods', () => {
+    it('should check validity with checkValidity()', async () => {
+      const element = await fixture<MonkTextInput>(html`
+        <monk-text-input required value=""></monk-text-input>
+      `);
+
+      const isValid = element.checkValidity();
+      expect(isValid).to.be.false;
+
+      element.value = 'test';
+      await element.updateComplete;
+
+      const isValid2 = element.checkValidity();
+      expect(isValid2).to.be.true;
+    });
+
+    it('should report validity with reportValidity()', async () => {
+      const element = await fixture<MonkTextInput>(html`
+        <monk-text-input required value=""></monk-text-input>
+      `);
+
+      const isValid = element.reportValidity();
+      expect(isValid).to.be.false;
+
+      element.value = 'test';
+      await element.updateComplete;
+
+      const isValid2 = element.reportValidity();
+      expect(isValid2).to.be.true;
+    });
+
+    it('should set custom validity message with setCustomValidity()', async () => {
+      const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
+
+      element.setCustomValidity('Custom error');
+      await element.updateComplete;
+
+      expect(element.invalid).to.be.true;
+      expect(element.errorMessage).to.equal('Custom error');
+    });
+
+    it('should clear custom validity with setCustomValidity("")', async () => {
+      const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
+
+      element.setCustomValidity('Custom error');
+      await element.updateComplete;
+      expect(element.invalid).to.be.true;
+
+      element.setCustomValidity('');
+      await element.updateComplete;
+      expect(element.invalid).to.be.false;
+      expect(element.errorMessage).to.equal('');
+    });
+
+    it('should set error with setError()', async () => {
+      const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
+
+      element.setError('Error message');
+      await element.updateComplete;
+
+      expect(element.invalid).to.be.true;
+      expect(element.errorMessage).to.equal('Error message');
+    });
+
+    it('should clear error with clearError()', async () => {
+      const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
+
+      element.setError('Error message');
+      await element.updateComplete;
+      expect(element.invalid).to.be.true;
+
+      element.clearError();
+      await element.updateComplete;
+      expect(element.invalid).to.be.false;
+      expect(element.errorMessage).to.equal('');
     });
   });
 
