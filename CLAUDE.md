@@ -1438,6 +1438,9 @@ npm run build design-kit-react
 # Run tests
 npm run test
 
+# Run tests with coverage
+npm test -- --coverage
+
 # Storybook (port 6006)
 npm run storybook
 
@@ -1447,6 +1450,45 @@ npm run build-storybook
 # Watch tokens
 npm run tokens:watch
 ```
+
+### Test Coverage
+
+**Coverage Thresholds:**
+- Statements: 80%
+- Branches: 75%
+- Functions: 80%
+- Lines: 80%
+
+**Current Coverage: 98.55%** (462 tests passing)
+
+The design system maintains excellent test coverage across all components. Recent improvements focused on input components:
+
+**Input Components Coverage:**
+- `base-input.ts`: 100% function coverage (all validation and focus methods)
+- `date-input.ts`: 100% line coverage (85/85 lines)
+- `masked-input.ts`: 100% line coverage (125/125 lines)
+- `dollar-input.ts`: 99% coverage (207/209 lines)
+
+**Test Categories:**
+1. **Unit Tests** - Component behavior, props, state changes
+2. **Validation Tests** - Form validation with custom validators
+3. **Accessibility Tests** - axe-core audits, keyboard navigation, ARIA attributes
+4. **Event Tests** - User interactions, custom events
+5. **Visual State Tests** - Variants, sizes, colors, themes
+
+**Running Coverage:**
+```bash
+# Run tests with coverage report
+cd packages/design-kit
+npm test -- --coverage
+
+# Open HTML coverage report
+open coverage/lcov-report/index.html
+```
+
+**Coverage Report Location:**
+- HTML Report: `packages/design-kit/coverage/lcov-report/index.html`
+- LCOV Data: `packages/design-kit/coverage/lcov.info`
 
 ### **Package-Specific Commands**
 

@@ -3383,6 +3383,35 @@ export const Card = createComponent({
 
 ## Testing Strategy
 
+### Test Coverage Goals
+
+**Coverage Thresholds (configured in `web-test-runner.config.mjs`):**
+- Statements: 80%
+- Branches: 75%
+- Functions: 80%
+- Lines: 80%
+
+**Current System Coverage: 98.55%**
+- 462 tests passing
+- Average execution time: ~3 seconds
+
+**Component Coverage Breakdown:**
+- Typography Components: 100% coverage
+- Layout Components: 100% coverage
+- Button Component: 100% coverage
+- Badge Component: 100% coverage
+- Divider Component: 100% coverage
+- Card Component: 100% coverage
+- Input Components:
+  - `base-input.ts`: 100% function coverage
+  - `text-input.ts`: 100% coverage
+  - `date-input.ts`: 100% line coverage (85/85)
+  - `phone-input.ts`: 100% coverage
+  - `email-input.ts`: 100% coverage
+  - `password-input.ts`: 100% coverage
+  - `masked-input.ts`: 100% line coverage (125/125)
+  - `dollar-input.ts`: 99% coverage (207/209 lines)
+
 ### Unit Tests
 
 ```typescript
@@ -3399,6 +3428,83 @@ describe('monk-button', () => {
     el.addEventListener('click', spy);
     el.click();
     expect(spy).to.have.been.calledOnce;
+  });
+});
+```
+
+### Validation Tests
+
+Input components include comprehensive validation testing:
+
+```typescript
+describe('Validation', () => {
+  it('should validate on input when validateOn is "input"', async () => {
+    const element = await fixture<MonkTextInput>(html`
+      <monk-text-input
+        validate
+        validate-on="input"
+        .validators=${[(val: string) => val.length >= 5]}
+        validation-message="Minimum 5 characters"
+      ></monk-text-input>
+    `);
+
+    const input = element.shadowRoot?.querySelector('input') as HTMLInputElement;
+    input.value = 'abc';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await element.updateComplete;
+
+    expect(element.invalid).to.be.true;
+
+    input.value = 'abcde';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await element.updateComplete;
+
+    expect(element.invalid).to.be.false;
+  });
+});
+```
+
+### Focus and Interaction Tests
+
+All interactive components include focus management tests:
+
+```typescript
+describe('Focus Methods', () => {
+  it('should focus input when focus() is called', async () => {
+    const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
+
+    element.focus();
+    await element.updateComplete;
+
+    const input = element.shadowRoot?.querySelector('input');
+    expect(document.activeElement).to.equal(element);
+    expect(element.shadowRoot?.activeElement).to.equal(input);
+  });
+
+  it('should blur input when blur() is called', async () => {
+    const element = await fixture<MonkTextInput>(html`<monk-text-input></monk-text-input>`);
+
+    element.focus();
+    await element.updateComplete;
+
+    element.blur();
+    await element.updateComplete;
+
+    const input = element.shadowRoot?.querySelector('input');
+    expect(element.shadowRoot?.activeElement).to.not.equal(input);
+  });
+
+  it('should select input text when select() is called', async () => {
+    const element = await fixture<MonkTextInput>(html`
+      <monk-text-input value="test text"></monk-text-input>
+    `);
+
+    element.select();
+    await element.updateComplete;
+
+    const input = element.shadowRoot?.querySelector('input') as HTMLInputElement;
+    expect(input.selectionStart).to.equal(0);
+    expect(input.selectionEnd).to.equal('test text'.length);
   });
 });
 ```
@@ -3423,6 +3529,31 @@ describe('accessibility', () => {
   });
 });
 ```
+
+### Test Execution
+
+**Run Tests:**
+```bash
+# Run all tests
+npm test
+
+# Run with coverage
+npm test -- --coverage
+
+# Run specific test file
+npm test -- --files='dist/**/*text-input.spec.js'
+```
+
+**Coverage Reports:**
+- HTML Report: `packages/design-kit/coverage/lcov-report/index.html`
+- LCOV Data: `packages/design-kit/coverage/lcov.info`
+- Console Summary: Displayed after test run
+
+**Test Framework Stack:**
+- `@web/test-runner` - Test runner with Playwright
+- `@open-wc/testing` - Web component testing utilities
+- `chai` - Assertions
+- `sinon` - Spies and mocks
 
 ---
 
@@ -3618,5 +3749,40 @@ import { Button } from '@monkbunch/design-kit';
 
 ---
 
-**Last Updated:** January 2025
-**Current Components:** Typography (Heading, Text, Link), Layout (Box, Stack, Flex, Container, Grid), Button, Badge
+## Recent Improvements
+
+### January 2026 - Test Coverage Enhancement
+
+**Achievement:** Improved test coverage from 95.65% to 98.55% (+2.9%)
+
+**Tests Added:** 12 new tests (450 → 462 total tests)
+
+**Components Enhanced:**
+1. **BaseInput** (`base-input.ts`):
+   - Added tests for `blur()`, `select()`, `checkValidity()`, `reportValidity()` methods
+   - Added validation tests: `setCustomValidity()`, `setError()`, `clearError()`
+   - Achieved 100% function coverage
+
+2. **DateInput** (`date-input.ts`):
+   - Added edge case test for incomplete dates (returning empty string)
+   - Achieved 100% line coverage (85/85 lines)
+
+3. **MaskedInput** (`masked-input.ts`):
+   - Added validation test for `validateOn="input"` mode
+   - Achieved 100% line coverage (125/125 lines)
+
+4. **DollarInput** (`dollar-input.ts`):
+   - Added validation tests for both `validateOn="input"` and `validateOn="change"` modes
+   - Achieved 99% coverage (207/209 lines, 2 defensive lines acceptable)
+
+**Testing Patterns Established:**
+- Focus management: `focus()`, `blur()`, `select()` methods
+- Validation lifecycle: Custom validators with `validateOn` modes
+- Error state management: `setError()` / `clearError()` pattern
+- Form validity: `checkValidity()` and `reportValidity()` methods
+
+---
+
+**Last Updated:** January 30, 2026
+**Current Components:** Typography (Heading, Text, Link), Layout (Box, Stack, Flex, Container, Grid), Button, Badge, Divider, Card
+**Test Coverage:** 98.55% (462 tests passing)
